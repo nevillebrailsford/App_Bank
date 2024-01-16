@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="finances" type="financesType" />
+	<xs:element name="line" type="xs:string" />
+	<xs:element name="bankname" type="xs:string" />
+	<xs:element name="accountholder" type="xs:string" />
+	<xs:element name="accountnumber" type="xs:string" />
+	<xs:element name="date" type="xs:date" />
+	<xs:element name="nextactiondue" type="xs:date" />
+	<xs:element name="money" type="xs:string" />
+	<xs:element name="description" type="xs:string" />
+
+	<xs:element name="transactionid" type="xs:string" />
+	<xs:element name="reference" type="xs:string" />
+	<xs:element name="orderid" type="xs:string" />
+	<xs:element name="investmentname" type="xs:string" />
+	<xs:element name="investmentid" type="xs:string"/>
+
+	<xs:simpleType name="accounttypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CURRENT" />
+			<xs:enumeration value="DEPOSIT" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="frequencyType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="YEARLY" />
+			<xs:enumeration value="MONTHLY" />
+			<xs:enumeration value="WEEKLY" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="postcodeType">
+		<xs:restriction base="xs:string">
+			<xs:pattern
+				value="[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="sortcodeType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2}[-][0-9]{2}[-][0-9]{2}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="addressType">
+		<xs:sequence>
+			<xs:element name="postcode" type="postcodeType" />
+			<xs:element ref="line" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="moneyType">
+		<xs:sequence>
+			<xs:element ref="money" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="bankType">
+		<xs:sequence>
+			<xs:element ref="bankname" />
+			<xs:element name="branch" type="branchType" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="recipientbankType">
+		<xs:sequence>
+			<xs:element ref="bankname" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="branchType">
+		<xs:sequence>
+			<xs:element name="address" type="addressType" />
+			<xs:element name="sortcode" type="sortcodeType" />
+			<xs:element name="account" type="accountType"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="recipientbranchType">
+		<xs:sequence>
+			<xs:element name="address" type="addressType" />
+			<xs:element name="sortcode" type="sortcodeType" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="accountType">
+		<xs:sequence>
+			<xs:element name="accounttype" type="accounttypeType" />
+			<xs:element ref="accountholder" />
+			<xs:element ref="accountnumber" />
+			<xs:element name="transaction" type="transactionType"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="standingorder" type="standingorderType"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="recipientaccountType">
+		<xs:sequence>
+			<xs:element name="accounttype" type="accounttypeType" />
+			<xs:element ref="accountholder" />
+			<xs:element ref="accountnumber" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="transactionType">
+		<xs:sequence>
+			<xs:element ref="date" />
+			<xs:element name="money" />
+			<xs:element ref="description" />
+			<xs:element ref="transactionid" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="standingorderType">
+		<xs:sequence>
+			<xs:element ref="money" />
+			<xs:element name="frequency" type="frequencyType" />
+			<xs:element ref="nextactiondue" />
+			<xs:element ref="reference" />
+			<xs:element ref="orderid" />
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element name="recipientbank" type="recipientbankType" />
+				<xs:element name="recipientbranch"
+					type="recipientbranchType" />
+				<xs:element name="recipientaccount"
+					type="recipientaccountType" />
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="banks">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="bank" type="bankType" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+    <xs:complexType name="valueonType">
+        <xs:sequence>
+            <xs:element ref="money" />
+            <xs:element ref="date" />
+        </xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="historyType">
+		<xs:sequence>
+			<xs:element type="valueonType" name="valueon"
+				maxOccurs="unbounded" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="investmentType">
+		<xs:sequence>
+			<xs:element ref="investmentname" />
+			<xs:element ref="investmentid"/>
+			<xs:element type="historyType" name="history" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="banksType">
+		<xs:sequence>
+			<xs:element type="bankType" name="bank"
+				maxOccurs="unbounded" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="investmentsType">
+		<xs:sequence>
+			<xs:element type="investmentType" name="investment"
+				maxOccurs="unbounded" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="financesType">
+		<xs:sequence>
+			<xs:element type="banksType" name="banks" />
+			<xs:element type="investmentsType" name="investments" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
