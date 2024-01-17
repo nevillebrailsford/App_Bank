@@ -604,7 +604,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	private void setLookAndFeel() {
 		LOGGER.entering(CLASS_NAME, "setLookAndFeel");
 		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			LOGGER.fine("Caught exception: " + e.getMessage());
 		}
