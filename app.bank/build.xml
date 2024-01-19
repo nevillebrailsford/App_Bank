@@ -28,7 +28,7 @@
 			<format property="bank.build.date" pattern="d MMMM yyyy" locale="EN,GB" />
 		</tstamp>
 
-		<jar destfile="${dir.jarfile}/BankApp.jar">
+		<jar destfile="${dir.jarfile}/BankingApp.jar">
 			<manifest>
 				<attribute name="Main-Class" value="applications.bank.application.BankApplication" />
 				<attribute name="Class-Path" value=". Bank.app_lib/jcalendar-1.4.jar Bank.app_lib/jgoodies-forms-1.9.0.jar Bank.app_lib/jgoodies-common-1.8.1.jar Bank.app_lib/app.base-1.0.0.jar Bank.app_lib/javax.mail-1.6.2.jar Bank.app_lib/activation-1.1.jar Bank.app_lib/kernel-7.2.1.jar Bank.app_lib/bcpkix-jdk15on-1.69.jar Bank.app_lib/bcutil-jdk15on-1.69.jar Bank.app_lib/bcprov-jdk15on-1.69.jar Bank.app_lib/slf4j-api-1.7.31.jar Bank.app_lib/io-7.2.1.jar Bank.app_lib/commons-7.2.1.jar Bank.app_lib/layout-7.2.1.jar" />

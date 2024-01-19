@@ -1,19 +1,10 @@
 package applications.bank.application;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 import application.base.app.ApplicationBaseForGUI;
 import application.base.app.Parameters;
@@ -21,69 +12,22 @@ import application.base.app.gui.BottomColoredPanel;
 import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.definition.ApplicationDefinition;
-import application.notification.Notification;
-import application.notification.NotificationCentre;
-import application.notification.NotificationListener;
+import application.notification.*;
 import application.report.ReportNotificationType;
 import application.storage.StoreDetails;
 import application.thread.ThreadServices;
 import application.timer.TimerService;
-import applications.bank.gui.BankApplicationMenu;
-import applications.bank.gui.GUIConstants;
-import applications.bank.gui.IApplication;
-import applications.bank.gui.TimerHandler;
+import application.utils.Util;
+import applications.bank.gui.*;
 import applications.bank.gui.actions.BankActionFactory;
-import applications.bank.gui.changes.AddAccountChange;
-import applications.bank.gui.changes.AddBankChange;
-import applications.bank.gui.changes.AddInvestmentChange;
-import applications.bank.gui.changes.AddStandingOrderChange;
-import applications.bank.gui.changes.AddTransactionChange;
-import applications.bank.gui.changes.ChangeInvestmentChange;
-import applications.bank.gui.changes.ChangeStandingOrderChange;
-import applications.bank.gui.changes.RemoveAccountChange;
-import applications.bank.gui.changes.RemoveBankChange;
-import applications.bank.gui.changes.RemoveInvestmentChange;
-import applications.bank.gui.changes.RemoveStandingOrderChange;
-import applications.bank.gui.changes.TransferChange;
-import applications.bank.gui.charts.LineChartComponent;
-import applications.bank.gui.charts.LineChartPopup;
-import applications.bank.gui.charts.PieChartComponent;
-import applications.bank.gui.charts.PieChartPopup;
-import applications.bank.gui.dialogs.AddAccountDialog;
-import applications.bank.gui.dialogs.AddBankDialog;
-import applications.bank.gui.dialogs.AddInvestmentDialog;
-import applications.bank.gui.dialogs.AddStandingOrderDialog;
-import applications.bank.gui.dialogs.ChangeInvestmentDialog;
-import applications.bank.gui.dialogs.ChangeStandingOrderDialog;
-import applications.bank.gui.dialogs.PayMoneyInDialog;
-import applications.bank.gui.dialogs.PaySomeoneDialog;
-import applications.bank.gui.dialogs.PreferencesDialog;
-import applications.bank.gui.dialogs.RemoveAccountDialog;
-import applications.bank.gui.dialogs.RemoveBankDialog;
-import applications.bank.gui.dialogs.RemoveInvestmentDialog;
-import applications.bank.gui.dialogs.RemoveStandingOrderDialog;
-import applications.bank.gui.dialogs.TransferDialog;
-import applications.bank.gui.dialogs.ViewStandingOrdersDialog;
-import applications.bank.gui.dialogs.ViewTransactionsDialog;
-import applications.bank.gui.models.BankPercentagesTableModel;
-import applications.bank.gui.models.HistoryTableModel;
-import applications.bank.gui.models.InvestmentPercentagesTableModel;
-import applications.bank.gui.models.TotalHistoryTableModel;
-import applications.bank.gui.modified.BankPanel;
-import applications.bank.gui.modified.InvestmentPanel;
-import applications.bank.gui.modified.MainBankTabbedPane;
-import applications.bank.model.Account;
-import applications.bank.model.Bank;
-import applications.bank.model.Investment;
-import applications.bank.model.StandingOrder;
-import applications.bank.model.Transaction;
-import applications.bank.model.Transfer;
+import applications.bank.gui.changes.*;
+import applications.bank.gui.charts.*;
+import applications.bank.gui.dialogs.*;
+import applications.bank.gui.models.*;
+import applications.bank.gui.modified.*;
+import applications.bank.model.*;
 import applications.bank.report.BankingReport;
-import applications.bank.storage.BankMonitor;
-import applications.bank.storage.BankNotificationType;
-import applications.bank.storage.BankRead;
-import applications.bank.storage.InvestmentNotificationType;
-import applications.bank.storage.StandingOrderNotificationType;
+import applications.bank.storage.*;
 
 public class BankApplication extends ApplicationBaseForGUI implements IApplication {
 	private static final long serialVersionUID = 1L;
@@ -604,7 +548,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	private void setLookAndFeel() {
 		LOGGER.entering(CLASS_NAME, "setLookAndFeel");
 		try {
-			if (System.getProperty("os.name").startsWith("Mac")) {
+			if (Util.getOS() == Util.OS.MAC) {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			} else {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
