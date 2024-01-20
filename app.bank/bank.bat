@@ -25,6 +25,6 @@ echo *=============================================
 echo * Invoke the program - may take a few moments.
 echo *=============================================
 
-java.exe -jar %ROOT_DIR%\BankApp.jar --name=bank.application --dir=%DATA_DIR%
+java.exe -jar %ROOT_DIR%\BankingApp.jar --name=bank.application --dir=%DATA_DIR%
 
 ENDLOCAL
