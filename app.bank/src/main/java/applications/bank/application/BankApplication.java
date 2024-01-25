@@ -548,12 +548,14 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 
 	private void setLookAndFeel() {
 		LOGGER.entering(CLASS_NAME, "setLookAndFeel");
+		UIManager.put("Button.background", Color.lightGray);
 		try {
 			if (Util.getOS() == Util.OS.MAC) {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} else {
-				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+				System.setProperty("apple.laf.useScreenMenuBar", "true");
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+						ApplicationConfiguration.applicationDefinition().applicationName());
 			}
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e) {
 			LOGGER.fine("Caught exception: " + e.getMessage());
 		}
