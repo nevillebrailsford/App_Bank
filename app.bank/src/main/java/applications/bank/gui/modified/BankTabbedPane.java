@@ -24,8 +24,13 @@ public class BankTabbedPane extends ColoredTabbedPane {
 
 	public BankTabbedPane(BankApplicationMenu menuBar, IApplication application) {
 		LOGGER.entering(CLASS_NAME, "init");
+		int i = 0;
 		for (Bank bank : BankMonitor.instance().banks()) {
 			addTab(bank.name(), new BankPanel(bank, menuBar, application));
+			if (ApplicationConfiguration.applicationDefinition().bottomColor().isPresent()) {
+				setBackgroundAt(i, ApplicationConfiguration.applicationDefinition().bottomColor().get());
+			}
+			i++;
 		}
 		this.addChangeListener((e) -> {
 			tabSelectionChanged();

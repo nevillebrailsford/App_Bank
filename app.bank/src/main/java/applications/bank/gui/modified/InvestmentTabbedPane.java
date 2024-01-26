@@ -27,8 +27,13 @@ public class InvestmentTabbedPane extends ColoredTabbedPane {
 		this.addChangeListener((e) -> {
 			tabSelectionChanged();
 		});
+		int i = 0;
 		for (Investment investment : BankMonitor.instance().investments()) {
 			addTab(investment.name(), new InvestmentPanel(investment, menuBar, application));
+			if (ApplicationConfiguration.applicationDefinition().bottomColor().isPresent()) {
+				setBackgroundAt(i, ApplicationConfiguration.applicationDefinition().bottomColor().get());
+			}
+			i++;
 		}
 		actionFactory = BankActionFactory.instance(application);
 		popup = new JPopupMenu();

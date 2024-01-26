@@ -32,6 +32,11 @@ public class MainBankTabbedPane extends ColoredTabbedPane {
 		this.addTab("Summary", summaryPanel);
 		this.addTab("banks", bankPane);
 		this.addTab("Investments", investmentPane);
+		if (ApplicationConfiguration.applicationDefinition().bottomColor().isPresent()) {
+			this.setBackgroundAt(0, ApplicationConfiguration.applicationDefinition().bottomColor().get());
+			this.setBackgroundAt(1, ApplicationConfiguration.applicationDefinition().bottomColor().get());
+			this.setBackgroundAt(2, ApplicationConfiguration.applicationDefinition().bottomColor().get());
+		}
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
 

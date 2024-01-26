@@ -1,10 +1,19 @@
 package applications.bank.application;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 
 import application.base.app.ApplicationBaseForGUI;
 import application.base.app.Parameters;
@@ -12,22 +21,70 @@ import application.base.app.gui.BottomColoredPanel;
 import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.definition.ApplicationDefinition;
-import application.notification.*;
+import application.notification.Notification;
+import application.notification.NotificationCentre;
+import application.notification.NotificationListener;
 import application.report.ReportNotificationType;
 import application.storage.StoreDetails;
 import application.thread.ThreadServices;
 import application.timer.TimerService;
 import application.utils.Util;
-import applications.bank.gui.*;
+import applications.bank.gui.BankApplicationMenu;
+import applications.bank.gui.GUIConstants;
+import applications.bank.gui.IApplication;
+import applications.bank.gui.TimerHandler;
 import applications.bank.gui.actions.BankActionFactory;
-import applications.bank.gui.changes.*;
-import applications.bank.gui.charts.*;
-import applications.bank.gui.dialogs.*;
-import applications.bank.gui.models.*;
-import applications.bank.gui.modified.*;
-import applications.bank.model.*;
+import applications.bank.gui.changes.AddAccountChange;
+import applications.bank.gui.changes.AddBankChange;
+import applications.bank.gui.changes.AddInvestmentChange;
+import applications.bank.gui.changes.AddStandingOrderChange;
+import applications.bank.gui.changes.AddTransactionChange;
+import applications.bank.gui.changes.ChangeInvestmentChange;
+import applications.bank.gui.changes.ChangeStandingOrderChange;
+import applications.bank.gui.changes.RemoveAccountChange;
+import applications.bank.gui.changes.RemoveBankChange;
+import applications.bank.gui.changes.RemoveInvestmentChange;
+import applications.bank.gui.changes.RemoveStandingOrderChange;
+import applications.bank.gui.changes.TransferChange;
+import applications.bank.gui.charts.LineChartComponent;
+import applications.bank.gui.charts.LineChartPopup;
+import applications.bank.gui.charts.PieChartComponent;
+import applications.bank.gui.charts.PieChartPopup;
+import applications.bank.gui.dialogs.AddAccountDialog;
+import applications.bank.gui.dialogs.AddBankDialog;
+import applications.bank.gui.dialogs.AddInvestmentDialog;
+import applications.bank.gui.dialogs.AddStandingOrderDialog;
+import applications.bank.gui.dialogs.ChangeInvestmentDialog;
+import applications.bank.gui.dialogs.ChangeStandingOrderDialog;
+import applications.bank.gui.dialogs.PayMoneyInDialog;
+import applications.bank.gui.dialogs.PaySomeoneDialog;
+import applications.bank.gui.dialogs.PreferencesDialog;
+import applications.bank.gui.dialogs.RemoveAccountDialog;
+import applications.bank.gui.dialogs.RemoveBankDialog;
+import applications.bank.gui.dialogs.RemoveInvestmentDialog;
+import applications.bank.gui.dialogs.RemoveStandingOrderDialog;
+import applications.bank.gui.dialogs.TransferDialog;
+import applications.bank.gui.dialogs.ViewStandingOrdersDialog;
+import applications.bank.gui.dialogs.ViewTransactionsDialog;
+import applications.bank.gui.models.BankPercentagesTableModel;
+import applications.bank.gui.models.HistoryTableModel;
+import applications.bank.gui.models.InvestmentPercentagesTableModel;
+import applications.bank.gui.models.TotalHistoryTableModel;
+import applications.bank.gui.modified.BankPanel;
+import applications.bank.gui.modified.InvestmentPanel;
+import applications.bank.gui.modified.MainBankTabbedPane;
+import applications.bank.model.Account;
+import applications.bank.model.Bank;
+import applications.bank.model.Investment;
+import applications.bank.model.StandingOrder;
+import applications.bank.model.Transaction;
+import applications.bank.model.Transfer;
 import applications.bank.report.BankingReport;
-import applications.bank.storage.*;
+import applications.bank.storage.BankMonitor;
+import applications.bank.storage.BankNotificationType;
+import applications.bank.storage.BankRead;
+import applications.bank.storage.InvestmentNotificationType;
+import applications.bank.storage.StandingOrderNotificationType;
 
 public class BankApplication extends ApplicationBaseForGUI implements IApplication {
 	private static final long serialVersionUID = 1L;
@@ -507,9 +564,9 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 		System.out.println(
 				"Application " + ApplicationConfiguration.applicationDefinition().applicationName() + " is starting");
 		actionFactory = BankActionFactory.instance(this);
-		menuBar = new BankApplicationMenu(this);
 		this.parent = parent;
 		setLookAndFeel();
+		menuBar = new BankApplicationMenu(this);
 		mainPanel = new MainBankTabbedPane(menuBar, this);
 		Dimension size = new Dimension(BankPanel.WIDTH, BankPanel.HEIGHT);
 		mainPanel.setMaximumSize(size);
@@ -548,7 +605,26 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 
 	private void setLookAndFeel() {
 		LOGGER.entering(CLASS_NAME, "setLookAndFeel");
-		UIManager.put("Button.background", Color.lightGray);
+		if (ApplicationConfiguration.applicationDefinition().bottomColor().isPresent()) {
+			Color menuBarBackground = ApplicationConfiguration.applicationDefinition().bottomColor().get();
+			UIManager.put("MenuBar.background", menuBarBackground);
+			UIManager.put("MenuBar.disabled", menuBarBackground.darker());
+			UIManager.put("Menu.background", menuBarBackground);
+			UIManager.put("Menu.disabled", menuBarBackground.darker());
+			UIManager.put("RadioButtonMenuItem.background", menuBarBackground);
+			UIManager.put("RadioButtonMenuItem.disabled", menuBarBackground.darker());
+			UIManager.put("CheckBoxMenuItem.background", menuBarBackground);
+			UIManager.put("CheckBoxMenuItem.disabled", menuBarBackground.darker());
+			UIManager.put("MenuItem.background", menuBarBackground);
+			UIManager.put("MenuItem.disabled", menuBarBackground.darker());
+			UIManager.put("Menu.opaque", true);
+			UIManager.put("Separator.background", menuBarBackground);
+			UIManager.put("Separator.disabled", menuBarBackground.darker());
+			UIManager.put("PopupMenu.background", menuBarBackground);
+			UIManager.put("PopupMenu.disabled", menuBarBackground.darker());
+			UIManager.put("PopupMenuSeparator.background", menuBarBackground);
+			UIManager.put("PopupMenuSeparator.disabled", menuBarBackground.darker());
+		}
 		try {
 			if (Util.getOS() == Util.OS.MAC) {
 				System.setProperty("apple.laf.useScreenMenuBar", "true");
