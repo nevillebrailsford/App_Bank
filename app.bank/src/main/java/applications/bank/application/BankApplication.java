@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
 
 import application.base.app.ApplicationBaseForGUI;
 import application.base.app.Parameters;
@@ -28,7 +27,6 @@ import application.report.ReportNotificationType;
 import application.storage.StoreDetails;
 import application.thread.ThreadServices;
 import application.timer.TimerService;
-import application.utils.Util;
 import applications.bank.gui.BankApplicationMenu;
 import applications.bank.gui.GUIConstants;
 import applications.bank.gui.IApplication;
@@ -565,7 +563,6 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 				"Application " + ApplicationConfiguration.applicationDefinition().applicationName() + " is starting");
 		actionFactory = BankActionFactory.instance(this);
 		this.parent = parent;
-		setLookAndFeel();
 		menuBar = new BankApplicationMenu(this);
 		mainPanel = new MainBankTabbedPane(menuBar, this);
 		Dimension size = new Dimension(BankPanel.WIDTH, BankPanel.HEIGHT);
@@ -601,41 +598,6 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	public static void main(String[] args) {
 		System.setProperty("apple.eawt.quitStrategy", "CLOSE_ALL_WINDOWS");
 		launch(args);
-	}
-
-	private void setLookAndFeel() {
-		LOGGER.entering(CLASS_NAME, "setLookAndFeel");
-		if (ApplicationConfiguration.applicationDefinition().bottomColor().isPresent()) {
-			Color menuBarBackground = ApplicationConfiguration.applicationDefinition().bottomColor().get();
-			UIManager.put("MenuBar.background", menuBarBackground);
-			UIManager.put("MenuBar.disabled", menuBarBackground.darker());
-			UIManager.put("Menu.background", menuBarBackground);
-			UIManager.put("Menu.disabled", menuBarBackground.darker());
-			UIManager.put("RadioButtonMenuItem.background", menuBarBackground);
-			UIManager.put("RadioButtonMenuItem.disabled", menuBarBackground.darker());
-			UIManager.put("CheckBoxMenuItem.background", menuBarBackground);
-			UIManager.put("CheckBoxMenuItem.disabled", menuBarBackground.darker());
-			UIManager.put("MenuItem.background", menuBarBackground);
-			UIManager.put("MenuItem.disabled", menuBarBackground.darker());
-			UIManager.put("Menu.opaque", true);
-			UIManager.put("Separator.background", menuBarBackground);
-			UIManager.put("Separator.disabled", menuBarBackground.darker());
-			UIManager.put("PopupMenu.background", menuBarBackground);
-			UIManager.put("PopupMenu.disabled", menuBarBackground.darker());
-			UIManager.put("PopupMenuSeparator.background", menuBarBackground);
-			UIManager.put("PopupMenuSeparator.disabled", menuBarBackground.darker());
-		}
-		try {
-			if (Util.getOS() == Util.OS.MAC) {
-				System.setProperty("apple.laf.useScreenMenuBar", "true");
-				System.setProperty("com.apple.mrj.application.apple.menu.about.name",
-						ApplicationConfiguration.applicationDefinition().applicationName());
-			}
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		} catch (Exception e) {
-			LOGGER.fine("Caught exception: " + e.getMessage());
-		}
-		LOGGER.exiting(CLASS_NAME, "setLookAndFeel");
 	}
 
 	private void updateMenuItemStatus() {
