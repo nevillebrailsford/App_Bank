@@ -21,7 +21,7 @@
 	</target>
 
 	<target name="create_run_jar" depends="setWindowsRoot, setMacRoot">
-		<property name="dir.jarfile" value="${user.root}/test/Projects/Banking.app" />
+		<property name="dir.jarfile" value="${user.root}/Projects/Banking.app" />
 		<buildnumber file="bank.build.number" />
 		<echo>"Build number is ${build.number}"</echo>
 		<tstamp>

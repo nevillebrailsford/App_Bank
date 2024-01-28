@@ -13,18 +13,14 @@ echo *=================================
 echo * Set up the required directories.
 echo *=================================
 
-set ROOT_DIR=%cd%
-
-set PARENT=..\
-set PROJECTS_DIR=%ROOT_DIR%\%PARENT%
-set FAMILY_DIR=%PROJECTS_DIR%%PARENT%
-
-set DATA_DIR=%FAMILY_DIR%data
+set ROOT_DIR=C:\Users\nevil\Projects\Banking.app
+set JAR_NAME=BankingApp.jar
+set DATA_DIR=C:\Users\nevil\OneDrive\Projects\data
 
 echo *=============================================
 echo * Invoke the program - may take a few moments.
 echo *=============================================
 
-java.exe -jar %ROOT_DIR%\BankingApp.jar --name=bank.application --dir=%DATA_DIR%
+java.exe -jar %ROOT_DIR%\%JAR_NAME% --name=bank.application --dir=%DATA_DIR%
 
 ENDLOCAL
