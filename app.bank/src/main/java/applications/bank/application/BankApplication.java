@@ -17,10 +17,12 @@ import javax.swing.ToolTipManager;
 import application.base.app.ApplicationBaseForGUI;
 import application.base.app.Parameters;
 import application.base.app.gui.BottomColoredPanel;
+import application.base.app.gui.ColorProvider;
 import application.base.app.gui.PreferencesDialog;
 import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.definition.ApplicationDefinition;
+import application.inifile.IniFile;
 import application.notification.Notification;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
@@ -29,7 +31,7 @@ import application.storage.StoreDetails;
 import application.thread.ThreadServices;
 import application.timer.TimerService;
 import applications.bank.gui.BankApplicationMenu;
-import applications.bank.gui.GUIConstants;
+import applications.bank.gui.BankGUIConstants;
 import applications.bank.gui.IApplication;
 import applications.bank.gui.TimerHandler;
 import applications.bank.gui.actions.BankActionFactory;
@@ -542,14 +544,24 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 
 			@Override
 			public Optional<Color> bottomColor() {
-				Color bottom = GUIConstants.LIGHT_GREEN;
-				return Optional.ofNullable(bottom);
+				String bottom = IniFile.value(BankGUIConstants.BOTTOM_COLOR);
+				if (bottom.isEmpty() || bottom.equals("default")) {
+					bottom = "lightgreen";
+					IniFile.store(BankGUIConstants.BOTTOM_COLOR, bottom);
+				}
+				Color bottomColor = ColorProvider.get(bottom);
+				return Optional.ofNullable(bottomColor);
 			}
 
 			@Override
 			public Optional<Color> topColor() {
-				Color top = GUIConstants.INDIAN_RED;
-				return Optional.ofNullable(top);
+				String top = IniFile.value(BankGUIConstants.TOP_COLOR);
+				if (top.isEmpty() || top.equals("default")) {
+					top = "indianred";
+					IniFile.store(BankGUIConstants.TOP_COLOR, top);
+				}
+				Color topColor = ColorProvider.get(top);
+				return Optional.ofNullable(topColor);
 			}
 		};
 		return definition;

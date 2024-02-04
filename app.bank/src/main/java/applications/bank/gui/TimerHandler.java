@@ -54,7 +54,7 @@ public class TimerHandler implements NotificationListener {
 	private void handleTimerNotification() {
 		LOGGER.entering(CLASS_NAME, "handleTimerNotification");
 		LocalDateTime now = LocalDateTime.now();
-		String lastTime = IniFile.value(GUIConstants.LAST_TIME);
+		String lastTime = IniFile.value(BankGUIConstants.LAST_TIME);
 		if (lastTime.isEmpty()) {
 			lastTime = now.toString();
 			performTimedActions(now);
@@ -76,13 +76,13 @@ public class TimerHandler implements NotificationListener {
 
 	private void sendEmailIfRequired() {
 		LOGGER.entering(CLASS_NAME, "sendEmailIfRequired");
-		if (Boolean.valueOf(IniFile.value(GUIConstants.EMAIL_NOTIFICATION)).booleanValue()) {
+		if (Boolean.valueOf(IniFile.value(BankGUIConstants.EMAIL_NOTIFICATION)).booleanValue()) {
 			LOGGER.fine("Email notification is enabled");
 			LocalDate lastSent;
-			if (IniFile.value(GUIConstants.DATE_OF_LAST_EMAIL).trim().isEmpty()) {
+			if (IniFile.value(BankGUIConstants.DATE_OF_LAST_EMAIL).trim().isEmpty()) {
 				lastSent = LocalDate.now().minusDays(1);
 			} else {
-				lastSent = LocalDate.parse(IniFile.value(GUIConstants.DATE_OF_LAST_EMAIL));
+				lastSent = LocalDate.parse(IniFile.value(BankGUIConstants.DATE_OF_LAST_EMAIL));
 			}
 			sendEmail();
 			updateDateOfLastEmailCheck();
@@ -111,13 +111,13 @@ public class TimerHandler implements NotificationListener {
 
 	private void updateDateOfLastEmailCheck() {
 		LOGGER.entering(CLASS_NAME, "updateDateOfLastEmailCheck");
-		IniFile.store(GUIConstants.DATE_OF_LAST_EMAIL, LocalDate.now().toString());
+		IniFile.store(BankGUIConstants.DATE_OF_LAST_EMAIL, LocalDate.now().toString());
 		LOGGER.exiting(CLASS_NAME, "updateDateOfLastEmailCheck");
 	}
 
 	private void updateLastTime(LocalDateTime now) {
 		LOGGER.entering(CLASS_NAME, "updateLastTime", now);
-		IniFile.store(GUIConstants.LAST_TIME, now.toString());
+		IniFile.store(BankGUIConstants.LAST_TIME, now.toString());
 		LOGGER.exiting(CLASS_NAME, "updateLastTime");
 	}
 

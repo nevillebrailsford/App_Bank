@@ -31,7 +31,7 @@
 		<jar destfile="${dir.jarfile}/BankingApp.jar">
 			<manifest>
 				<attribute name="Main-Class" value="applications.bank.application.BankApplication" />
-				<attribute name="Class-Path" value=". Bank.app_lib/jcalendar-1.4.jar Bank.app_lib/jgoodies-forms-1.9.0.jar Bank.app_lib/jgoodies-common-1.8.1.jar Bank.app_lib/app.base-1.0.0.jar Bank.app_lib/javax.mail-1.6.2.jar Bank.app_lib/activation-1.1.jar Bank.app_lib/kernel-7.2.1.jar Bank.app_lib/bcpkix-jdk15on-1.69.jar Bank.app_lib/bcutil-jdk15on-1.69.jar Bank.app_lib/bcprov-jdk15on-1.69.jar Bank.app_lib/slf4j-api-1.7.31.jar Bank.app_lib/io-7.2.1.jar Bank.app_lib/commons-7.2.1.jar Bank.app_lib/layout-7.2.1.jar" />
+				<attribute name="Class-Path" value=". Bank.app_lib/jcalendar-1.4.jar Bank.app_lib/jgoodies-forms-1.9.0.jar Bank.app_lib/jgoodies-common-1.8.1.jar Bank.app_lib/app.base-1.1.0.jar Bank.app_lib/javax.mail-1.6.2.jar Bank.app_lib/activation-1.1.jar Bank.app_lib/kernel-7.2.1.jar Bank.app_lib/bcpkix-jdk15on-1.69.jar Bank.app_lib/bcutil-jdk15on-1.69.jar Bank.app_lib/bcprov-jdk15on-1.69.jar Bank.app_lib/slf4j-api-1.7.31.jar Bank.app_lib/io-7.2.1.jar Bank.app_lib/commons-7.2.1.jar Bank.app_lib/layout-7.2.1.jar" />
 				<attribute name="Build-Date" value="${bank.build.date}" />
 				<attribute name="Build-Number" value="${build.number}" />
 			</manifest>
@@ -43,7 +43,7 @@
 		<copy file="${user.root}/.m2/repository/com/toedter/jcalendar/1.4/jcalendar-1.4.jar" todir="${dir.jarfile}/Bank.app_lib" />
 		<copy file="${user.root}/.m2/repository/com/jgoodies/jgoodies-forms/1.9.0/jgoodies-forms-1.9.0.jar" todir="${dir.jarfile}/Bank.app_lib" />
 		<copy file="${user.root}/.m2/repository/com/jgoodies/jgoodies-common/1.8.1/jgoodies-common-1.8.1.jar" todir="${dir.jarfile}/Bank.app_lib" />
-		<copy file="${user.root}/.m2/repository/brailsoft/app.base/1.0.0/app.base-1.0.0.jar" todir="${dir.jarfile}/Bank.app_lib" />
+		<copy file="${user.root}/.m2/repository/brailsoft/app.base/1.1.0/app.base-1.1.0.jar" todir="${dir.jarfile}/Bank.app_lib" />
 		<copy file="${user.root}/.m2/repository/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar" todir="${dir.jarfile}/Bank.app_lib" />
 		<copy file="${user.root}/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar" todir="${dir.jarfile}/Bank.app_lib" />
 		<copy file="${user.root}/.m2/repository/com/itextpdf/kernel/7.2.1/kernel-7.2.1.jar" todir="${dir.jarfile}/Bank.app_lib" />
