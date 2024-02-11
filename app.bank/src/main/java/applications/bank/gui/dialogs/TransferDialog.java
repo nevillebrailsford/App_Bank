@@ -53,10 +53,13 @@ public class TransferDialog extends JDialog {
 	private int result = CANCEL_PRESSED;
 	private JLabel lblAccountHolder;
 	private JComboBox<Account> fromAccount;
+	private JComboBox<Account> toAccount;
 	private JLabel lblNewLabel_1;
 	private JTextField amount;
 
 	private List<Account> accounts;
+
+	private Account account;
 
 	DocumentListener documentListener = new DocumentListener() {
 
@@ -84,7 +87,6 @@ public class TransferDialog extends JDialog {
 			}
 		}
 	};
-	private JComboBox<Account> toAccount;
 
 	/**
 	 * Launch the application.
@@ -206,6 +208,10 @@ public class TransferDialog extends JDialog {
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
 
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
 	private void loadAccountDetails() {
 		accounts = BankMonitor.instance().accounts();
 		Collections.sort(accounts, (a1, a2) -> {
@@ -257,6 +263,11 @@ public class TransferDialog extends JDialog {
 
 	public int displayAndWait() {
 		LOGGER.exiting(CLASS_NAME, "displayAndWait");
+		if (account != null) {
+			fromAccount.setEditable(true);
+			fromAccount.setSelectedItem(account);
+			fromAccount.setEnabled(false);
+		}
 		setVisible(true);
 		LOGGER.exiting(CLASS_NAME, "displayAndWait", result);
 		return result;

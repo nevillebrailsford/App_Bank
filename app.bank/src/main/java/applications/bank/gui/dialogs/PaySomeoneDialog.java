@@ -66,6 +66,8 @@ public class PaySomeoneDialog extends JDialog {
 
 	private List<Account> accounts;
 
+	private Account account = null;
+
 	DocumentListener documentListener = new DocumentListener() {
 
 		@Override
@@ -218,6 +220,10 @@ public class PaySomeoneDialog extends JDialog {
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
 
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
 	private void loadAccountDetails() {
 		accounts = BankMonitor.instance().accounts();
 		Collections.sort(accounts, (a1, a2) -> {
@@ -243,6 +249,11 @@ public class PaySomeoneDialog extends JDialog {
 
 	public int displayAndWait() {
 		LOGGER.exiting(CLASS_NAME, "displayAndWait");
+		if (account != null) {
+			accountNumber.setEditable(true);
+			accountNumber.setSelectedItem(account);
+			accountNumber.setEnabled(false);
+		}
 		setVisible(true);
 		LOGGER.exiting(CLASS_NAME, "displayAndWait", result);
 		return result;

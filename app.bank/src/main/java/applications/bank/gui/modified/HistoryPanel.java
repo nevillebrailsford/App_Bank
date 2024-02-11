@@ -65,8 +65,11 @@ public class HistoryPanel extends JPanel {
 			historyTable.getSelectionModel().clearSelection();
 		});
 		popup = new JPopupMenu();
+		JMenu updateMenu = new JMenu("Update");
+		updateMenu.add(actionFactory.changeInvestmentAction());
 		JMenu viewMenu = new JMenu("View");
 		viewMenu.add(actionFactory.viewInvestmentHistroyAction());
+		popup.add(updateMenu);
 		popup.add(viewMenu);
 		LOGGER.exiting(CLASS_NAME, "init");
 	}

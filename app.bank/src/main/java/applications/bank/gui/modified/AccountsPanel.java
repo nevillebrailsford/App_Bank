@@ -69,10 +69,16 @@ public class AccountsPanel extends JPanel {
 			accountsTable.getSelectionModel().clearSelection();
 		});
 		popup = new JPopupMenu();
+		JMenu paymentMenu = new JMenu("Payment");
+		paymentMenu.add(actionFactory.payMoneyInAction());
+		paymentMenu.add(actionFactory.paySomeoneAction());
+		paymentMenu.addSeparator();
+		paymentMenu.add(actionFactory.transferAction());
 		JMenu viewMenu = new JMenu("View");
-		popup.add(viewMenu);
 		viewMenu.add(actionFactory.viewTransactionsAction());
 		viewMenu.add(actionFactory.viewStandingOrdersAction());
+		popup.add(paymentMenu);
+		popup.add(viewMenu);
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
 

@@ -410,6 +410,10 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	public void payMoneyInAction() {
 		LOGGER.entering(CLASS_NAME, "payMoneyInAction");
 		PayMoneyInDialog dialog = new PayMoneyInDialog(parent);
+		Account account = mainPanel.selectedAccount();
+		if (account != null) {
+			dialog.setAccount(account);
+		}
 		int result = dialog.displayAndWait();
 		if (result == PayMoneyInDialog.OK_PRESSED) {
 			Transaction transaction = dialog.transaction();
@@ -426,6 +430,10 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	public void paySomeoneAction() {
 		LOGGER.entering(CLASS_NAME, "paySomeoneAction");
 		PaySomeoneDialog dialog = new PaySomeoneDialog(parent);
+		Account account = mainPanel.selectedAccount();
+		if (account != null) {
+			dialog.setAccount(account);
+		}
 		int result = dialog.displayAndWait();
 		if (result == PaySomeoneDialog.OK_PRESSED) {
 			Transaction transaction = dialog.transaction();
@@ -442,6 +450,10 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	public void transferAction() {
 		LOGGER.entering(CLASS_NAME, "transferAction");
 		TransferDialog dialog = new TransferDialog(parent);
+		Account account = mainPanel.selectedAccount();
+		if (account != null) {
+			dialog.setAccount(account);
+		}
 		int result = dialog.displayAndWait();
 		if (result == TransferDialog.OK_PRESSED) {
 			Transfer transfer = dialog.transfer();
