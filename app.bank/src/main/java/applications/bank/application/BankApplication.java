@@ -323,6 +323,10 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	public void changeInvestmentAction() {
 		LOGGER.entering(CLASS_NAME, "changeInvestmentAction");
 		ChangeInvestmentDialog dialog = new ChangeInvestmentDialog(parent);
+		Investment thisInvestment = BankMonitor.instance().findInvestment(mainPanel.selectedInvestment());
+		if (thisInvestment != null) {
+			dialog.setInvestment(thisInvestment);
+		}
 		int result = dialog.displayAndWait();
 		if (result == ChangeInvestmentDialog.OK_PRESSED) {
 			Investment oldInvestment = dialog.oldInvestment();

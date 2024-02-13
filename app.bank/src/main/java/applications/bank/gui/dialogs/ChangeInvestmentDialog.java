@@ -55,8 +55,10 @@ public class ChangeInvestmentDialog extends JDialog {
 	private JLabel lblNewLabel_2;
 	private JTextField value;
 	private JDateChooser date;
+	private JComboBox<Investment> investments;
 	private Investment investment = null;
 	private Investment oldInvestment = null;
+	private Investment thisInvestment = null;
 
 	DocumentListener documentListener = new DocumentListener() {
 
@@ -84,7 +86,6 @@ public class ChangeInvestmentDialog extends JDialog {
 			}
 		}
 	};
-	private JComboBox<Investment> investments;
 
 	/**
 	 * Launch the application.
@@ -200,8 +201,17 @@ public class ChangeInvestmentDialog extends JDialog {
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
 
+	public void setInvestment(Investment investment) {
+		thisInvestment = investment;
+	}
+
 	public int displayAndWait() {
 		LOGGER.exiting(CLASS_NAME, "displayAndWait");
+		if (thisInvestment != null) {
+			investments.setEditable(true);
+			investments.setSelectedItem(thisInvestment);
+			investments.setEnabled(false);
+		}
 		setVisible(true);
 		LOGGER.exiting(CLASS_NAME, "displayAndWait", result);
 		return result;
