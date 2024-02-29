@@ -66,6 +66,7 @@ import applications.bank.gui.dialogs.RemoveStandingOrderDialog;
 import applications.bank.gui.dialogs.TransferDialog;
 import applications.bank.gui.dialogs.ViewStandingOrdersDialog;
 import applications.bank.gui.dialogs.ViewTransactionsDialog;
+import applications.bank.gui.models.BankBalanceHistoryTableModel;
 import applications.bank.gui.models.BankPercentagesTableModel;
 import applications.bank.gui.models.HistoryTableModel;
 import applications.bank.gui.models.InvestmentPercentagesTableModel;
@@ -502,6 +503,18 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 		PieChartPopup tcp = new PieChartPopup(model, "Bank Dashboard");
 		tcp.setVisible(true);
 		LOGGER.exiting(CLASS_NAME, "viewBankPercentagesAction");
+	}
+
+	@Override
+	public void viewBankBalanceHistoryAction() {
+		LOGGER.entering(CLASS_NAME, "viewBankBalanceHistoryAction");
+		Account account = BankMonitor.instance().findAccount(mainPanel.selectedAccount());
+		BankBalanceHistoryTableModel model = new BankBalanceHistoryTableModel(account);
+		LineChartComponent tc = new LineChartComponent(model);
+		ToolTipManager.sharedInstance().registerComponent(tc);
+		LineChartPopup lcp = new LineChartPopup(model, "Bank Balance history");
+		lcp.setVisible(true);
+		LOGGER.exiting(CLASS_NAME, "viewBankBalanceHistoryAction");
 	}
 
 	@Override

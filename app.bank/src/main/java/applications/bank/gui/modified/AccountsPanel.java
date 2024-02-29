@@ -77,6 +77,8 @@ public class AccountsPanel extends JPanel {
 		JMenu viewMenu = new JMenu("View");
 		viewMenu.add(actionFactory.viewTransactionsAction());
 		viewMenu.add(actionFactory.viewStandingOrdersAction());
+		viewMenu.addSeparator();
+		viewMenu.add(actionFactory.viewBankBalanceHistoryAction());
 		popup.add(paymentMenu);
 		popup.add(viewMenu);
 		LOGGER.exiting(CLASS_NAME, "init");

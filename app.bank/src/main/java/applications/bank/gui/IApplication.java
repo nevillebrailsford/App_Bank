@@ -39,6 +39,8 @@ public interface IApplication {
 
 	public void viewTransactionsAction();
 
+	public void viewBankBalanceHistoryAction();
+
 	public void viewStandingOrdersAction();
 
 	public void viewBankPercentagesAction();
