@@ -1,8 +1,11 @@
 package applications.bank.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.w3c.dom.Document;
@@ -182,9 +185,15 @@ public class Account implements Comparable<Account> {
 	}
 
 	public Money balance() {
+		return balance(LocalDate.now());
+	}
+
+	public Money balance(LocalDate onDate) {
 		List<Money> monies = new ArrayList<>();
-		for (Transaction transaction : transactions) {
-			monies.add(transaction.amount());
+		for (Transaction transaction : transactions()) {
+			if (!transaction.date().isAfter(onDate)) {
+				monies.add(transaction.amount());
+			}
 		}
 		return Money.sum(monies);
 	}
@@ -211,6 +220,14 @@ public class Account implements Comparable<Account> {
 			}
 		}
 		return found;
+	}
+
+	public Set<LocalDate> transactionDates() {
+		Set<LocalDate> dates = new TreeSet<>();
+		for (Transaction transaction : transactions()) {
+			dates.add(transaction.date());
+		}
+		return dates;
 	}
 
 	@Override

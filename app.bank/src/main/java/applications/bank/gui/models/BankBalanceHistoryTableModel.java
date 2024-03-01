@@ -1,6 +1,5 @@
 package applications.bank.gui.models;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -20,11 +19,16 @@ public class BankBalanceHistoryTableModel extends AbstractTableModel {
 
 	public BankBalanceHistoryTableModel(Account account) {
 		this.account = account;
-		this.transactions = account.transactions();
+		if (account != null) {
+			this.transactions = account.transactions();
+		}
 	}
 
 	@Override
 	public int getRowCount() {
+		if (transactions == null) {
+			return 0;
+		}
 		return transactions.size();
 	}
 
@@ -54,16 +58,7 @@ public class BankBalanceHistoryTableModel extends AbstractTableModel {
 	}
 
 	private Money calulateBalance(Transaction transaction) {
-		Money result = new Money("0.00");
-		LocalDate endDate = transaction.date();
-		for (int i = 0; i < transactions.size(); i++) {
-			Transaction t = transactions.get(i);
-			if (t.date().isAfter(endDate)) {
-				break;
-			}
-			result = result.plus(t.amount());
-		}
-		return result;
+		return account.balance(transaction.date());
 	}
 
 }

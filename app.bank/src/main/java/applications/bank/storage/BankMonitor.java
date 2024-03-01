@@ -1,9 +1,12 @@
 package applications.bank.storage;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -144,14 +147,33 @@ public class BankMonitor {
 
 	public Money balanceBanks() {
 		LOGGER.entering(CLASS_NAME, "balanceBanks");
+		Money balance = balanceBanks(LocalDate.now());
+		LOGGER.exiting(CLASS_NAME, "balanceBanks", balance);
+		return balance;
+	}
+
+	public Money balanceBanks(LocalDate onDate) {
+		LOGGER.entering(CLASS_NAME, "balanceBanks", onDate);
 		Money balance = new Money("0.00");
 		synchronized (banks) {
 			for (Bank bank : banks) {
-				balance = balance.plus(bank.balance());
+				balance = balance.plus(bank.balance(onDate));
 			}
 		}
 		LOGGER.exiting(CLASS_NAME, "balanceBanks", balance);
 		return balance;
+	}
+
+	public Set<LocalDate> transactionDates() {
+		LOGGER.entering(CLASS_NAME, "transactionDates");
+		Set<LocalDate> dates = new TreeSet<>();
+		synchronized (banks) {
+			for (Bank bank : banks) {
+				dates.addAll(bank.transactionDates());
+			}
+		}
+		LOGGER.exiting(CLASS_NAME, "transactionDates", dates);
+		return dates;
 	}
 
 	public Money balanceBank(Bank bank) {
@@ -938,7 +960,10 @@ public class BankMonitor {
 	public Account findAccount(Account account) {
 		LOGGER.entering(CLASS_NAME, "findAccount", account);
 		Account found = null;
-		Branch owner = findBranch(account.owner());
+		Branch owner = null;
+		if (account != null) {
+			owner = findBranch(account.owner());
+		}
 		if (owner != null) {
 			found = owner.locateAccount(account);
 		}

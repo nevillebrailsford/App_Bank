@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import application.model.Address;
+import application.model.Money;
 import application.model.PostCode;
 import application.model.SortCode;
 
@@ -39,6 +42,16 @@ class BranchTest {
 	Account account4 = new Account(AccountType.DEPOSIT, accountId1, branch1);
 
 	Account account5 = new Account(AccountType.CURRENT, accountId1, branch1);
+
+	Money money1 = new Money("10.00");
+	Transaction transaction1 = new Transaction(LocalDate.now(), money1, account1, "tran1");
+	Money money2 = new Money("20.00");
+	Transaction transaction2 = new Transaction(LocalDate.now(), money2, account1, "tran2");
+	Money money3 = new Money("10.00");
+	Transaction transaction3 = new Transaction(LocalDate.now().minusDays(1), money3, account1, "tran3");
+	Money money4 = new Money("10.00");
+	Transaction transaction4 = new Transaction(LocalDate.now().minusDays(2), money3, account2, "tran4");
+	Money checkBalance = new Money("50.00");
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -82,6 +95,32 @@ class BranchTest {
 		assertEquals(0, branch1.accounts().size());
 		branch1.addAccount(account1);
 		assertEquals(1, branch1.accounts().size());
+	}
+
+	@Test
+	void testBalance() {
+		assertEquals(0, branch1.accounts().size());
+		branch1.addAccount(account1);
+		branch1.addAccount(account2);
+		assertEquals(2, branch1.accounts().size());
+		account1.addTransaction(transaction1);
+		account1.addTransaction(transaction2);
+		account1.addTransaction(transaction3);
+		account2.addTransaction(transaction4);
+		assertEquals(checkBalance, branch1.balance());
+	}
+
+	@Test
+	void testTransactionDates() {
+		assertEquals(0, branch1.accounts().size());
+		branch1.addAccount(account1);
+		branch1.addAccount(account2);
+		assertEquals(2, branch1.accounts().size());
+		account1.addTransaction(transaction1);
+		account1.addTransaction(transaction2);
+		account1.addTransaction(transaction3);
+		account2.addTransaction(transaction4);
+		assertEquals(3, branch1.transactionDates().size());
 	}
 
 	@Test

@@ -1,8 +1,11 @@
 package applications.bank.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.w3c.dom.Document;
@@ -71,11 +74,23 @@ public class Bank implements Comparable<Bank> {
 	}
 
 	public Money balance() {
+		return balance(LocalDate.now());
+	}
+
+	public Money balance(LocalDate onDate) {
 		Money balance = new Money("0.00");
 		for (Branch branch : branches) {
-			balance = balance.plus(branch.balance());
+			balance = balance.plus(branch.balance(onDate));
 		}
 		return balance;
+	}
+
+	public Set<LocalDate> transactionDates() {
+		Set<LocalDate> dates = new TreeSet<>();
+		for (Branch branch : branches()) {
+			dates.addAll(branch.transactionDates());
+		}
+		return dates;
 	}
 
 	public void addBranch(Branch branch) {

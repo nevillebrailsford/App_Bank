@@ -49,7 +49,12 @@ class AccountTest {
 	Transaction transaction1 = new Transaction(LocalDate.now(), money1, account1, "tran1");
 	Money money2 = new Money("20.00");
 	Transaction transaction2 = new Transaction(LocalDate.now(), money2, account1, "tran2");
+	Money money3 = new Money("10.00");
+	Transaction transaction3 = new Transaction(LocalDate.now().minusDays(1), money3, account1, "tran3");
 	Money checkBalance = new Money("30.00");
+	Money chekcBalanceOnDayMinus0 = new Money("20.00");
+	Money chekcBalanceOnDayMinus1 = new Money("10.00");
+	Money chekcBalanceOnDayMinus2 = new Money("0.00");
 	StandingOrder order1 = new StandingOrder(account1, Period.MONTHLY, money1, LocalDate.now(), "order1", account2);
 	StandingOrder order2 = new StandingOrder(account1, Period.MONTHLY, money1, LocalDate.now(), "order2", account3);
 
@@ -148,6 +153,29 @@ class AccountTest {
 		account1.addTransaction(transaction2);
 		assertEquals(2, account1.transactions().size());
 		assertEquals(checkBalance, account1.balance());
+	}
+
+	@Test
+	void testBalanceOnDate() {
+		assertEquals(0, account1.transactions().size());
+		account1.addTransaction(transaction1);
+		account1.addTransaction(transaction3);
+		assertEquals(2, account1.transactions().size());
+		assertEquals(chekcBalanceOnDayMinus0, account1.balance(LocalDate.now()));
+		assertEquals(chekcBalanceOnDayMinus1, account1.balance(LocalDate.now().minusDays(1)));
+		assertEquals(chekcBalanceOnDayMinus2, account1.balance(LocalDate.now().minusDays(2)));
+	}
+
+	@Test
+	void testTransactionDates() {
+		assertEquals(0, account1.transactions().size());
+		account1.addTransaction(transaction1);
+		account1.addTransaction(transaction2);
+		assertEquals(2, account1.transactions().size());
+		assertEquals(1, account1.transactionDates().size());
+		LocalDate[] dates = account1.transactionDates().toArray(new LocalDate[] {});
+		assertEquals(1, dates.length);
+		assertEquals(dates[0], LocalDate.now());
 	}
 
 	@Test
