@@ -5,22 +5,22 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import application.model.Money;
-import applications.bank.model.Bank;
+import applications.bank.model.Account;
 import applications.bank.model.Transaction;
 
-public class BankBalanceHistoryTableModel extends AbstractTableModel {
+public class AccountBalanceHistoryTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 
-	private Bank bank = null;
+	private Account account = null;
 	private List<Transaction> transactions = null;
 	private static String[] COLUMNS = { "Date", "Balance" };
 	private static final int DATE = 0;
 	private static final int BALANCE = 1;
 
-	public BankBalanceHistoryTableModel(Bank bank) {
-		this.bank = bank;
-		if (bank != null) {
-			// this.transactions = bank.transactions();
+	public AccountBalanceHistoryTableModel(Account account) {
+		this.account = account;
+		if (account != null) {
+			this.transactions = account.transactions();
 		}
 	}
 
@@ -44,7 +44,7 @@ public class BankBalanceHistoryTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		Transaction t = transactions.get(row);
+		Transaction t = account.transactions().get(row);
 		Object value = "Unknown";
 		switch (col) {
 			case DATE:
@@ -58,7 +58,7 @@ public class BankBalanceHistoryTableModel extends AbstractTableModel {
 	}
 
 	private Money calulateBalance(Transaction transaction) {
-		return bank.balance(transaction.date());
+		return account.balance(transaction.date());
 	}
 
 }

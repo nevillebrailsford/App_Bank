@@ -111,19 +111,6 @@ class BranchTest {
 	}
 
 	@Test
-	void testTransactionDates() {
-		assertEquals(0, branch1.accounts().size());
-		branch1.addAccount(account1);
-		branch1.addAccount(account2);
-		assertEquals(2, branch1.accounts().size());
-		account1.addTransaction(transaction1);
-		account1.addTransaction(transaction2);
-		account1.addTransaction(transaction3);
-		account2.addTransaction(transaction4);
-		assertEquals(3, branch1.transactionDates().size());
-	}
-
-	@Test
 	void testCompareToSameObject() {
 		assertTrue(branch1.compareTo(branch1) == 0);
 	}

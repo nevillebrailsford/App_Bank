@@ -167,18 +167,6 @@ class AccountTest {
 	}
 
 	@Test
-	void testTransactionDates() {
-		assertEquals(0, account1.transactions().size());
-		account1.addTransaction(transaction1);
-		account1.addTransaction(transaction2);
-		assertEquals(2, account1.transactions().size());
-		assertEquals(1, account1.transactionDates().size());
-		LocalDate[] dates = account1.transactionDates().toArray(new LocalDate[] {});
-		assertEquals(1, dates.length);
-		assertEquals(dates[0], LocalDate.now());
-	}
-
-	@Test
 	void testCompareToSameObject() {
 		assertTrue(account1.compareTo(account1) == 0);
 	}

@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -162,18 +160,6 @@ public class BankMonitor {
 		}
 		LOGGER.exiting(CLASS_NAME, "balanceBanks", balance);
 		return balance;
-	}
-
-	public Set<LocalDate> transactionDates() {
-		LOGGER.entering(CLASS_NAME, "transactionDates");
-		Set<LocalDate> dates = new TreeSet<>();
-		synchronized (banks) {
-			for (Bank bank : banks) {
-				dates.addAll(bank.transactionDates());
-			}
-		}
-		LOGGER.exiting(CLASS_NAME, "transactionDates", dates);
-		return dates;
 	}
 
 	public Money balanceBank(Bank bank) {
