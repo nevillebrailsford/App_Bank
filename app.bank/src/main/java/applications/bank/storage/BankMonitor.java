@@ -20,6 +20,7 @@ import applications.bank.model.Branch;
 import applications.bank.model.Investment;
 import applications.bank.model.StandingOrder;
 import applications.bank.model.Transaction;
+import applications.bank.model.TransactionDetailsHandler;
 import applications.bank.model.Transfer;
 
 public class BankMonitor {
@@ -152,36 +153,23 @@ public class BankMonitor {
 
 	public Money balanceBanks(LocalDate onDate) {
 		LOGGER.entering(CLASS_NAME, "balanceBanks", onDate);
-		Money balance = new Money("0.00");
-		synchronized (banks) {
-			for (Bank bank : banks) {
-				balance = balance.plus(bank.balance(onDate));
-			}
-		}
+		Money balance = Money.sum(TransactionDetailsHandler.balance(banks, onDate));
 		LOGGER.exiting(CLASS_NAME, "balanceBanks", balance);
 		return balance;
 	}
 
 	public Money balanceBank(Bank bank) {
-		LOGGER.entering(CLASS_NAME, "");
-		Money balance = new Money("0.00");
+		LOGGER.entering(CLASS_NAME, "balanceBank");
 		Bank theBank = findBank(bank);
-		for (Branch branch : theBank.branches()) {
-			for (Account account : branch.accounts()) {
-				balance = balance.plus(account.balance());
-			}
-		}
-		LOGGER.exiting(CLASS_NAME, "", balance);
+		Money balance = Money.sum(TransactionDetailsHandler.balance(theBank));
+		LOGGER.exiting(CLASS_NAME, "balanceBank", balance);
 		return balance;
 	}
 
 	public Money balanceAccount(Account account) {
 		LOGGER.entering(CLASS_NAME, "balanceAccount", account);
-		Money balance = new Money("0.00");
 		Account theAccount = findAccount(account);
-		for (Transaction tran : theAccount.transactions()) {
-			balance = balance.plus(tran.amount());
-		}
+		Money balance = Money.sum(TransactionDetailsHandler.balance(theAccount));
 		LOGGER.exiting(CLASS_NAME, "balanceAccount", balance);
 		return balance;
 	}

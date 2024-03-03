@@ -1,6 +1,5 @@
 package applications.bank.model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +10,6 @@ import org.w3c.dom.Element;
 
 import application.model.ElementBuilder;
 import application.model.ElementChecker;
-import application.model.Money;
 
 public class Account implements Comparable<Account> {
 
@@ -180,20 +178,6 @@ public class Account implements Comparable<Account> {
 		} else {
 			throw new IllegalArgumentException("Bank: standingOrder " + standingOrder + " not found");
 		}
-	}
-
-	public Money balance() {
-		return balance(LocalDate.now());
-	}
-
-	public Money balance(LocalDate onDate) {
-		List<Money> monies = new ArrayList<>();
-		for (Transaction transaction : transactions()) {
-			if (!transaction.date().isAfter(onDate)) {
-				monies.add(transaction.amount());
-			}
-		}
-		return Money.sum(monies);
 	}
 
 	public List<Transaction> transactions() {

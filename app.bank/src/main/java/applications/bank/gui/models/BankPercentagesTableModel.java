@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import application.model.Money;
 import applications.bank.model.Bank;
+import applications.bank.model.TransactionDetailsHandler;
 import applications.bank.storage.BankMonitor;
 
 public class BankPercentagesTableModel extends AbstractTableModel {
@@ -32,7 +34,8 @@ public class BankPercentagesTableModel extends AbstractTableModel {
 		if (col == 0) {
 			return banks.get(row).name();
 		} else {
-			return banks.get(row).balance().toString();
+			return Money.sum(TransactionDetailsHandler.balance(banks.get(row))).toString();
+			// banks.get(row).balance().toString();
 		}
 	}
 

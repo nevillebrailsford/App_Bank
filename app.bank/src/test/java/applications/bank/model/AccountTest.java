@@ -152,7 +152,7 @@ class AccountTest {
 		account1.addTransaction(transaction1);
 		account1.addTransaction(transaction2);
 		assertEquals(2, account1.transactions().size());
-		assertEquals(checkBalance, account1.balance());
+		assertEquals(checkBalance, Money.sum(TransactionDetailsHandler.balance(account1)));
 	}
 
 	@Test
@@ -161,9 +161,11 @@ class AccountTest {
 		account1.addTransaction(transaction1);
 		account1.addTransaction(transaction3);
 		assertEquals(2, account1.transactions().size());
-		assertEquals(chekcBalanceOnDayMinus0, account1.balance(LocalDate.now()));
-		assertEquals(chekcBalanceOnDayMinus1, account1.balance(LocalDate.now().minusDays(1)));
-		assertEquals(chekcBalanceOnDayMinus2, account1.balance(LocalDate.now().minusDays(2)));
+		assertEquals(chekcBalanceOnDayMinus0, Money.sum(TransactionDetailsHandler.balance(account1, LocalDate.now())));
+		assertEquals(chekcBalanceOnDayMinus1,
+				Money.sum(TransactionDetailsHandler.balance(account1, LocalDate.now().minusDays(1))));
+		assertEquals(chekcBalanceOnDayMinus2,
+				Money.sum(TransactionDetailsHandler.balance(account1, LocalDate.now().minusDays(2))));
 	}
 
 	@Test

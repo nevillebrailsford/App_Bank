@@ -17,6 +17,7 @@ import applications.bank.model.Branch;
 import applications.bank.model.Investment;
 import applications.bank.model.Investment.ValueOn;
 import applications.bank.model.Transaction;
+import applications.bank.model.TransactionDetailsHandler;
 import applications.bank.storage.BankMonitor;
 
 public class BankingReport extends ReportCreator {
@@ -47,7 +48,7 @@ public class BankingReport extends ReportCreator {
 				for (Account account : branch.accounts()) {
 					document.add(new Paragraph(account.toString()).setFont(bold));
 					table = buildBanksTable();
-					Money startingBalance = account.balance();
+					Money startingBalance = Money.sum(TransactionDetailsHandler.balance(account));
 					for (Transaction t : account.transactions()) {
 						startingBalance = startingBalance.minus(t.amount());
 					}
@@ -57,7 +58,8 @@ public class BankingReport extends ReportCreator {
 						addToBanksTable(transaction.date().format(dateFormatter), transaction.description(),
 								transaction.amount().cost(), startingBalance.cost());
 					}
-					addToBanksTable("", "Closing balance", "", account.balance().cost());
+					addToBanksTable("", "Closing balance", "",
+							Money.sum(TransactionDetailsHandler.balance(account)).cost());
 					document.add(table);
 				}
 			}

@@ -1,6 +1,5 @@
 package applications.bank.model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +10,6 @@ import org.w3c.dom.Element;
 
 import application.model.ElementBuilder;
 import application.model.ElementChecker;
-import application.model.Money;
 
 public class Bank implements Comparable<Bank> {
 	private List<Branch> branches = new ArrayList<>();
@@ -69,18 +67,6 @@ public class Bank implements Comparable<Bank> {
 
 	public String name() {
 		return name;
-	}
-
-	public Money balance() {
-		return balance(LocalDate.now());
-	}
-
-	public Money balance(LocalDate onDate) {
-		Money balance = new Money("0.00");
-		for (Branch branch : branches) {
-			balance = balance.plus(branch.balance(onDate));
-		}
-		return balance;
 	}
 
 	public void addBranch(Branch branch) {

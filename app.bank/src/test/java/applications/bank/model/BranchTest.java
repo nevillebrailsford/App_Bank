@@ -107,7 +107,7 @@ class BranchTest {
 		account1.addTransaction(transaction2);
 		account1.addTransaction(transaction3);
 		account2.addTransaction(transaction4);
-		assertEquals(checkBalance, branch1.balance());
+		assertEquals(checkBalance, Money.sum(TransactionDetailsHandler.balance(branch1)));
 	}
 
 	@Test
