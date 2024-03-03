@@ -510,6 +510,9 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 		LOGGER.entering(CLASS_NAME, "viewBankBalanceHistoryAction");
 		Account account = BankMonitor.instance().findAccount(mainPanel.selectedAccount());
 		AccountBalanceHistoryTableModel model = new AccountBalanceHistoryTableModel(account);
+		if (model.getRowCount() < 2) {
+			return;
+		}
 		LineChartComponent tc = new LineChartComponent(model);
 		ToolTipManager.sharedInstance().registerComponent(tc);
 		LineChartPopup lcp = new LineChartPopup(model, "Bank Balance history");
