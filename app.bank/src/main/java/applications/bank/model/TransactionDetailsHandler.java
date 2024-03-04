@@ -44,19 +44,20 @@ public class TransactionDetailsHandler {
 
 	public static Transaction[] transactions(Branch branch) {
 		List<Transaction> transactions = branch.accounts().stream().map(Account::transactions).flatMap(List::stream)
-				.collect(Collectors.toList());
+				.sorted().collect(Collectors.toList());
 		return transactions.toArray(new Transaction[] {});
 	}
 
 	public static Transaction[] transactions(Bank bank) {
 		List<Transaction> transactions = bank.branches().stream().map(Branch::accounts).flatMap(List::stream)
-				.map(Account::transactions).flatMap(List::stream).collect(Collectors.toList());
+				.map(Account::transactions).flatMap(List::stream).sorted().collect(Collectors.toList());
 		return transactions.toArray(new Transaction[] {});
 	}
 
 	public static Transaction[] transactions(List<Bank> banks) {
 		List<Transaction> transactions = banks.stream().map(Bank::branches).flatMap(List::stream).map(Branch::accounts)
-				.flatMap(List::stream).map(Account::transactions).flatMap(List::stream).collect(Collectors.toList());
+				.flatMap(List::stream).map(Account::transactions).flatMap(List::stream).sorted()
+				.collect(Collectors.toList());
 		return transactions.toArray(new Transaction[] {});
 	}
 

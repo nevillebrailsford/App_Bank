@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import application.model.Money;
 import applications.bank.gui.models.InvestmentPercentagesTableModel;
@@ -31,11 +30,6 @@ class InvestmentPercentagesTableModelTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
-	}
-
-	@Test
-	void test() {
-		System.out.println(model.maxValue());
 	}
 
 }
