@@ -66,7 +66,7 @@ class InvestmentTest {
 	void testValueHasOneEntry() {
 		Investment investment = new Investment("test1", new Money("22.22"), LocalDate.now());
 		assertEquals(1, investment.historyEntries());
-		assertEquals("£22.22", investment.value().cost());
+		assertEquals("£22.22", InvestmentHistoryHandler.value(investment).cost());
 	}
 
 	@Test
@@ -75,7 +75,8 @@ class InvestmentTest {
 		assertEquals(1, investment.historyEntries());
 		investment.update(new Money("33.33"), LocalDate.now());
 		assertEquals(2, investment.historyEntries());
-		assertEquals("£33.33", investment.value().cost());
+		assertEquals("£33.33", InvestmentHistoryHandler.value(investment).cost());
+		assertEquals("£22.22", InvestmentHistoryHandler.value(investment, LocalDate.now().minusDays(1)).cost());
 	}
 
 	@Test
@@ -84,7 +85,8 @@ class InvestmentTest {
 		assertEquals(1, investment.historyEntries());
 		investment.update(new Money("33.33"), LocalDate.now());
 		assertEquals(2, investment.historyEntries());
-		assertEquals("£33.33", investment.value(LocalDate.now()).cost());
+		assertEquals("£33.33", InvestmentHistoryHandler.value(investment, LocalDate.now()).cost());
+		assertEquals("£22.22", InvestmentHistoryHandler.value(investment, LocalDate.now().minusDays(1)).cost());
 	}
 
 	@Test
@@ -93,7 +95,7 @@ class InvestmentTest {
 		assertEquals(1, investment.historyEntries());
 		investment.update(new Money("33.33"), LocalDate.now().plusDays(2));
 		assertEquals(2, investment.historyEntries());
-		assertEquals("£22.22", investment.value(LocalDate.now().plusDays(1)).cost());
+		assertEquals("£22.22", InvestmentHistoryHandler.value(investment, LocalDate.now().plusDays(1)).cost());
 	}
 
 	@Test
@@ -102,7 +104,7 @@ class InvestmentTest {
 		assertEquals(1, investment.historyEntries());
 		investment.update(new Money("33.33"), LocalDate.now().minusDays(2));
 		assertEquals(2, investment.historyEntries());
-		assertEquals("£33.33", investment.value(LocalDate.now().minusDays(1)).cost());
+		assertEquals("£33.33", InvestmentHistoryHandler.value(investment, LocalDate.now().minusDays(1)).cost());
 	}
 
 	@Test
@@ -111,7 +113,7 @@ class InvestmentTest {
 		assertNotNull(investment);
 		assertEquals(1, investment.historyEntries());
 		assertEquals("test2", investment.name());
-		assertEquals("£11.11", investment.value().cost());
+		assertEquals("£11.11", InvestmentHistoryHandler.value(investment).cost());
 	}
 
 	@Test
@@ -121,7 +123,7 @@ class InvestmentTest {
 		assertNotNull(investment);
 		assertEquals(1, investment.historyEntries());
 		assertEquals("test2", investment.name());
-		assertEquals("£11.11", investment.value().cost());
+		assertEquals("£11.11", InvestmentHistoryHandler.value(investment).cost());
 	}
 
 	@Test
@@ -166,7 +168,7 @@ class InvestmentTest {
 		Investment investment2 = new Investment(investmentElement);
 		assertNotNull(investment2);
 		assertEquals("test2", investment2.name());
-		assertEquals("£11.11", investment.value().cost());
+		assertEquals("£11.11", InvestmentHistoryHandler.value(investment).cost());
 	}
 
 	@Test

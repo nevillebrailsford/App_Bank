@@ -136,23 +136,6 @@ public class Investment implements Comparable<Investment> {
 		history.add(valueOn);
 	}
 
-	public Money value() {
-		return value(LocalDate.now());
-	}
-
-	public Money value(LocalDate date) {
-		Money result = new Money("0.00");
-		List<ValueOn> values = history();
-		for (int i = values.size() - 1; i >= 0; i--) {
-			LocalDate historicalDate = values.get(i).date();
-			if (historicalDate.equals(date) || historicalDate.isBefore(date)) {
-				result = values.get(i).value();
-				break;
-			}
-		}
-		return result;
-	}
-
 	@Override
 	public int compareTo(Investment other) {
 		return name.compareTo(other.name);

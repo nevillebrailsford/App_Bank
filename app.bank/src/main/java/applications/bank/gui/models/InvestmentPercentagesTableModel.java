@@ -1,11 +1,11 @@
 package applications.bank.gui.models;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
 import applications.bank.model.Investment;
+import applications.bank.model.InvestmentHistoryHandler;
 import applications.bank.storage.BankMonitor;
 
 public class InvestmentPercentagesTableModel extends AbstractTableModel {
@@ -34,10 +34,11 @@ public class InvestmentPercentagesTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int col) {
+		Investment investment = investments.get(row);
 		if (col == 0) {
-			return investments.get(row).name();
+			return investment.name();
 		} else {
-			return investments.get(row).value(LocalDate.now()).toString();
+			return InvestmentHistoryHandler.value(investment).toString();
 		}
 	}
 

@@ -18,6 +18,7 @@ import applications.bank.model.Account;
 import applications.bank.model.Bank;
 import applications.bank.model.Branch;
 import applications.bank.model.Investment;
+import applications.bank.model.InvestmentHistoryHandler;
 import applications.bank.model.StandingOrder;
 import applications.bank.model.Transaction;
 import applications.bank.model.TransactionDetailsHandler;
@@ -176,12 +177,7 @@ public class BankMonitor {
 
 	public Money balanceInvestments() {
 		LOGGER.entering(CLASS_NAME, "balanceInvestments");
-		Money balance = new Money("0.00");
-		synchronized (investments) {
-			for (Investment investment : investments) {
-				balance = balance.plus(investment.value());
-			}
-		}
+		Money balance = InvestmentHistoryHandler.value(investments);
 		LOGGER.exiting(CLASS_NAME, "balanceInvestments", balance);
 		return balance;
 	}

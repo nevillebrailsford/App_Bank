@@ -30,6 +30,7 @@ import applications.bank.gui.charts.PieChartComponent;
 import applications.bank.gui.models.BankBalanceTableModel;
 import applications.bank.model.Bank;
 import applications.bank.model.Investment;
+import applications.bank.model.InvestmentHistoryHandler;
 import applications.bank.model.TransactionDetailsHandler;
 import applications.bank.storage.AccountNotificationType;
 import applications.bank.storage.BankMonitor;
@@ -164,7 +165,6 @@ public class SummaryPanel extends JPanel {
 	private void refresh() {
 		LOGGER.entering(CLASS_NAME, "refresh");
 
-		Money investmentBalance = new Money("0.00");
 		Money grandBalance = new Money("0.00");
 
 		List<Bank> banks = BankMonitor.instance().banks();
@@ -172,9 +172,7 @@ public class SummaryPanel extends JPanel {
 
 		Money bankBalance = Money.sum(TransactionDetailsHandler.balance(banks));
 
-		for (Investment investment : investments) {
-			investmentBalance = investmentBalance.plus(investment.value());
-		}
+		Money investmentBalance = InvestmentHistoryHandler.value(investments);
 
 		grandBalance = grandBalance.plus(bankBalance);
 		grandBalance = grandBalance.plus(investmentBalance);

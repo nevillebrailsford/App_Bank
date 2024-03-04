@@ -31,6 +31,7 @@ import application.base.app.gui.BottomColoredPanel;
 import application.base.app.gui.ColoredPanel;
 import application.definition.ApplicationConfiguration;
 import applications.bank.model.Investment;
+import applications.bank.model.InvestmentHistoryHandler;
 import applications.bank.storage.BankMonitor;
 
 public class RemoveInvestmentDialog extends JDialog {
@@ -226,7 +227,7 @@ public class RemoveInvestmentDialog extends JDialog {
 	private void loadDetails() {
 		if (investments.getSelectedIndex() != -1) {
 			Investment inv = (Investment) investments.getSelectedItem();
-			value.setText(inv.value().cost());
+			value.setText(InvestmentHistoryHandler.value(inv).cost());
 			date.setText(LocalDate.now().toString());
 		} else {
 			value.setText("");
