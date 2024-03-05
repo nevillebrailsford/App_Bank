@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -67,7 +68,9 @@ import applications.bank.gui.dialogs.TransferDialog;
 import applications.bank.gui.dialogs.ViewStandingOrdersDialog;
 import applications.bank.gui.dialogs.ViewTransactionsDialog;
 import applications.bank.gui.models.AccountBalanceHistoryTableModel;
+import applications.bank.gui.models.BankBalanceHistoryTableModel;
 import applications.bank.gui.models.BankPercentagesTableModel;
+import applications.bank.gui.models.BanksBalanceHistoryTableModel;
 import applications.bank.gui.models.HistoryTableModel;
 import applications.bank.gui.models.InvestmentPercentagesTableModel;
 import applications.bank.gui.models.TotalHistoryTableModel;
@@ -506,8 +509,8 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	}
 
 	@Override
-	public void viewBankBalanceHistoryAction() {
-		LOGGER.entering(CLASS_NAME, "viewBankBalanceHistoryAction");
+	public void viewAccountBalanceHistoryAction() {
+		LOGGER.entering(CLASS_NAME, "viewAccountBalanceHistoryAction");
 		Account account = BankMonitor.instance().findAccount(mainPanel.selectedAccount());
 		AccountBalanceHistoryTableModel model = new AccountBalanceHistoryTableModel(account);
 		if (model.getRowCount() < 2) {
@@ -515,9 +518,39 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 		}
 		LineChartComponent tc = new LineChartComponent(model);
 		ToolTipManager.sharedInstance().registerComponent(tc);
-		LineChartPopup lcp = new LineChartPopup(model, "Bank Balance history");
+		LineChartPopup lcp = new LineChartPopup(model, "Account Balance history");
+		lcp.setVisible(true);
+		LOGGER.exiting(CLASS_NAME, "viewAccountBalanceHistoryAction");
+	}
+
+	@Override
+	public void viewBankBalanceHistoryAction() {
+		LOGGER.entering(CLASS_NAME, "viewBankBalanceHistoryAction");
+		Bank bank = BankMonitor.instance().findBank(mainPanel.selectedBank());
+		BankBalanceHistoryTableModel model = new BankBalanceHistoryTableModel(bank);
+		if (model.getRowCount() < 2) {
+			return;
+		}
+		LineChartComponent tc = new LineChartComponent(model);
+		ToolTipManager.sharedInstance().registerComponent(tc);
+		LineChartPopup lcp = new LineChartPopup(model, "Account Balance history");
 		lcp.setVisible(true);
 		LOGGER.exiting(CLASS_NAME, "viewBankBalanceHistoryAction");
+	}
+
+	@Override
+	public void viewBanksBalanceHistoryAction() {
+		LOGGER.entering(CLASS_NAME, "viewBanksBalanceHistoryAction");
+		List<Bank> banks = BankMonitor.instance().banks();
+		BanksBalanceHistoryTableModel model = new BanksBalanceHistoryTableModel(banks);
+		if (model.getRowCount() < 2) {
+			return;
+		}
+		LineChartComponent tc = new LineChartComponent(model);
+		ToolTipManager.sharedInstance().registerComponent(tc);
+		LineChartPopup lcp = new LineChartPopup(model, "Account Balance history");
+		lcp.setVisible(true);
+		LOGGER.exiting(CLASS_NAME, "viewBanksBalanceHistoryAction");
 	}
 
 	@Override

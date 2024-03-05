@@ -39,7 +39,11 @@ public interface IApplication {
 
 	public void viewTransactionsAction();
 
+	public void viewAccountBalanceHistoryAction();
+
 	public void viewBankBalanceHistoryAction();
+
+	public void viewBanksBalanceHistoryAction();
 
 	public void viewStandingOrdersAction();
 

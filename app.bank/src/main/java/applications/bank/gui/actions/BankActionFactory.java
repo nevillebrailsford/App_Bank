@@ -27,7 +27,9 @@ public class BankActionFactory {
 	private ViewTransactionsAction viewTransactionsAction;
 	private ViewStandingOrdersAction viewStandingOrdersAction;
 	private ViewBankPercentagesAction viewBankPercentagesAction;
+	private ViewAccountBalanceHistoryAction viewAccountBalanceHistoryAction;
 	private ViewBankBalanceHistoryAction viewBankBalanceHistoryAction;
+	private ViewBanksBalanceHistoryAction viewBanksBalanceHistoryAction;
 	private ViewTotalInvestmentHistoryAction viewTotalInvestmentHistoryAction;
 	private ViewInvestmentPercentagesAction viewInvestmentPercentagesAction;
 	private ViewInvestmentHistoryAction viewInvestmentHistoryAction;
@@ -191,11 +193,25 @@ public class BankActionFactory {
 		return viewBankPercentagesAction;
 	}
 
+	public ViewAccountBalanceHistoryAction viewAccountBalanceHistoryAction() {
+		if (viewAccountBalanceHistoryAction == null) {
+			viewAccountBalanceHistoryAction = new ViewAccountBalanceHistoryAction(application);
+		}
+		return viewAccountBalanceHistoryAction;
+	}
+
 	public ViewBankBalanceHistoryAction viewBankBalanceHistoryAction() {
 		if (viewBankBalanceHistoryAction == null) {
 			viewBankBalanceHistoryAction = new ViewBankBalanceHistoryAction(application);
 		}
 		return viewBankBalanceHistoryAction;
+	}
+
+	public ViewBanksBalanceHistoryAction viewBanksBalanceHistoryAction() {
+		if (viewBanksBalanceHistoryAction == null) {
+			viewBanksBalanceHistoryAction = new ViewBanksBalanceHistoryAction(application);
+		}
+		return viewBanksBalanceHistoryAction;
 	}
 
 	public ViewInvestmentPercentagesAction viewInvestmentPercentagesAction() {

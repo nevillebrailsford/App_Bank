@@ -2,7 +2,9 @@ package applications.bank.gui;
 
 import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import application.definition.ApplicationConfiguration;
 import applications.bank.gui.actions.BankActionFactory;
@@ -43,6 +45,7 @@ public class BankApplicationMenu extends JMenuBar {
 	private JMenu viewMenu = new JMenu("View");
 	private JMenuItem viewBankPercentages;
 	private JMenuItem viewInvestmentPercentages;
+	private JMenuItem viewBanksBalanceHistory;
 	private JMenuItem viewTotalInvestmentHistory;
 	private JMenu helpMenu = new JMenu("Help");
 	private JMenuItem helpAbout;
@@ -98,9 +101,11 @@ public class BankApplicationMenu extends JMenuBar {
 		viewBankPercentages = new JMenuItem(actionFactory.viewBankPercentagesAction());
 		viewInvestmentPercentages = new JMenuItem(actionFactory.viewInvestmentPercentagesAction());
 		viewTotalInvestmentHistory = new JMenuItem(actionFactory.viewTotalInvestmentHistoryAction());
+		viewBanksBalanceHistory = new JMenuItem(actionFactory.viewBanksBalanceHistoryAction());
 		viewMenu.add(viewBankPercentages);
 		viewMenu.add(viewInvestmentPercentages);
 		viewMenu.addSeparator();
+		viewMenu.add(viewBanksBalanceHistory);
 		viewMenu.add(viewTotalInvestmentHistory);
 		add(viewMenu);
 		payMoneyIn = new JMenuItem(actionFactory.payMoneyInAction());

@@ -8,6 +8,7 @@ import application.definition.ApplicationConfiguration;
 import applications.bank.gui.BankApplicationMenu;
 import applications.bank.gui.IApplication;
 import applications.bank.model.Account;
+import applications.bank.model.Bank;
 import applications.bank.model.Investment;
 
 public class MainBankTabbedPane extends ColoredTabbedPane {
@@ -61,6 +62,13 @@ public class MainBankTabbedPane extends ColoredTabbedPane {
 		Account account = bankTabbedPane().selectedAccount();
 		LOGGER.exiting(CLASS_NAME, "selectedAccount", account);
 		return account;
+	}
+
+	public Bank selectedBank() {
+		LOGGER.entering(CLASS_NAME, "selectedBank");
+		Bank bank = bankTabbedPane().selectedBank();
+		LOGGER.exiting(CLASS_NAME, "selectedBank", bank);
+		return bank;
 	}
 
 	public Investment selectedInvestment() {

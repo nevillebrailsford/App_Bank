@@ -49,7 +49,7 @@ public class BankTabbedPane extends ColoredTabbedPane {
 		removeMenu.add(actionFactory.removeStandingOrderAction());
 		JMenu viewMenu = new JMenu("View");
 		popup.add(viewMenu);
-		viewMenu.add(actionFactory.viewBankPercentagesAction());
+		viewMenu.add(actionFactory.viewBankBalanceHistoryAction());
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
 
@@ -65,6 +65,13 @@ public class BankTabbedPane extends ColoredTabbedPane {
 		Account account = selectedPanel().selectedAccount();
 		LOGGER.exiting(CLASS_NAME, "selectedAccount", account);
 		return account;
+	}
+
+	public Bank selectedBank() {
+		LOGGER.entering(CLASS_NAME, "selectedBank");
+		Bank bank = selectedPanel().selectedBank();
+		LOGGER.exiting(CLASS_NAME, "selectedBank", bank);
+		return bank;
 	}
 
 	private void tabSelectionChanged() {
