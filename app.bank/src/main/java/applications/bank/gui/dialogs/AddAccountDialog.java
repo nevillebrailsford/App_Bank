@@ -70,26 +70,17 @@ public class AddAccountDialog extends JDialog {
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 	};
 
@@ -162,10 +153,7 @@ public class AddAccountDialog extends JDialog {
 		branchId = new JComboBox<>();
 		branchId.setEditable(false);
 		branchId.addItemListener((ItemEvent e) -> {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		});
 		contentPanel.add(branchId, "4, 4, fill, default");
 
@@ -188,8 +176,13 @@ public class AddAccountDialog extends JDialog {
 		accountHolder.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				accountHolder.setText("");
+				accountHolder.selectAll();
 				okButton.setEnabled(false);
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				okButton.setEnabled(validFields());
 			}
 		});
 		accountHolder.getDocument().addDocumentListener(documentListener);
@@ -204,8 +197,13 @@ public class AddAccountDialog extends JDialog {
 		accountNumber.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				accountNumber.setText("");
+				accountNumber.selectAll();
 				okButton.setEnabled(false);
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				okButton.setEnabled(validFields());
 			}
 		});
 		accountNumber.getDocument().addDocumentListener(documentListener);

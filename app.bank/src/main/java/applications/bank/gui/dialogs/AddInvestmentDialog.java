@@ -62,26 +62,17 @@ public class AddInvestmentDialog extends JDialog {
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 	};
 
@@ -134,9 +125,15 @@ public class AddInvestmentDialog extends JDialog {
 		name.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				name.setText("");
+				name.selectAll();
 				okButton.setEnabled(false);
 			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				okButton.setEnabled(validFields());
+			}
+
 		});
 		name.getDocument().addDocumentListener(documentListener);
 		contentPanel.add(name, "4, 2, fill, default");
@@ -150,9 +147,15 @@ public class AddInvestmentDialog extends JDialog {
 		value.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				value.setText("");
+				value.selectAll();
 				okButton.setEnabled(false);
 			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				okButton.setEnabled(validFields());
+			}
+
 		});
 		value.getDocument().addDocumentListener(documentListener);
 		contentPanel.add(value, "4, 4, fill, top");

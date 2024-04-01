@@ -66,26 +66,17 @@ public class AddBranchDialog extends JDialog {
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 	};
 
@@ -150,8 +141,14 @@ public class AddBranchDialog extends JDialog {
 		sortCode.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				town.setText("");
+				sortCode.selectAll();
+				;
 				okButton.setEnabled(false);
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				okButton.setEnabled(validFields());
 			}
 		});
 		sortCode.getDocument().addDocumentListener(documentListener);
@@ -166,9 +163,16 @@ public class AddBranchDialog extends JDialog {
 		street.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				town.setText("");
+				street.selectAll();
+				;
 				okButton.setEnabled(false);
 			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				okButton.setEnabled(validFields());
+			}
+
 		});
 		street.getDocument().addDocumentListener(documentListener);
 		contentPanel.add(street, "4, 6, fill, top");
@@ -182,9 +186,15 @@ public class AddBranchDialog extends JDialog {
 		town.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				town.setText("");
+				town.selectAll();
 				okButton.setEnabled(false);
 			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				okButton.setEnabled(validFields());
+			}
+
 		});
 		town.getDocument().addDocumentListener(documentListener);
 		contentPanel.add(town, "4, 8, fill, default");
@@ -198,9 +208,15 @@ public class AddBranchDialog extends JDialog {
 		county.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				county.setText("");
+				county.selectAll();
 				okButton.setEnabled(false);
 			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				okButton.setEnabled(validFields());
+			}
+
 		});
 		county.getDocument().addDocumentListener(documentListener);
 		contentPanel.add(county, "4, 10, fill, default");
@@ -214,9 +230,15 @@ public class AddBranchDialog extends JDialog {
 		postCode.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				postCode.setText("");
+				postCode.selectAll();
 				okButton.setEnabled(false);
 			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				okButton.setEnabled(validFields());
+			}
+
 		});
 		postCode.getDocument().addDocumentListener(documentListener);
 		contentPanel.add(postCode, "4, 12, fill, default");

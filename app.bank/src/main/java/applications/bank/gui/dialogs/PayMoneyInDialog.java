@@ -72,26 +72,17 @@ public class PayMoneyInDialog extends JDialog {
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
-			okButton.setEnabled(false);
-			if (validFields()) {
-				okButton.setEnabled(true);
-			}
+			okButton.setEnabled(validFields());
 		}
 	};
 
