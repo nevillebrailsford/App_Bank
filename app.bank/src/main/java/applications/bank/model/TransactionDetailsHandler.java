@@ -61,6 +61,14 @@ public class TransactionDetailsHandler {
 		return transactions.toArray(new Transaction[] {});
 	}
 
+	public static List<Transaction> transactions(List<Bank> banks, String search) {
+		List<Transaction> transactions = banks.stream().map(Bank::branches).flatMap(List::stream).map(Branch::accounts)
+				.flatMap(List::stream).map(Account::transactions).flatMap(List::stream)
+				.filter(t -> t.description().toLowerCase().contains(search.toLowerCase())).sorted()
+				.collect(Collectors.toList());
+		return transactions;
+	}
+
 	public static Money[] balance(Account account) {
 		return balance(account, LocalDate.now());
 	}

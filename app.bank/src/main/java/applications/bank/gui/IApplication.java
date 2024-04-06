@@ -35,6 +35,8 @@ public interface IApplication {
 
 	public void paySomeoneAction();
 
+	public void searchTransactionsAction();
+
 	public void transferAction();
 
 	public void viewTransactionsAction();

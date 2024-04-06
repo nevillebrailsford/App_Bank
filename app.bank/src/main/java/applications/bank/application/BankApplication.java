@@ -67,12 +67,14 @@ import applications.bank.gui.dialogs.RemoveStandingOrderDialog;
 import applications.bank.gui.dialogs.TransferDialog;
 import applications.bank.gui.dialogs.ViewStandingOrdersDialog;
 import applications.bank.gui.dialogs.ViewTransactionsDialog;
+import applications.bank.gui.dialogs.ViewTransactionsSearchDialog;
 import applications.bank.gui.models.AccountBalanceHistoryTableModel;
 import applications.bank.gui.models.BankBalanceHistoryTableModel;
 import applications.bank.gui.models.BankPercentagesTableModel;
 import applications.bank.gui.models.BanksBalanceHistoryTableModel;
 import applications.bank.gui.models.HistoryTableModel;
 import applications.bank.gui.models.InvestmentPercentagesTableModel;
+import applications.bank.gui.models.SearchTransactionsTableModel;
 import applications.bank.gui.models.TotalHistoryTableModel;
 import applications.bank.gui.modified.BankPanel;
 import applications.bank.gui.modified.InvestmentPanel;
@@ -585,6 +587,21 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 		LineChartPopup lcp = new LineChartPopup(model, "Investment history");
 		lcp.setVisible(true);
 		LOGGER.exiting(CLASS_NAME, "viewTotalInvestmentHistoryAction");
+	}
+
+	@Override
+	public void searchTransactionsAction() {
+		LOGGER.entering(CLASS_NAME, "searchTransactionsAction");
+		String search = JOptionPane.showInputDialog("Search for: ");
+		if (search != null && !search.isEmpty()) {
+			SearchTransactionsTableModel model = new SearchTransactionsTableModel(BankMonitor.instance().banks(),
+					search);
+			ViewTransactionsSearchDialog dialog = new ViewTransactionsSearchDialog(parent, model, search);
+			dialog.setVisible(true);
+			dialog.dispose();
+
+		}
+		LOGGER.exiting(CLASS_NAME, "searchTransactionsAction");
 	}
 
 	@Override

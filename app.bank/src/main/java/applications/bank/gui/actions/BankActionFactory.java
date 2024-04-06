@@ -33,6 +33,7 @@ public class BankActionFactory {
 	private ViewTotalInvestmentHistoryAction viewTotalInvestmentHistoryAction;
 	private ViewInvestmentPercentagesAction viewInvestmentPercentagesAction;
 	private ViewInvestmentHistoryAction viewInvestmentHistoryAction;
+	private SearchTransactionsAction searchTransactionsAction;
 	private HelpAboutAction helpAboutAction = null;
 
 	public static BankActionFactory instance(IApplication application) {
@@ -233,6 +234,13 @@ public class BankActionFactory {
 			viewTotalInvestmentHistoryAction = new ViewTotalInvestmentHistoryAction(application);
 		}
 		return viewTotalInvestmentHistoryAction;
+	}
+
+	public SearchTransactionsAction searchTransactionsAction() {
+		if (searchTransactionsAction == null) {
+			searchTransactionsAction = new SearchTransactionsAction(application);
+		}
+		return searchTransactionsAction;
 	}
 
 	public HelpAboutAction helpAboutAction() {
