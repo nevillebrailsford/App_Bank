@@ -596,9 +596,13 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 		if (search != null && !search.isEmpty()) {
 			SearchTransactionsTableModel model = new SearchTransactionsTableModel(BankMonitor.instance().banks(),
 					search);
-			ViewTransactionsSearchDialog dialog = new ViewTransactionsSearchDialog(parent, model, search);
-			dialog.setVisible(true);
-			dialog.dispose();
+			if (model.getRowCount() == 1) {
+				JOptionPane.showMessageDialog(null, "'" + search + "' was not found in any transaction.");
+			} else {
+				ViewTransactionsSearchDialog dialog = new ViewTransactionsSearchDialog(parent, model, search);
+				dialog.setVisible(true);
+				dialog.dispose();
+			}
 
 		}
 		LOGGER.exiting(CLASS_NAME, "searchTransactionsAction");
