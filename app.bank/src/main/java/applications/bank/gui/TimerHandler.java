@@ -124,7 +124,9 @@ public class TimerHandler implements NotificationListener {
 	private void payOverdueStandingOrders(LocalDateTime now) {
 		LOGGER.entering(CLASS_NAME, "payOverdueStandingOrders", now);
 		LocalDate date = now.toLocalDate();
+		LOGGER.fine("date = " + date);
 		for (StandingOrder order : BankMonitor.instance().standingOrders()) {
+			LOGGER.fine(order + " NextActionDue = " + order.nextActionDue());
 			if (order.nextActionDue().isBefore(date)) {
 				processStandingOrder(order);
 			}
