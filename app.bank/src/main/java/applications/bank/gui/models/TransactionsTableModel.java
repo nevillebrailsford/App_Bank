@@ -1,6 +1,7 @@
 package applications.bank.gui.models;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -54,6 +55,7 @@ public class TransactionsTableModel extends AbstractTableModel {
 	public TransactionsTableModel(Account account) {
 		this.account = account;
 		this.transactions = account.transactions();
+		Collections.reverse(transactions);
 		addListeners();
 	}
 
