@@ -85,10 +85,10 @@ public class TransactionsTableModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int row, int col) {
 		Object value = "Unknown";
-		if (row == transactions.size()) {
+		if (row == 0) {
 			value = closingBalance(col);
 		} else {
-			value = transactionRow(row, col);
+			value = transactionRow(row - 1, col);
 		}
 		return value;
 	}
