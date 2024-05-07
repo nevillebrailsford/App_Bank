@@ -13,9 +13,9 @@ echo *=================================
 echo * Set up the required directories.
 echo *=================================
 
-set ROOT_DIR=C:\Users\nevil\Projects\Banking.app
+set ROOT_DIR=%USERPROFILE%\Projects\Banking.app
 set JAR_NAME=BankingApp.jar
-set DATA_DIR=C:\Users\nevil\OneDrive\Projects\data
+set DATA_DIR=%USERPROFILE%\OneDrive\Projects\data
 
 echo *=============================================
 echo * Invoke the program - may take a few moments.
