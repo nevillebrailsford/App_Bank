@@ -148,15 +148,11 @@ public class TransactionsTableModel extends AbstractTableModel {
 
 	private void addTransactionNotify(Transaction transaction) {
 		LOGGER.entering(CLASS_NAME, "addTransactionNotify", transaction);
-		int index = findPosition(transaction);
 		LOGGER.fine("Initial number of entries in transactions = " + transactions.size());
-		if (index == -1) {
-			LOGGER.fine("Adding transaction " + transaction.description() + " at end of table");
-			transactions.add(transaction);
-		} else {
-			LOGGER.fine("Adding transaction " + transaction.description() + " at index " + index + " of table");
-			transactions.add(index, transaction);
-		}
+		LOGGER.fine("Adding transaction " + transaction.description() + " to table");
+		transactions.add(transaction);
+		Collections.sort(transactions);
+		Collections.reverse(transactions);
 		LOGGER.fine("Final number of entries in transactions = " + transactions.size());
 		fireTableDataChanged();
 		LOGGER.exiting(CLASS_NAME, "addTransactionNotify");
@@ -172,20 +168,6 @@ public class TransactionsTableModel extends AbstractTableModel {
 			fireTableDataChanged();
 		}
 		LOGGER.exiting(CLASS_NAME, "removeTransactionNotify");
-	}
-
-	private int findPosition(Transaction transaction) {
-		LOGGER.entering(CLASS_NAME, "findPosition", transaction);
-		int index = -1;
-		for (int i = 0; i < transactions.size(); i++) {
-			if (transactions.get(i).compareTo(transaction) > 0) {
-				index = i;
-				break;
-			}
-		}
-		LOGGER.exiting(CLASS_NAME, "findPosition", index);
-		return index;
-
 	}
 
 	private int findExistingPosition(Transaction transaction) {

@@ -88,6 +88,7 @@ public class HistoryTableModel extends AbstractTableModel {
 		values.removeAll(values);
 		this.investment = investment;
 		values = investment.history();
+		Collections.reverse(values);
 		fireTableDataChanged();
 	}
 
