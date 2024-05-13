@@ -1,5 +1,6 @@
 package applications.bank.gui.models;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -40,6 +41,7 @@ public class HistoryTableModel extends AbstractTableModel {
 		LOGGER.entering(CLASS_NAME, "init");
 		this.investment = investment;
 		this.values = investment.history();
+		Collections.reverse(this.values);
 		addListeners();
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
