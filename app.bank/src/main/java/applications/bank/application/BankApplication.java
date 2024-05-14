@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -64,6 +65,7 @@ import applications.bank.gui.dialogs.RemoveAccountDialog;
 import applications.bank.gui.dialogs.RemoveBankDialog;
 import applications.bank.gui.dialogs.RemoveInvestmentDialog;
 import applications.bank.gui.dialogs.RemoveStandingOrderDialog;
+import applications.bank.gui.dialogs.SearchTransactionsDialog;
 import applications.bank.gui.dialogs.TransferDialog;
 import applications.bank.gui.dialogs.ViewStandingOrdersDialog;
 import applications.bank.gui.dialogs.ViewTransactionsDialog;
@@ -592,10 +594,14 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	@Override
 	public void searchTransactionsAction() {
 		LOGGER.entering(CLASS_NAME, "searchTransactionsAction");
-		String search = JOptionPane.showInputDialog("Search for: ");
-		if (search != null && !search.isEmpty()) {
+		SearchTransactionsDialog dlg = new SearchTransactionsDialog(this);
+		int result = dlg.displayAndWait();
+		if (result == AddBankDialog.OK_PRESSED) {
+			String search = dlg.searchString();
+			LocalDate fromDate = dlg.fromDate();
+			LocalDate toDate = dlg.toDate();
 			SearchTransactionsTableModel model = new SearchTransactionsTableModel(BankMonitor.instance().banks(),
-					search);
+					search, fromDate, toDate);
 			if (model.getRowCount() == 1) {
 				JOptionPane.showMessageDialog(null, "'" + search + "' was not found in any transaction.");
 			} else {
@@ -603,8 +609,9 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 				dialog.setVisible(true);
 				dialog.dispose();
 			}
-
 		}
+		dlg.dispose();
+
 		LOGGER.exiting(CLASS_NAME, "searchTransactionsAction");
 	}
 

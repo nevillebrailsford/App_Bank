@@ -22,8 +22,8 @@ public class SearchTransactionsTableModel extends AbstractTableModel {
 
 	private List<Transaction> transactions;
 
-	public SearchTransactionsTableModel(List<Bank> banks, String search) {
-		this.transactions = TransactionDetailsHandler.transactions(banks, search);
+	public SearchTransactionsTableModel(List<Bank> banks, String search, LocalDate fromDate, LocalDate toDate) {
+		this.transactions = TransactionDetailsHandler.transactions(banks, search, fromDate, toDate);
 	}
 
 	@Override
