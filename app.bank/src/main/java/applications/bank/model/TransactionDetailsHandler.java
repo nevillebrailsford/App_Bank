@@ -65,7 +65,8 @@ public class TransactionDetailsHandler {
 			LocalDate toDate) {
 		List<Transaction> transactions = banks.stream().map(Bank::branches).flatMap(List::stream).map(Branch::accounts)
 				.flatMap(List::stream).map(Account::transactions).flatMap(List::stream)
-				.filter(t -> t.description().toLowerCase().contains(search.toLowerCase())).sorted()
+				.filter(t -> t.description().toLowerCase().contains(search.toLowerCase()))
+				.filter(t -> t.date().isAfter(fromDate)).filter(t -> t.date().isBefore(toDate)).sorted()
 				.collect(Collectors.toList());
 		return transactions;
 	}

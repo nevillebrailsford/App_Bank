@@ -189,7 +189,7 @@ public class SearchTransactionsDialog extends JDialog {
 
 	public LocalDate fromDate() {
 		if (fromDate.getDate() == null) {
-			return null;
+			return LocalDate.of(2000, 1, 1);
 		}
 		LocalDate date = fromDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return date;
@@ -197,7 +197,7 @@ public class SearchTransactionsDialog extends JDialog {
 
 	public LocalDate toDate() {
 		if (toDate.getDate() == null) {
-			return null;
+			return LocalDate.now().plusDays(1);
 		}
 		LocalDate date = toDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		return date;
