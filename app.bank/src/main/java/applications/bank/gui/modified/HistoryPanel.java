@@ -37,7 +37,7 @@ public class HistoryPanel extends JPanel {
 		LOGGER.entering(CLASS_NAME, "init", investment);
 		actionFactory = BankActionFactory.instance(application);
 		setLayout(new BorderLayout());
-		model = new HistoryTableModel(investment);
+		model = new HistoryTableModel(investment, HistoryTableModel.DESC);
 		historyTable = new JTable(model) {
 			private static final long serialVersionUID = 1L;
 

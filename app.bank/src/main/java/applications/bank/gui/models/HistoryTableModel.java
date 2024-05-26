@@ -23,8 +23,12 @@ public class HistoryTableModel extends AbstractTableModel {
 	private static final int DATE = 0;
 	private static final int VALUE = 1;
 
+	public static final int ASC = 1;
+	public static final int DESC = 2;
+
 	private Investment investment;
 	private List<ValueOn> values;
+	private int order;
 
 	private NotificationListener changeNotificationListener = (notification) -> {
 		LOGGER.entering(CLASS_NAME, "changeNotify");
@@ -37,11 +41,14 @@ public class HistoryTableModel extends AbstractTableModel {
 		LOGGER.exiting(CLASS_NAME, "changeNotify");
 	};
 
-	public HistoryTableModel(Investment investment) {
-		LOGGER.entering(CLASS_NAME, "init");
+	public HistoryTableModel(Investment investment, int order) {
+		LOGGER.entering(CLASS_NAME, "init", new Object[] { order });
+		this.order = order;
 		this.investment = investment;
 		this.values = investment.history();
-		Collections.reverse(this.values);
+		if (order == DESC) {
+			Collections.reverse(this.values);
+		}
 		addListeners();
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
@@ -88,7 +95,9 @@ public class HistoryTableModel extends AbstractTableModel {
 		values.removeAll(values);
 		this.investment = investment;
 		values = investment.history();
-		Collections.reverse(values);
+		if (order == DESC) {
+			Collections.reverse(values);
+		}
 		fireTableDataChanged();
 	}
 
