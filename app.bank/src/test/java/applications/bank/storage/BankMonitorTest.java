@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.logging.Level;
 
 import org.junit.jupiter.api.AfterAll;
@@ -320,7 +321,7 @@ class BankMonitorTest extends BankTestBase {
 		addAccount1();
 		addAccount2();
 		assertEquals(2, BankMonitor.instance().accounts().size());
-		Transfer transfer = new Transfer(account1, account2, new Money("10.00"));
+		Transfer transfer = new Transfer(account1, account2, new Money("10.00"), LocalDate.now());
 		transfer(transfer);
 	}
 

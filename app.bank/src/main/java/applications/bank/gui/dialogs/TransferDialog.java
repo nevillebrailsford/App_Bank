@@ -6,7 +6,10 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -27,6 +30,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+import com.toedter.calendar.JDateChooser;
 
 import application.base.app.gui.BottomColoredPanel;
 import application.base.app.gui.ColoredPanel;
@@ -56,6 +60,7 @@ public class TransferDialog extends JDialog {
 	private JComboBox<Account> toAccount;
 	private JLabel lblNewLabel_1;
 	private JTextField amount;
+	private JDateChooser dateOfTransfer;
 
 	private List<Account> accounts;
 
@@ -78,6 +83,8 @@ public class TransferDialog extends JDialog {
 			okButton.setEnabled(validFields());
 		}
 	};
+	private JLabel lblNewLabel_2;
+	private JTextField date;
 
 	/**
 	 * Launch the application.
@@ -101,6 +108,7 @@ public class TransferDialog extends JDialog {
 		setTitle("Transfer");
 
 		contentPanel = new ColoredPanel();
+//		contentPanel = new JPanel();
 		getContentPane().setLayout(new BorderLayout());
 		{
 			instructions = new JLabel("Complete the form to transfer money between accounts.");
@@ -153,7 +161,15 @@ public class TransferDialog extends JDialog {
 		contentPanel.add(amount, "4, 6, fill, default");
 		amount.setColumns(10);
 
+		lblNewLabel_2 = new JLabel("Date:");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
+		contentPanel.add(lblNewLabel_2, "2, 8, right, default");
+
+		dateOfTransfer = new JDateChooser(new Date(), "dd/MM/yyyy");
+		contentPanel.add(dateOfTransfer, "4, 8, fill, default");
+
 		JPanel buttonPane = new BottomColoredPanel();
+//		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		{
@@ -175,7 +191,8 @@ public class TransferDialog extends JDialog {
 					Money val = new Money(amount.getText());
 					Account accountFrom = (Account) fromAccount.getSelectedItem();
 					Account accountTo = (Account) toAccount.getSelectedItem();
-					transfer = new Transfer(accountFrom, accountTo, val);
+					LocalDate local = LocalDate.ofInstant(dateOfTransfer.getDate().toInstant(), ZoneId.systemDefault());
+					transfer = new Transfer(accountFrom, accountTo, val, local);
 					result = OK_PRESSED;
 					setVisible(false);
 				} catch (IllegalArgumentException i) {
