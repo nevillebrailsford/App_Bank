@@ -321,7 +321,7 @@ class BankMonitorTest extends BankTestBase {
 		addAccount1();
 		addAccount2();
 		assertEquals(2, BankMonitor.instance().accounts().size());
-		Transfer transfer = new Transfer(account1, account2, new Money("10.00"), LocalDate.now());
+		Transfer transfer = new Transfer(account1, account2, new Money("10.00"), LocalDate.now(), null);
 		transfer(transfer);
 	}
 

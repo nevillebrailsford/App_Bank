@@ -54,14 +54,13 @@ public class ViewTransactionsDialog extends JDialog {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		contentPanel.add(scrollPane, BorderLayout.CENTER);
 		add(contentPanel, BorderLayout.CENTER);
-		setSize(new Dimension(700, 400));
+		setSize(new Dimension(900, 400));
 		setLocationRelativeTo(parent);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				model.removeListeners();
 			}
-
 		});
 	}
 
@@ -69,11 +68,11 @@ public class ViewTransactionsDialog extends JDialog {
 		transactionsTable.setFillsViewportHeight(true);
 		transactionsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		transactionsTable.setRowSelectionAllowed(true);
-		transactionsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		// transactionsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		transactionsTable.getColumnModel().getColumn(0).setPreferredWidth(100);
 		transactionsTable.getColumnModel().getColumn(0).setMinWidth(100);
-		transactionsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
-		transactionsTable.getColumnModel().getColumn(1).setMinWidth(150);
+		transactionsTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+		transactionsTable.getColumnModel().getColumn(1).setMinWidth(200);
 		transactionsTable.getColumnModel().getColumn(2).setPreferredWidth(300);
 		transactionsTable.getColumnModel().getColumn(2).setMinWidth(300);
 		transactionsTable.getColumnModel().getColumn(2).setMaxWidth(800);

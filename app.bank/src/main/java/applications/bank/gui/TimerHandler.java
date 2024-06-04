@@ -144,7 +144,8 @@ public class TimerHandler implements NotificationListener {
 
 	private Transfer buildTransfer(StandingOrder order) {
 		LOGGER.entering(CLASS_NAME, "buildTransfer", order);
-		Transfer transfer = new Transfer(order.owner(), order.recipient(), order.amount(), LocalDate.now());
+		Transfer transfer = new Transfer(order.owner(), order.recipient(), order.amount(), order.nextActionDue(),
+				"S/O");
 		LOGGER.exiting(CLASS_NAME, "buildTransfer", transfer);
 		return transfer;
 	}
