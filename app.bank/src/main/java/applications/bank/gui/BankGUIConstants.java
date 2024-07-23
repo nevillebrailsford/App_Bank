@@ -12,6 +12,8 @@ public class BankGUIConstants implements BaseConstants, StorageConstants, ModelC
 	public static final String LAST_TIME = "lastTime";
 	public static final String dateFormatForCalendarView = "EEE dd LLL uuuu";
 
+	public static final String DESCRIPTION_OPTIONS = "descriptionoptions";
+
 	// indianred #cd5c5c
 	public static final Color INDIAN_RED = new Color(205, 92, 92, 155);
 	// lightgreen #90ee90

@@ -62,7 +62,7 @@ public class PayMoneyInDialog extends JDialog {
 	private JDateChooser dateOfPayment;
 
 	private JTextField amount;
-	private JTextField description;
+	private JComboBox<String> description;
 
 	private List<Account> accounts;
 
@@ -152,10 +152,12 @@ public class PayMoneyInDialog extends JDialog {
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		contentPanel.add(lblNewLabel_1, "2, 6, right, default");
 
-		description = new JTextField();
-		description.getDocument().addDocumentListener(documentListener);
+		description = new JComboBox<>();
+		description.setEditable(true);
+		description.addActionListener((event) -> {
+			okButton.setEnabled(validFields());
+		});
 		contentPanel.add(description, "4, 6, fill, default");
-		description.setColumns(10);
 
 		lblNewLabel_2 = new JLabel("Date of Payment:");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -186,8 +188,9 @@ public class PayMoneyInDialog extends JDialog {
 					Money val = new Money(amount.getText());
 					LocalDate local = LocalDate.ofInstant(dateOfPayment.getDate().toInstant(), ZoneId.systemDefault());
 					transaction = new Transaction.Builder().account((Account) accountNumber.getSelectedItem())
-							.amount(val).description(description.getText()).date(local).build();
+							.amount(val).description((String) description.getSelectedItem()).date(local).build();
 					result = OK_PRESSED;
+					DescriptionComboHelper.saveDescriptionOptions(description);
 					setVisible(false);
 				} catch (IllegalArgumentException i) {
 					JOptionPane.showMessageDialog(PayMoneyInDialog.this, "Error has occured: " + i.getMessage(),
@@ -201,10 +204,12 @@ public class PayMoneyInDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				transaction = null;
 				result = CANCEL_PRESSED;
+				DescriptionComboHelper.saveDescriptionOptions(description);
 				setVisible(false);
 			}
 		});
 		loadAccountDetails();
+		DescriptionComboHelper.loadDescriptionOptions(description);
 		pack();
 		setLocationRelativeTo(parent);
 		LOGGER.exiting(CLASS_NAME, "init");
@@ -226,7 +231,7 @@ public class PayMoneyInDialog extends JDialog {
 	}
 
 	private boolean validFields() {
-		return accountSelected() && !emptyTextField(amount) && !emptyTextField(description);
+		return accountSelected() && !emptyTextField(amount) && !emptyComboBox(description);
 	}
 
 	private boolean accountSelected() {
@@ -235,6 +240,10 @@ public class PayMoneyInDialog extends JDialog {
 
 	private boolean emptyTextField(JTextField field) {
 		return field.getText().isEmpty();
+	}
+
+	private boolean emptyComboBox(JComboBox<String> box) {
+		return box.getSelectedItem() == null;
 	}
 
 	public int displayAndWait() {

@@ -63,7 +63,7 @@ public class TransferDialog extends JDialog {
 	private JLabel lblDate;
 	private JDateChooser dateOfTransfer;
 	private JLabel lblDescription;
-	private JTextField description;
+	private JComboBox<String> description;
 
 	private List<Account> accounts;
 
@@ -173,9 +173,9 @@ public class TransferDialog extends JDialog {
 		lblDescription.setHorizontalAlignment(SwingConstants.RIGHT);
 		contentPanel.add(lblDescription, "2, 10, right, default");
 
-		description = new JTextField();
+		description = new JComboBox<>();
+		description.setEditable(true);
 		contentPanel.add(description, "4, 10, fill, default");
-		description.setColumns(10);
 
 		JPanel buttonPane = new BottomColoredPanel();
 //		JPanel buttonPane = new JPanel();
@@ -201,8 +201,9 @@ public class TransferDialog extends JDialog {
 					Account accountFrom = (Account) fromAccount.getSelectedItem();
 					Account accountTo = (Account) toAccount.getSelectedItem();
 					LocalDate local = LocalDate.ofInstant(dateOfTransfer.getDate().toInstant(), ZoneId.systemDefault());
-					transfer = new Transfer(accountFrom, accountTo, val, local, description.getText());
+					transfer = new Transfer(accountFrom, accountTo, val, local, (String) description.getSelectedItem());
 					result = OK_PRESSED;
+					DescriptionComboHelper.saveDescriptionOptions(description);
 					setVisible(false);
 				} catch (IllegalArgumentException i) {
 					JOptionPane.showMessageDialog(TransferDialog.this, "Error has occured: " + i.getMessage(),
@@ -216,10 +217,12 @@ public class TransferDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				transfer = null;
 				result = CANCEL_PRESSED;
+				DescriptionComboHelper.saveDescriptionOptions(description);
 				setVisible(false);
 			}
 		});
 		loadAccountDetails();
+		DescriptionComboHelper.loadDescriptionOptions(description);
 		pack();
 		setLocationRelativeTo(parent);
 		LOGGER.exiting(CLASS_NAME, "init");
