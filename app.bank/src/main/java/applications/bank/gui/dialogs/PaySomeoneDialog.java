@@ -173,7 +173,6 @@ public class PaySomeoneDialog extends JDialog {
 			okButton = new JButton("Pay someone");
 			okButton.setActionCommand("OK");
 			buttonPane.add(okButton);
-			getRootPane().setDefaultButton(okButton);
 		}
 		{
 			cancelButton = new JButton("Cancel");
