@@ -3,8 +3,8 @@ package applications.bank.gui.dialogs;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -84,6 +84,19 @@ public class PaySomeoneDialog extends JDialog {
 		public void changedUpdate(DocumentEvent e) {
 			okButton.setEnabled(validFields());
 		}
+	};
+
+	FocusListener focusListener = new FocusListener() {
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			okButton.setEnabled(validFields());
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+		}
+
 	};
 
 	/**
@@ -173,41 +186,36 @@ public class PaySomeoneDialog extends JDialog {
 			okButton = new JButton("Pay someone");
 			okButton.setActionCommand("OK");
 			buttonPane.add(okButton);
+			getRootPane().setDefaultButton(okButton);
 		}
 		{
 			cancelButton = new JButton("Cancel");
 			cancelButton.setActionCommand("Cancel");
 			buttonPane.add(cancelButton);
 		}
-
-		okButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Money val = new Money(amount.getText());
-					val = val.negate();
-					LocalDate local = LocalDate.ofInstant(dateOfPayment.getDate().toInstant(), ZoneId.systemDefault());
-					transaction = new Transaction.Builder().account((Account) accountNumber.getSelectedItem())
-							.amount(val).description((String) description.getSelectedItem()).date(local).build();
-					result = OK_PRESSED;
-					DescriptionComboHelper.saveDescriptionOptions(description);
-					setVisible(false);
-				} catch (IllegalArgumentException i) {
-					JOptionPane.showMessageDialog(PaySomeoneDialog.this, "Error has occured: " + i.getMessage(),
-							"Error occured", JOptionPane.ERROR_MESSAGE);
-				}
+		okButton.addActionListener((event) -> {
+			try {
+				Money val = new Money(amount.getText());
+				val = val.negate();
+				LocalDate local = LocalDate.ofInstant(dateOfPayment.getDate().toInstant(), ZoneId.systemDefault());
+				transaction = new Transaction.Builder().account((Account) accountNumber.getSelectedItem()).amount(val)
+						.description((String) description.getSelectedItem()).date(local).build();
+				result = OK_PRESSED;
+				DescriptionComboHelper.saveDescriptionOptions(description);
+				setVisible(false);
+			} catch (IllegalArgumentException i) {
+				JOptionPane.showMessageDialog(PaySomeoneDialog.this, "Error has occured: " + i.getMessage(),
+						"Error occured", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		okButton.setEnabled(false);
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				transaction = null;
-				result = CANCEL_PRESSED;
-				DescriptionComboHelper.saveDescriptionOptions(description);
-				setVisible(false);
-			}
+		cancelButton.addActionListener((event) -> {
+			transaction = null;
+			result = CANCEL_PRESSED;
+			DescriptionComboHelper.saveDescriptionOptions(description);
+			setVisible(false);
 		});
+		description.addFocusListener(focusListener);
 		loadAccountDetails();
 		DescriptionComboHelper.loadDescriptionOptions(description);
 		pack();

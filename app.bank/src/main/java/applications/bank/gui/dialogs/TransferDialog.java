@@ -3,8 +3,6 @@ package applications.bank.gui.dialogs;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -193,33 +191,27 @@ public class TransferDialog extends JDialog {
 			buttonPane.add(cancelButton);
 		}
 
-		okButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Money val = new Money(amount.getText());
-					Account accountFrom = (Account) fromAccount.getSelectedItem();
-					Account accountTo = (Account) toAccount.getSelectedItem();
-					LocalDate local = LocalDate.ofInstant(dateOfTransfer.getDate().toInstant(), ZoneId.systemDefault());
-					transfer = new Transfer(accountFrom, accountTo, val, local, (String) description.getSelectedItem());
-					result = OK_PRESSED;
-					DescriptionComboHelper.saveDescriptionOptions(description);
-					setVisible(false);
-				} catch (IllegalArgumentException i) {
-					JOptionPane.showMessageDialog(TransferDialog.this, "Error has occured: " + i.getMessage(),
-							"Error occured", JOptionPane.ERROR_MESSAGE);
-				}
+		okButton.addActionListener((event) -> {
+			try {
+				Money val = new Money(amount.getText());
+				Account accountFrom = (Account) fromAccount.getSelectedItem();
+				Account accountTo = (Account) toAccount.getSelectedItem();
+				LocalDate local = LocalDate.ofInstant(dateOfTransfer.getDate().toInstant(), ZoneId.systemDefault());
+				transfer = new Transfer(accountFrom, accountTo, val, local, (String) description.getSelectedItem());
+				result = OK_PRESSED;
+				DescriptionComboHelper.saveDescriptionOptions(description);
+				setVisible(false);
+			} catch (IllegalArgumentException i) {
+				JOptionPane.showMessageDialog(TransferDialog.this, "Error has occured: " + i.getMessage(),
+						"Error occured", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		okButton.setEnabled(false);
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				transfer = null;
-				result = CANCEL_PRESSED;
-				DescriptionComboHelper.saveDescriptionOptions(description);
-				setVisible(false);
-			}
+		cancelButton.addActionListener((event) -> {
+			transfer = null;
+			result = CANCEL_PRESSED;
+			DescriptionComboHelper.saveDescriptionOptions(description);
+			setVisible(false);
 		});
 		loadAccountDetails();
 		DescriptionComboHelper.loadDescriptionOptions(description);
