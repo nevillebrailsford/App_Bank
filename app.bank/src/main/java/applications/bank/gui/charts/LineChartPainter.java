@@ -168,7 +168,7 @@ public class LineChartPainter extends ChartPainter {
 			title += "+";
 		t = (lSize * tSumDW - sumD * tSumW) / (lSize * sumD2 - sumD * sumD);
 		title += new DecimalFormat("0.00").format(7 * t) + " £/week";
-		Font titleFont = new Font("Arial", Font.BOLD, 10);
+		Font titleFont = new Font("Arial", Font.BOLD, 18);
 		Rectangle2D titleRect = titleFont.getStringBounds(title, g2D.getFontRenderContext());
 		g2D.setFont(titleFont);
 		g2D.setPaint(Color.black);
