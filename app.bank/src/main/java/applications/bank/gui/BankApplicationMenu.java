@@ -47,6 +47,7 @@ public class BankApplicationMenu extends JMenuBar {
 	private JMenuItem viewInvestmentPercentages;
 	private JMenuItem viewBanksBalanceHistory;
 	private JMenuItem viewTotalInvestmentHistory;
+	private JMenuItem viewTotalValueHistory;
 	private JMenu searchMenu = new JMenu("Search");
 	private JMenuItem searchTransactions;
 	private JMenu helpMenu = new JMenu("Help");
@@ -104,11 +105,13 @@ public class BankApplicationMenu extends JMenuBar {
 		viewInvestmentPercentages = new JMenuItem(actionFactory.viewInvestmentPercentagesAction());
 		viewTotalInvestmentHistory = new JMenuItem(actionFactory.viewTotalInvestmentHistoryAction());
 		viewBanksBalanceHistory = new JMenuItem(actionFactory.viewBanksBalanceHistoryAction());
+		viewTotalValueHistory = new JMenuItem(actionFactory.viewTotalValueHistoryAction());
 		viewMenu.add(viewBankPercentages);
 		viewMenu.add(viewInvestmentPercentages);
 		viewMenu.addSeparator();
 		viewMenu.add(viewBanksBalanceHistory);
 		viewMenu.add(viewTotalInvestmentHistory);
+		viewMenu.add(viewTotalValueHistory);
 		add(viewMenu);
 		payMoneyIn = new JMenuItem(actionFactory.payMoneyInAction());
 		paySomeone = new JMenuItem(actionFactory.paySomeoneAction());

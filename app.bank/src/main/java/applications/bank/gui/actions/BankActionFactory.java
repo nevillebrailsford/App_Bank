@@ -33,6 +33,7 @@ public class BankActionFactory {
 	private ViewTotalInvestmentHistoryAction viewTotalInvestmentHistoryAction;
 	private ViewInvestmentPercentagesAction viewInvestmentPercentagesAction;
 	private ViewInvestmentHistoryAction viewInvestmentHistoryAction;
+	private ViewTotalValueHistoryAction viewTotalValueHistoryAction;
 	private SearchTransactionsAction searchTransactionsAction;
 	private HelpAboutAction helpAboutAction = null;
 
@@ -234,6 +235,13 @@ public class BankActionFactory {
 			viewTotalInvestmentHistoryAction = new ViewTotalInvestmentHistoryAction(application);
 		}
 		return viewTotalInvestmentHistoryAction;
+	}
+
+	public ViewTotalValueHistoryAction viewTotalValueHistoryAction() {
+		if (viewTotalValueHistoryAction == null) {
+			viewTotalValueHistoryAction = new ViewTotalValueHistoryAction(application);
+		}
+		return viewTotalValueHistoryAction;
 	}
 
 	public SearchTransactionsAction searchTransactionsAction() {

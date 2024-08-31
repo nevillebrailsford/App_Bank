@@ -57,5 +57,7 @@ public interface IApplication {
 
 	public void viewTotalInvestmentHistoryAction();
 
+	public void viewTotalValueHistoryAction();
+
 	public void helpAboutAction();
 }

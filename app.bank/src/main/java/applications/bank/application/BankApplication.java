@@ -592,6 +592,12 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	}
 
 	@Override
+	public void viewTotalValueHistoryAction() {
+		LOGGER.entering(CLASS_NAME, "viewTotalValueHistoryAction");
+		LOGGER.exiting(CLASS_NAME, "viewTotalValueHistoryAction");
+	}
+
+	@Override
 	public void searchTransactionsAction() {
 		LOGGER.entering(CLASS_NAME, "searchTransactionsAction");
 		SearchTransactionsDialog dlg = new SearchTransactionsDialog(this);
