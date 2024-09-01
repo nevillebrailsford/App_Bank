@@ -78,6 +78,7 @@ import applications.bank.gui.models.HistoryTableModel;
 import applications.bank.gui.models.InvestmentPercentagesTableModel;
 import applications.bank.gui.models.SearchTransactionsTableModel;
 import applications.bank.gui.models.TotalHistoryTableModel;
+import applications.bank.gui.models.TotalValueTableModel;
 import applications.bank.gui.modified.BankPanel;
 import applications.bank.gui.modified.InvestmentPanel;
 import applications.bank.gui.modified.MainBankTabbedPane;
@@ -594,6 +595,11 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	@Override
 	public void viewTotalValueHistoryAction() {
 		LOGGER.entering(CLASS_NAME, "viewTotalValueHistoryAction");
+		TotalValueTableModel model = new TotalValueTableModel();
+		LineChartComponent tc = new LineChartComponent(model);
+		ToolTipManager.sharedInstance().registerComponent(tc);
+		LineChartPopup lcp = new LineChartPopup(model, "Investment history");
+		lcp.setVisible(true);
 		LOGGER.exiting(CLASS_NAME, "viewTotalValueHistoryAction");
 	}
 

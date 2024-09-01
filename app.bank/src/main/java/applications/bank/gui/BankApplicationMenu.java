@@ -111,6 +111,7 @@ public class BankApplicationMenu extends JMenuBar {
 		viewMenu.addSeparator();
 		viewMenu.add(viewBanksBalanceHistory);
 		viewMenu.add(viewTotalInvestmentHistory);
+		viewMenu.addSeparator();
 		viewMenu.add(viewTotalValueHistory);
 		add(viewMenu);
 		payMoneyIn = new JMenuItem(actionFactory.payMoneyInAction());

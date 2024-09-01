@@ -28,10 +28,16 @@ public class InvestmentHistoryHandler {
 	}
 
 	public static Money value(Investment investment, LocalDate onDate) {
+		Money result = null;
 		List<Money> monies = investment.history().stream().filter(v -> !v.date().isAfter(onDate)).map(ValueOn::value)
 				.collect(Collectors.toList());
 		Money[] allMonies = monies.toArray(new Money[] {});
-		return allMonies[allMonies.length - 1];
+		if (allMonies.length == 0) {
+			result = new Money("0.00");
+		} else {
+			result = allMonies[allMonies.length - 1];
+		}
+		return result;
 	}
 
 	public static Money value(List<Investment> investments) {
