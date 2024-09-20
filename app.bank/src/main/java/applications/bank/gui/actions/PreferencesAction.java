@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 
 public class PreferencesAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IBankApplication application;
 
-	public PreferencesAction(IApplication application) {
+	public PreferencesAction(IBankApplication application) {
 		super("Preferences");
 		this.application = application;
 	}

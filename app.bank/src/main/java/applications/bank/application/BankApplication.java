@@ -20,7 +20,6 @@ import application.base.app.ApplicationBaseForGUI;
 import application.base.app.Parameters;
 import application.base.app.gui.BottomColoredPanel;
 import application.base.app.gui.ColorProvider;
-import application.base.app.gui.PreferencesDialog;
 import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.definition.ApplicationDefinition;
@@ -32,9 +31,7 @@ import application.report.ReportNotificationType;
 import application.storage.StoreDetails;
 import application.thread.ThreadServices;
 import application.timer.TimerService;
-import applications.bank.gui.BankApplicationMenu;
 import applications.bank.gui.BankGUIConstants;
-import applications.bank.gui.IApplication;
 import applications.bank.gui.TimerHandler;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.gui.changes.AddAccountChange;
@@ -82,6 +79,7 @@ import applications.bank.gui.models.TotalValueTableModel;
 import applications.bank.gui.modified.BankPanel;
 import applications.bank.gui.modified.InvestmentPanel;
 import applications.bank.gui.modified.MainBankTabbedPane;
+import applications.bank.menu.BankApplicationMenuBar;
 import applications.bank.model.Account;
 import applications.bank.model.Bank;
 import applications.bank.model.Investment;
@@ -95,14 +93,13 @@ import applications.bank.storage.BankRead;
 import applications.bank.storage.InvestmentNotificationType;
 import applications.bank.storage.StandingOrderNotificationType;
 
-public class BankApplication extends ApplicationBaseForGUI implements IApplication {
+public class BankApplication extends ApplicationBaseForGUI implements IBankApplication {
 	private static final long serialVersionUID = 1L;
 	private static final String CLASS_NAME = BankApplication.class.getName();
 	private static Logger LOGGER = null;
 
 	private MainBankTabbedPane mainPanel = null;
-	private BankActionFactory actionFactory;
-	private BankApplicationMenu menuBar;
+	private BankApplicationMenuBar menuBar;
 	private JFrame parent;
 	private JButton exit;
 	private TimerHandler timerHandler;
@@ -201,43 +198,6 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	};
 
 	public BankApplication() {
-	}
-
-	@Override
-	public void preferencesAction() {
-		LOGGER.entering(CLASS_NAME, "preferencesAction");
-		PreferencesDialog dialog = new PreferencesDialog(parent);
-		dialog.setVisible(true);
-		dialog.dispose();
-		LOGGER.exiting(CLASS_NAME, "preferencesAction");
-	}
-
-	@Override
-	public void undoAction() {
-		LOGGER.entering(CLASS_NAME, "undoAction");
-		ThreadServices.instance().executor().submit(() -> {
-			ChangeManager.instance().undo();
-		});
-		LOGGER.exiting(CLASS_NAME, "undoAction");
-	}
-
-	@Override
-	public void redoAction() {
-		LOGGER.entering(CLASS_NAME, "redoAction");
-		ThreadServices.instance().executor().submit(() -> {
-			ChangeManager.instance().redo();
-		});
-		LOGGER.exiting(CLASS_NAME, "redoAction");
-	}
-
-	@Override
-	public void exitApplicationAction() {
-		LOGGER.entering(CLASS_NAME, "exitApplicationAction");
-		try {
-			shutdown();
-		} catch (Exception e) {
-		}
-		LOGGER.exiting(CLASS_NAME, "exitApplicationAction");
 	}
 
 	@Override
@@ -628,19 +588,10 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	}
 
 	@Override
-	public void helpAboutAction() {
-		LOGGER.entering(CLASS_NAME, "helpAboutAction");
-		String applicationName = ApplicationConfiguration.applicationDefinition().applicationName();
-		String title = "About " + applicationName;
-		String message = getBuildInformation(applicationName);
-		JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
-		LOGGER.exiting(CLASS_NAME, "helpAboutAction");
-	}
-
-	@Override
-	public void configureStoreDetails() {
+	public StoreDetails configureStoreDetails() {
 		dataLoader = new BankRead();
-		storeDetails = new StoreDetails(dataLoader, Constants.MODEL, Constants.BANK_FILE);
+		StoreDetails storeDetails = new StoreDetails(dataLoader, Constants.MODEL, Constants.BANK_FILE);
+		return storeDetails;
 	}
 
 	@Override
@@ -678,10 +629,9 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 		LOGGER.entering(CLASS_NAME, "start");
 		System.out.println(
 				"Application " + ApplicationConfiguration.applicationDefinition().applicationName() + " is starting");
-		actionFactory = BankActionFactory.instance(this);
 		this.parent = parent;
-		menuBar = new BankApplicationMenu(this);
-		mainPanel = new MainBankTabbedPane(menuBar, this);
+		menuBar = new BankApplicationMenuBar(this);
+		mainPanel = new MainBankTabbedPane(this);
 		Dimension size = new Dimension(BankPanel.WIDTH, BankPanel.HEIGHT);
 		mainPanel.setMaximumSize(size);
 		mainPanel.setMinimumSize(size);
@@ -690,7 +640,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 		parent.add(mainPanel, BorderLayout.CENTER);
 		JPanel statusPanel = new BottomColoredPanel();
 		statusPanel.setLayout(new FlowLayout());
-		exit = new JButton(actionFactory.exitAction());
+		exit = new JButton(BankActionFactory.instance().exitApplicationAction());
 		statusPanel.add(exit);
 		parent.add(statusPanel, BorderLayout.PAGE_END);
 		pack();
@@ -718,13 +668,11 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 	}
 
 	private void updateMenuItemStatus() {
-		menuBar.enableUndo(ChangeManager.instance().undoable());
-		menuBar.enableRedo(ChangeManager.instance().redoable());
 	}
 
 	private void addBankTab(Bank bank) {
 		LOGGER.entering(CLASS_NAME, "addBankTab", bank);
-		BankPanel bankPane = new BankPanel(bank, menuBar, this);
+		BankPanel bankPane = new BankPanel(bank, this);
 		mainPanel.bankTabbedPane().addTab(bank.name(), bankPane);
 		updateMenuItemStatus();
 		LOGGER.exiting(CLASS_NAME, "addBankTab");
@@ -732,7 +680,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 
 	private void addInvestmentTab(Investment investment) {
 		LOGGER.entering(CLASS_NAME, "addInvestmentTab", investment);
-		InvestmentPanel investmentPane = new InvestmentPanel(investment, menuBar, this);
+		InvestmentPanel investmentPane = new InvestmentPanel(investment, this);
 		mainPanel.investmentTabbedPane().addTab(investment.name(), investmentPane);
 		;
 		LOGGER.exiting(CLASS_NAME, "addInvestmentTab");
@@ -764,24 +712,6 @@ public class BankApplication extends ApplicationBaseForGUI implements IApplicati
 		}
 		updateMenuItemStatus();
 		LOGGER.exiting(CLASS_NAME, "removeInvestmentTab");
-	}
-
-	private String getBuildInformation(String applicationName) {
-		LOGGER.entering(CLASS_NAME, "getBuildInformation", applicationName);
-		String result = "";
-		StringBuilder builder = new StringBuilder(applicationName);
-		try {
-			builder.append("\nBuild: ").append(ApplicationDefinition.getFromManifest("Build-Number", getClass())
-					.orElse("Could not be determined"));
-			builder.append("\nBuild Date: ").append(
-					ApplicationDefinition.getFromManifest("Build-Date", getClass()).orElse("Could not be determined"));
-		} catch (Exception e) {
-			builder.append("\nUnable to gather build version and date information\ndue to exception " + e.getMessage());
-			LOGGER.fine("Caught exception: " + e.getMessage());
-		}
-		result = builder.toString();
-		LOGGER.exiting(CLASS_NAME, "getBuildInformation", result);
-		return result;
 	}
 
 	private void addListeners() {

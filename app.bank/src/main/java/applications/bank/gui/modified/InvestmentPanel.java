@@ -9,12 +9,10 @@ import javax.swing.SwingUtilities;
 
 import application.base.app.gui.BottomColoredPanel;
 import application.base.app.gui.ColoredPanel;
-import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
-import applications.bank.gui.BankApplicationMenu;
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.model.Investment;
 import applications.bank.storage.InvestmentNotificationType;
@@ -29,8 +27,6 @@ public class InvestmentPanel extends ColoredPanel {
 	public static final int HEIGHT = 600;
 
 	private Investment investment;
-	private BankApplicationMenu menuBar;
-	private BankActionFactory actionFactory;
 	private HistoryPanel historyPanel;
 	private JButton exit;
 
@@ -42,16 +38,14 @@ public class InvestmentPanel extends ColoredPanel {
 		LOGGER.exiting(CLASS_NAME, "addNotify");
 	};
 
-	public InvestmentPanel(Investment investment, BankApplicationMenu menuBar, IApplication application) {
+	public InvestmentPanel(Investment investment, IBankApplication application) {
 		LOGGER.entering(CLASS_NAME, "init", investment);
 		this.investment = investment;
-		actionFactory = BankActionFactory.instance(application);
 		setLayout(new BorderLayout());
-		this.menuBar = menuBar;
 		JPanel buttonPanel = new BottomColoredPanel();
-		historyPanel = new HistoryPanel(investment, menuBar, application);
+		historyPanel = new HistoryPanel(investment, application);
 		add(historyPanel, BorderLayout.CENTER);
-		exit = new JButton(actionFactory.exitAction());
+		exit = new JButton(BankActionFactory.instance().exitApplicationAction());
 		buttonPanel.add(exit);
 		addListeners();
 	}
@@ -71,8 +65,6 @@ public class InvestmentPanel extends ColoredPanel {
 	}
 
 	private void updateMenuItems() {
-		menuBar.enableRedo(ChangeManager.instance().redoable());
-		menuBar.enableUndo(ChangeManager.instance().undoable());
 	}
 
 	private void addListeners() {

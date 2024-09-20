@@ -1,16 +1,20 @@
 package applications.bank.gui.actions;
 
-import applications.bank.gui.IApplication;
+import java.util.logging.Logger;
 
-public class BankActionFactory {
-	private IApplication application;
-	private static BankActionFactory factory = null;
+import javax.swing.JOptionPane;
 
-	private PreferencesAction preferencesAction = null;
+import application.action.BaseActionFactory;
+import application.definition.ApplicationConfiguration;
+import applications.bank.application.IBankApplication;
+
+public class BankActionFactory extends BaseActionFactory {
+	private static final String CLASS_NAME = BankActionFactory.class.getName();
+	private static Logger LOGGER = ApplicationConfiguration.logger();
+
+	private static BankActionFactory instance = null;
+
 	private PrintAction printAction = null;
-	private ExitApplicationAction exitAction = null;
-	private UndoAction undoAction = null;
-	private RedoAction redoAction = null;
 	private AddBankAction addBankAction = null;
 	private RemoveBankAction removeBankAction = null;
 	private AddAccountAction addAccountAction;
@@ -35,226 +39,239 @@ public class BankActionFactory {
 	private ViewInvestmentHistoryAction viewInvestmentHistoryAction;
 	private ViewTotalValueHistoryAction viewTotalValueHistoryAction;
 	private SearchTransactionsAction searchTransactionsAction;
-	private HelpAboutAction helpAboutAction = null;
 
-	public static BankActionFactory instance(IApplication application) {
-		if (factory == null) {
-			factory = new BankActionFactory(application);
+	public static BankActionFactory instance(IBankApplication... application) {
+		LOGGER.entering(CLASS_NAME, "instance", application);
+		if (instance == null) {
+			if (application.length == 0) {
+				JOptionPane.showMessageDialog(null, "Application was not specified on first call to instance.",
+						"ActionFactory error.", JOptionPane.ERROR_MESSAGE);
+				System.exit(0);
+			}
+			instance = new BankActionFactory();
+			instance.application = application[0];
+
 		}
-		return factory;
+		LOGGER.exiting(CLASS_NAME, "");
+		return instance;
 	}
 
-	private BankActionFactory(IApplication application) {
-		this.application = application;
-	}
-
-	public PreferencesAction preferencesAction() {
-		if (preferencesAction == null) {
-			preferencesAction = new PreferencesAction(application);
-		}
-		return preferencesAction;
+	public BankActionFactory() {
+		super();
 	}
 
 	public PrintAction printAction() {
 		if (printAction == null) {
-			printAction = new PrintAction(application);
+			printAction = new PrintAction((IBankApplication) application);
 		}
 		return printAction;
 	}
 
-	public ExitApplicationAction exitAction() {
-		if (exitAction == null) {
-			exitAction = new ExitApplicationAction(application);
-		}
-		return exitAction;
-	}
-
-	public UndoAction undoAction() {
-		if (undoAction == null) {
-			undoAction = new UndoAction(application);
-		}
-		return undoAction;
-	}
-
-	public RedoAction redoAction() {
-		if (redoAction == null) {
-			redoAction = new RedoAction(application);
-		}
-		return redoAction;
-	}
-
 	public AddBankAction addBankAction() {
 		if (addBankAction == null) {
-			addBankAction = new AddBankAction(application);
+			addBankAction = new AddBankAction((IBankApplication) application);
 		}
 		return addBankAction;
 	}
 
 	public RemoveBankAction removeBankAction() {
 		if (removeBankAction == null) {
-			removeBankAction = new RemoveBankAction(application);
+			removeBankAction = new RemoveBankAction((IBankApplication) application);
 		}
 		return removeBankAction;
 	}
 
 	public AddAccountAction addAccountAction() {
 		if (addAccountAction == null) {
-			addAccountAction = new AddAccountAction(application);
+			addAccountAction = new AddAccountAction((IBankApplication) application);
 		}
 		return addAccountAction;
 	}
 
 	public RemoveAccountAction removeAccountAction() {
 		if (removeAccountAction == null) {
-			removeAccountAction = new RemoveAccountAction(application);
+			removeAccountAction = new RemoveAccountAction((IBankApplication) application);
 		}
 		return removeAccountAction;
 	}
 
 	public AddInvestmentAction addInvestmentAction() {
 		if (addInvestmentAction == null) {
-			addInvestmentAction = new AddInvestmentAction(application);
+			addInvestmentAction = new AddInvestmentAction((IBankApplication) application);
 		}
 		return addInvestmentAction;
 	}
 
 	public ChangeInvestmentAction changeInvestmentAction() {
 		if (changeInvestmentAction == null) {
-			changeInvestmentAction = new ChangeInvestmentAction(application);
+			changeInvestmentAction = new ChangeInvestmentAction((IBankApplication) application);
 		}
 		return changeInvestmentAction;
 	}
 
 	public RemoveInvestmentAction removeInvestmentAction() {
 		if (removeInvestmentAction == null) {
-			removeInvestmentAction = new RemoveInvestmentAction(application);
+			removeInvestmentAction = new RemoveInvestmentAction((IBankApplication) application);
 		}
 		return removeInvestmentAction;
 	}
 
 	public AddStandingOrderAction addStandingOrderAction() {
 		if (addStandingOrderAction == null) {
-			addStandingOrderAction = new AddStandingOrderAction(application);
+			addStandingOrderAction = new AddStandingOrderAction((IBankApplication) application);
 		}
 		return addStandingOrderAction;
 	}
 
 	public ChangeStandingOrderAction changeStandingOrderAction() {
 		if (changeStandingOrderAction == null) {
-			changeStandingOrderAction = new ChangeStandingOrderAction(application);
+			changeStandingOrderAction = new ChangeStandingOrderAction((IBankApplication) application);
 		}
 		return changeStandingOrderAction;
 	}
 
 	public RemoveStandingOrderAction removeStandingOrderAction() {
 		if (removeStandingOrderAction == null) {
-			removeStandingOrderAction = new RemoveStandingOrderAction(application);
+			removeStandingOrderAction = new RemoveStandingOrderAction((IBankApplication) application);
 		}
 		return removeStandingOrderAction;
 	}
 
 	public PayMoneyInAction payMoneyInAction() {
 		if (payMoneyInAction == null) {
-			payMoneyInAction = new PayMoneyInAction(application);
+			payMoneyInAction = new PayMoneyInAction((IBankApplication) application);
 		}
 		return payMoneyInAction;
 	}
 
 	public PaySomeoneAction paySomeoneAction() {
 		if (paySomeoneAction == null) {
-			paySomeoneAction = new PaySomeoneAction(application);
+			paySomeoneAction = new PaySomeoneAction((IBankApplication) application);
 		}
 		return paySomeoneAction;
 	}
 
 	public TransferAction transferAction() {
 		if (transferAction == null) {
-			transferAction = new TransferAction(application);
+			transferAction = new TransferAction((IBankApplication) application);
 		}
 		return transferAction;
 	}
 
 	public ViewTransactionsAction viewTransactionsAction() {
 		if (viewTransactionsAction == null) {
-			viewTransactionsAction = new ViewTransactionsAction(application);
+			viewTransactionsAction = new ViewTransactionsAction((IBankApplication) application);
 		}
 		return viewTransactionsAction;
 	}
 
 	public ViewStandingOrdersAction viewStandingOrdersAction() {
 		if (viewStandingOrdersAction == null) {
-			viewStandingOrdersAction = new ViewStandingOrdersAction(application);
+			viewStandingOrdersAction = new ViewStandingOrdersAction((IBankApplication) application);
 		}
 		return viewStandingOrdersAction;
 	}
 
 	public ViewBankPercentagesAction viewBankPercentagesAction() {
 		if (viewBankPercentagesAction == null) {
-			viewBankPercentagesAction = new ViewBankPercentagesAction(application);
+			viewBankPercentagesAction = new ViewBankPercentagesAction((IBankApplication) application);
 		}
 		return viewBankPercentagesAction;
 	}
 
 	public ViewAccountBalanceHistoryAction viewAccountBalanceHistoryAction() {
 		if (viewAccountBalanceHistoryAction == null) {
-			viewAccountBalanceHistoryAction = new ViewAccountBalanceHistoryAction(application);
+			viewAccountBalanceHistoryAction = new ViewAccountBalanceHistoryAction((IBankApplication) application);
 		}
 		return viewAccountBalanceHistoryAction;
 	}
 
 	public ViewBankBalanceHistoryAction viewBankBalanceHistoryAction() {
 		if (viewBankBalanceHistoryAction == null) {
-			viewBankBalanceHistoryAction = new ViewBankBalanceHistoryAction(application);
+			viewBankBalanceHistoryAction = new ViewBankBalanceHistoryAction((IBankApplication) application);
 		}
 		return viewBankBalanceHistoryAction;
 	}
 
 	public ViewBanksBalanceHistoryAction viewBanksBalanceHistoryAction() {
 		if (viewBanksBalanceHistoryAction == null) {
-			viewBanksBalanceHistoryAction = new ViewBanksBalanceHistoryAction(application);
+			viewBanksBalanceHistoryAction = new ViewBanksBalanceHistoryAction((IBankApplication) application);
 		}
 		return viewBanksBalanceHistoryAction;
 	}
 
 	public ViewInvestmentPercentagesAction viewInvestmentPercentagesAction() {
 		if (viewInvestmentPercentagesAction == null) {
-			viewInvestmentPercentagesAction = new ViewInvestmentPercentagesAction(application);
+			viewInvestmentPercentagesAction = new ViewInvestmentPercentagesAction((IBankApplication) application);
 		}
 		return viewInvestmentPercentagesAction;
 	}
 
 	public ViewInvestmentHistoryAction viewInvestmentHistroyAction() {
 		if (viewInvestmentHistoryAction == null) {
-			viewInvestmentHistoryAction = new ViewInvestmentHistoryAction(application);
+			viewInvestmentHistoryAction = new ViewInvestmentHistoryAction((IBankApplication) application);
 		}
 		return viewInvestmentHistoryAction;
 	}
 
 	public ViewTotalInvestmentHistoryAction viewTotalInvestmentHistoryAction() {
 		if (viewTotalInvestmentHistoryAction == null) {
-			viewTotalInvestmentHistoryAction = new ViewTotalInvestmentHistoryAction(application);
+			viewTotalInvestmentHistoryAction = new ViewTotalInvestmentHistoryAction((IBankApplication) application);
 		}
 		return viewTotalInvestmentHistoryAction;
 	}
 
 	public ViewTotalValueHistoryAction viewTotalValueHistoryAction() {
 		if (viewTotalValueHistoryAction == null) {
-			viewTotalValueHistoryAction = new ViewTotalValueHistoryAction(application);
+			viewTotalValueHistoryAction = new ViewTotalValueHistoryAction((IBankApplication) application);
 		}
 		return viewTotalValueHistoryAction;
 	}
 
 	public SearchTransactionsAction searchTransactionsAction() {
 		if (searchTransactionsAction == null) {
-			searchTransactionsAction = new SearchTransactionsAction(application);
+			searchTransactionsAction = new SearchTransactionsAction((IBankApplication) application);
 		}
 		return searchTransactionsAction;
 	}
 
-	public HelpAboutAction helpAboutAction() {
-		if (helpAboutAction == null) {
-			helpAboutAction = new HelpAboutAction(application);
-		}
-		return helpAboutAction;
+	public void summaryPanel() {
+		enableBankItems(false);
+		enableInvestmentItems(false);
 	}
+
+	public void bankTabbedPane() {
+		enableBankItems(true);
+		enableInvestmentItems(false);
+	}
+
+	public void investmentPane() {
+		enableBankItems(false);
+		enableInvestmentItems(true);
+	}
+
+	public void accountSelected(boolean selected) {
+		viewTransactionsAction().setEnabled(selected);
+		viewStandingOrdersAction().setEnabled(selected);
+	}
+
+	private void enableBankItems(boolean enabled) {
+		addBankAction().setEnabled(enabled);
+		addAccountAction().setEnabled(enabled);
+		removeBankAction().setEnabled(enabled);
+		removeAccountAction().setEnabled(enabled);
+		addStandingOrderAction().setEnabled(enabled);
+		changeStandingOrderAction().setEnabled(enabled);
+		removeStandingOrderAction().setEnabled(enabled);
+		payMoneyInAction().setEnabled(enabled);
+		paySomeoneAction().setEnabled(enabled);
+		transferAction().setEnabled(enabled);
+	}
+
+	private void enableInvestmentItems(boolean enabled) {
+		addInvestmentAction().setEnabled(enabled);
+		changeInvestmentAction().setEnabled(enabled);
+		removeInvestmentAction().setEnabled(enabled);
+	}
+
 }

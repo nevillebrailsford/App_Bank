@@ -1,14 +1,8 @@
-package applications.bank.gui;
+package applications.bank.application;
 
-public interface IApplication {
-	public void preferencesAction();
+import application.base.app.IApplication;
 
-	public void undoAction();
-
-	public void redoAction();
-
-	public void exitApplicationAction();
-
+public interface IBankApplication extends IApplication {
 	public void printAction();
 
 	public void addBankAction();
@@ -58,6 +52,4 @@ public interface IApplication {
 	public void viewTotalInvestmentHistoryAction();
 
 	public void viewTotalValueHistoryAction();
-
-	public void helpAboutAction();
 }

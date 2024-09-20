@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 
 public class PrintAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IBankApplication application;
 
-	public PrintAction(IApplication application) {
+	public PrintAction(IBankApplication application) {
 		super("Print Report");
 		this.application = application;
 	}

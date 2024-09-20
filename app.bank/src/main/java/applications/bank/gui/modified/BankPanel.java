@@ -11,12 +11,10 @@ import javax.swing.JPanel;
 
 import application.base.app.gui.BottomColoredPanel;
 import application.base.app.gui.ColoredPanel;
-import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
-import applications.bank.gui.BankApplicationMenu;
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.model.Account;
 import applications.bank.model.Bank;
@@ -34,8 +32,6 @@ public class BankPanel extends ColoredPanel {
 	public static final int HEIGHT = 600;
 
 	private Bank bank;
-	private BankApplicationMenu menuBar;
-	private BankActionFactory actionFactory;
 	AccountsPanel accountsPanel;
 	private JButton exit;
 
@@ -65,21 +61,19 @@ public class BankPanel extends ColoredPanel {
 		LOGGER.exiting(CLASS_NAME, "transactionNotify");
 	};
 
-	public BankPanel(Bank bank, BankApplicationMenu menuBar, IApplication application) {
+	public BankPanel(Bank bank, IBankApplication application) {
 		LOGGER.entering(CLASS_NAME, "init", bank);
-		actionFactory = BankActionFactory.instance(application);
 		setLayout(new BorderLayout());
 		this.bank = bank;
-		this.menuBar = menuBar;
 		JPanel buttonPanel = new BottomColoredPanel();
 		List<Account> accounts = new ArrayList<>();
 		for (Branch branch : bank.branches()) {
 			accounts.addAll(branch.accounts());
 		}
 		Collections.sort(accounts);
-		accountsPanel = new AccountsPanel(accounts, menuBar, application, bank);
+		accountsPanel = new AccountsPanel(accounts, application, bank);
 		add(accountsPanel, BorderLayout.CENTER);
-		exit = new JButton(actionFactory.exitAction());
+		exit = new JButton(BankActionFactory.instance().exitApplicationAction());
 		buttonPanel.add(exit);
 		addListeners();
 	}
@@ -106,8 +100,6 @@ public class BankPanel extends ColoredPanel {
 	}
 
 	private void updateMenuItems() {
-		menuBar.enableRedo(ChangeManager.instance().redoable());
-		menuBar.enableUndo(ChangeManager.instance().undoable());
 	}
 
 	private void addAccountNotification(Account account) {

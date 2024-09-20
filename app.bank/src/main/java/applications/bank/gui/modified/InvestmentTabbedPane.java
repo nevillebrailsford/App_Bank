@@ -8,8 +8,7 @@ import javax.swing.JPopupMenu;
 
 import application.base.app.gui.ColoredTabbedPane;
 import application.definition.ApplicationConfiguration;
-import applications.bank.gui.BankApplicationMenu;
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.model.Investment;
 import applications.bank.storage.BankMonitor;
@@ -22,14 +21,14 @@ public class InvestmentTabbedPane extends ColoredTabbedPane {
 	private JPopupMenu popup;
 	private BankActionFactory actionFactory;
 
-	public InvestmentTabbedPane(BankApplicationMenu menuBar, IApplication application) {
+	public InvestmentTabbedPane(IBankApplication application) {
 		LOGGER.entering(CLASS_NAME, "init");
 		this.addChangeListener((e) -> {
 			tabSelectionChanged();
 		});
 		int i = 0;
 		for (Investment investment : BankMonitor.instance().investments()) {
-			addTab(investment.name(), new InvestmentPanel(investment, menuBar, application));
+			addTab(investment.name(), new InvestmentPanel(investment, application));
 			if (ApplicationConfiguration.applicationDefinition().bottomColor().isPresent()) {
 				setBackgroundAt(i, ApplicationConfiguration.applicationDefinition().bottomColor().get());
 			}

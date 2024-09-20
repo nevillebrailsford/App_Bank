@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 
 public class ViewBanksBalanceHistoryAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IBankApplication application;
 
-	public ViewBanksBalanceHistoryAction(IApplication application) {
+	public ViewBanksBalanceHistoryAction(IBankApplication application) {
 		super("All Banks Balance History");
 		this.application = application;
 	}

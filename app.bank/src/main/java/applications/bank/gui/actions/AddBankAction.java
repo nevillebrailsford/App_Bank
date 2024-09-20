@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 
 public class AddBankAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IBankApplication application;
 
-	public AddBankAction(IApplication application) {
+	public AddBankAction(IBankApplication application) {
 		super("A New Bank");
 		this.application = application;
 	}

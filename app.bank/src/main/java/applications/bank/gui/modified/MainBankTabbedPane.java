@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 
 import application.base.app.gui.ColoredTabbedPane;
 import application.definition.ApplicationConfiguration;
-import applications.bank.gui.BankApplicationMenu;
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
+import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.model.Account;
 import applications.bank.model.Bank;
 import applications.bank.model.Investment;
@@ -18,18 +18,16 @@ public class MainBankTabbedPane extends ColoredTabbedPane {
 	private SummaryPanel summaryPanel = null;
 	private BankTabbedPane bankPane = null;
 	private InvestmentTabbedPane investmentPane = null;
-	private BankApplicationMenu menuBar = null;
 
-	public MainBankTabbedPane(BankApplicationMenu menuBar, IApplication application) {
+	public MainBankTabbedPane(IBankApplication application) {
 		LOGGER.entering(CLASS_NAME, "init");
-		this.menuBar = menuBar;
 		setTabPlacement(LEFT);
 		this.addChangeListener((e) -> {
 			tabSelectionChanged();
 		});
 		summaryPanel = new SummaryPanel();
-		bankPane = new BankTabbedPane(menuBar, application);
-		investmentPane = new InvestmentTabbedPane(menuBar, application);
+		bankPane = new BankTabbedPane(application);
+		investmentPane = new InvestmentTabbedPane(application);
 		this.addTab("Summary", summaryPanel);
 		this.addTab("banks", bankPane);
 		this.addTab("Investments", investmentPane);
@@ -45,13 +43,13 @@ public class MainBankTabbedPane extends ColoredTabbedPane {
 		LOGGER.entering(CLASS_NAME, "tabSelectionChanged");
 		Component component = getSelectedComponent();
 		if (component instanceof SummaryPanel) {
-			menuBar.summaryPanel();
+			BankActionFactory.instance().summaryPanel();
 			;
 		} else if (component instanceof BankTabbedPane) {
-			menuBar.bankTabbedPane();
+			BankActionFactory.instance().bankTabbedPane();
 			;
 		} else {
-			menuBar.investmentPane();
+			BankActionFactory.instance().investmentPane();
 			;
 		}
 		LOGGER.exiting(CLASS_NAME, "tabSelectionChanged");

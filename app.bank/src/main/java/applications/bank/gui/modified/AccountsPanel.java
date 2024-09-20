@@ -18,8 +18,7 @@ import javax.swing.ScrollPaneConstants;
 
 import application.base.app.gui.BottomColoredPanel;
 import application.definition.ApplicationConfiguration;
-import applications.bank.gui.BankApplicationMenu;
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.gui.models.AccountsTableModel;
 import applications.bank.model.Account;
@@ -37,7 +36,7 @@ public class AccountsPanel extends JPanel {
 	private BankActionFactory actionFactory;
 	private Point popupLocation;
 
-	public AccountsPanel(List<Account> accounts, BankApplicationMenu menuBar, IApplication application, Bank bank) {
+	public AccountsPanel(List<Account> accounts, IBankApplication application, Bank bank) {
 		LOGGER.entering(CLASS_NAME, "init", accounts);
 		actionFactory = BankActionFactory.instance(application);
 		setLayout(new BorderLayout());

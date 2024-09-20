@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 
 public class RemoveStandingOrderAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IBankApplication application;
 
-	public RemoveStandingOrderAction(IApplication application) {
+	public RemoveStandingOrderAction(IBankApplication application) {
 		super("An Existing Standing Order");
 		this.application = application;
 	}

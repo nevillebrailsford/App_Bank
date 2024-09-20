@@ -16,8 +16,7 @@ import javax.swing.ScrollPaneConstants;
 
 import application.base.app.gui.BottomColoredPanel;
 import application.definition.ApplicationConfiguration;
-import applications.bank.gui.BankApplicationMenu;
-import applications.bank.gui.IApplication;
+import applications.bank.application.IBankApplication;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.gui.models.HistoryTableModel;
 import applications.bank.model.Investment;
@@ -33,7 +32,7 @@ public class HistoryPanel extends JPanel {
 	private JPopupMenu popup;
 	private BankActionFactory actionFactory;
 
-	public HistoryPanel(Investment investment, BankApplicationMenu menuBar, IApplication application) {
+	public HistoryPanel(Investment investment, IBankApplication application) {
 		LOGGER.entering(CLASS_NAME, "init", investment);
 		actionFactory = BankActionFactory.instance(application);
 		setLayout(new BorderLayout());

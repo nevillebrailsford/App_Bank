@@ -4,8 +4,8 @@ public record AccountId(String accountHolder, String accountNumber) implements C
 	/**
 	 * 
 	 * @author nevil
-	 * @parm accountHolder is the name of the account holder
-	 * @parm accountNumber is the number of the account
+	 * @param accountHolder is the name of the account holder
+	 * @param accountNumber is the number of the account
 	 * 
 	 */
 
