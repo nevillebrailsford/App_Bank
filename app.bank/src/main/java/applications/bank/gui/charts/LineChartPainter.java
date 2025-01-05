@@ -15,7 +15,9 @@ import java.util.Date;
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
 
+import application.base.app.gui.ColorProvider;
 import application.charting.ChartPainter;
+import applications.bank.application.BankApplication;
 
 public class LineChartPainter extends ChartPainter {
 
@@ -65,16 +67,15 @@ public class LineChartPainter extends ChartPainter {
 		tSumDW = 0.0;
 		sumDW = 0.0;
 		Graphics2D g2D = (Graphics2D) g;
-		g2D.setPaint(Color.white);
-		g2D.fill(plotFrame);
-		g2D.setStroke(new BasicStroke(2));
-		g2D.setPaint(Color.black);
-		g2D.setPaint(Color.white);
+		Color bgColor = ColorProvider.get(BankApplication.colorChoice.background());
+		Color lineColor = ColorProvider.get(BankApplication.colorChoice.chartLine());
+		Color trendColor = ColorProvider.get(BankApplication.colorChoice.trendLine());
+		g2D.setPaint(bgColor);
 		g2D.fill(plotFrame);
 		g2D.setStroke(new BasicStroke(2));
 		g2D.setPaint(Color.black);
 		g2D.draw(plotFrame);
-		g2D.setPaint(Color.blue);
+		g2D.setPaint(lineColor);
 		g2D.setStroke(new BasicStroke(2));
 		long t1 = stringToDate(labels[0]).getTime();
 		for (int i = 0; i < lSize; i++) {
@@ -120,7 +121,7 @@ public class LineChartPainter extends ChartPainter {
 			g2D.draw(weightLine);
 		}
 
-		// Draw uy labels and grid lines
+		// Draw y labels and grid lines
 		Font labelFont = new Font("Arial", Font.BOLD, 10);
 		g2D.setFont(labelFont);
 		Rectangle2D labelRect;
@@ -141,7 +142,7 @@ public class LineChartPainter extends ChartPainter {
 			wLegend += gridSpacing;
 		}
 
-		// Draw bottom into
+		// Draw bottom info
 		String dateText = "Start: " + labels[0];
 		g2D.drawString(dateText, (int) (plotFrame.getX() + 10), (int) (plotFrame.getY() + plotFrame.getHeight() + 20));
 		Line2D.Double dateLine = new Line2D.Double(plotFrame.getX() + 10, plotFrame.getY() + plotFrame.getHeight() + 10,
@@ -161,7 +162,7 @@ public class LineChartPainter extends ChartPainter {
 		wo = (sumD2 * sumW - sumD * sumDW) / (lSize * sumD2 - sumD * sumD);
 		Line2D.Double trendLine = new Line2D.Double(plotFrame.getX(), wToY(wo, minValue, maxValue),
 				dToX(date[lSize - 1], date[lSize - 1]), wToY(t * date[lSize - 1] + wo, minValue, maxValue));
-		g2D.setPaint(Color.red);
+		g2D.setPaint(trendColor);
 		g2D.draw(trendLine);
 		String title = "Trend: ";
 		if (t > 0)

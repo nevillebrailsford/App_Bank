@@ -86,6 +86,8 @@ import applications.bank.model.Investment;
 import applications.bank.model.StandingOrder;
 import applications.bank.model.Transaction;
 import applications.bank.model.Transfer;
+import applications.bank.preferences.BankApplicationPreferencesDialog;
+import applications.bank.preferences.ColorChoice;
 import applications.bank.report.BankingReport;
 import applications.bank.storage.BankMonitor;
 import applications.bank.storage.BankNotificationType;
@@ -97,6 +99,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	private static final long serialVersionUID = 1L;
 	private static final String CLASS_NAME = BankApplication.class.getName();
 	private static Logger LOGGER = null;
+	public static ColorChoice colorChoice = null;
 
 	private MainBankTabbedPane mainPanel = null;
 	private BankApplicationMenuBar menuBar;
@@ -206,6 +209,15 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 		ThreadServices.instance().executor().execute(
 				new BankingReport(ApplicationConfiguration.applicationDefinition().applicationName() + ".report.pdf"));
 		LOGGER.exiting(CLASS_NAME, "printAction");
+	}
+
+	@Override
+	public void preferencesAction() {
+		LOGGER.entering(CLASS_NAME, "preferencesAction");
+		BankApplicationPreferencesDialog dialog = new BankApplicationPreferencesDialog(parent);
+		dialog.setVisible(true);
+		dialog.dispose();
+		LOGGER.exiting(CLASS_NAME, "preferencesAction");
 	}
 
 	@Override
@@ -632,6 +644,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 		this.parent = parent;
 		menuBar = new BankApplicationMenuBar(this);
 		mainPanel = new MainBankTabbedPane(this);
+		processPreferences();
 		Dimension size = new Dimension(BankPanel.WIDTH, BankPanel.HEIGHT);
 		mainPanel.setMaximumSize(size);
 		mainPanel.setMinimumSize(size);
@@ -665,6 +678,22 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	public static void main(String[] args) {
 		System.setProperty("apple.eawt.quitStrategy", "CLOSE_ALL_WINDOWS");
 		launch(args);
+	}
+
+	private static void processPreferences() {
+		String background = IniFile.value(BankGUIConstants.BACKGROUND_COLOR);
+		String chartLine = IniFile.value(BankGUIConstants.CHART_LINE_COLOR);
+		String trendLine = IniFile.value(BankGUIConstants.TREND_LINE_COLOR);
+		if (background == null || background.isEmpty() || background.equals("default")) {
+			background = BankGUIConstants.DEFAULT_BACKGROUND_COLOR;
+		}
+		if (chartLine == null || chartLine.isEmpty() || chartLine.equals("default")) {
+			chartLine = BankGUIConstants.DEFAULT_CHART_LINE_COLOR;
+		}
+		if (trendLine == null || trendLine.isEmpty() || trendLine.equals("default")) {
+			trendLine = BankGUIConstants.DEFAULT_TREND_LINE_COLOR;
+		}
+		colorChoice = new ColorChoice(background, chartLine, trendLine);
 	}
 
 	private void updateMenuItemStatus() {
