@@ -15,6 +15,7 @@ public class BankActionFactory extends BaseActionFactory {
 	private static BankActionFactory instance = null;
 
 	private PrintAction printAction = null;
+	private PrintSummaryAction printSummaryAction = null;
 	private AddBankAction addBankAction = null;
 	private RemoveBankAction removeBankAction = null;
 	private AddAccountAction addAccountAction;
@@ -65,6 +66,13 @@ public class BankActionFactory extends BaseActionFactory {
 			printAction = new PrintAction((IBankApplication) application);
 		}
 		return printAction;
+	}
+
+	public PrintSummaryAction printSummaryAction() {
+		if (printSummaryAction == null) {
+			printSummaryAction = new PrintSummaryAction((IBankApplication) application);
+		}
+		return printSummaryAction;
 	}
 
 	public AddBankAction addBankAction() {

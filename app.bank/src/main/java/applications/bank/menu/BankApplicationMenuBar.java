@@ -17,6 +17,7 @@ public class BankApplicationMenuBar extends AbstractMenuBar {
 	private static Logger LOGGER = ApplicationConfiguration.logger();
 
 	private JMenuItem print;
+	private JMenuItem printSummary;
 	private JMenuItem addBank;
 	private JMenuItem addAccount;
 	private JMenuItem addStandingOrder;
@@ -47,8 +48,10 @@ public class BankApplicationMenuBar extends AbstractMenuBar {
 	public void addBeforeExit(JMenu fileMenu) {
 		LOGGER.entering(CLASS_NAME, "addBeforeExit");
 		print = new JMenuItem(BankActionFactory.instance().printAction());
+		printSummary = new JMenuItem(BankActionFactory.instance().printSummaryAction());
 		fileMenu.addSeparator();
 		fileMenu.add(print);
+		fileMenu.add(printSummary);
 		LOGGER.exiting(CLASS_NAME, "addBeforeExit");
 	}
 

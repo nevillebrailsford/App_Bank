@@ -5,6 +5,8 @@ import application.base.app.IApplication;
 public interface IBankApplication extends IApplication {
 	public void printAction();
 
+	public void printSummaryAction();
+
 	public void addBankAction();
 
 	public void removeBankAction();
@@ -52,4 +54,5 @@ public interface IBankApplication extends IApplication {
 	public void viewTotalInvestmentHistoryAction();
 
 	public void viewTotalValueHistoryAction();
+
 }
