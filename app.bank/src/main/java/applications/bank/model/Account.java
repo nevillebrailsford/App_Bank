@@ -18,6 +18,7 @@ public class Account implements Comparable<Account> {
 	private AccountId accountId = null;
 	private AccountType accountType = null;
 	private Branch owner = null;
+	private boolean active = true;
 
 	Account(AccountType accountType, AccountId accountId, Branch branch) {
 		if (accountType == null) {
@@ -32,6 +33,7 @@ public class Account implements Comparable<Account> {
 		this.accountType = accountType;
 		this.accountId = accountId;
 		this.owner = branch;
+		this.active = true;
 	}
 
 	public Account(Account that) {
@@ -47,6 +49,7 @@ public class Account implements Comparable<Account> {
 		for (StandingOrder standingOrder : that.standingOrders) {
 			standingOrders.add(standingOrder);
 		}
+		this.active = that.active;
 	}
 
 	public Account(Element accountElement) {
@@ -65,6 +68,12 @@ public class Account implements Comparable<Account> {
 		String number = accountElement.getElementsByTagName(XMLConstants.ACCOUNTNUMBER).item(0).getTextContent();
 		accountType = AccountType.valueOf(type);
 		accountId = new AccountId(holder, number);
+		if (accountElement.getElementsByTagName(XMLConstants.ACTIVE).getLength() == 1) {
+			String activeXML = accountElement.getElementsByTagName(XMLConstants.ACTIVE).item(0).getTextContent();
+			active = Boolean.valueOf(activeXML).booleanValue();
+		} else {
+			active = true;
+		}
 	}
 
 	public Element buildElement(Document document) {
@@ -79,12 +88,15 @@ public class Account implements Comparable<Account> {
 		result.appendChild(ElementBuilder.build(XMLConstants.ACCOUNTTYPE, accountType.toString(), document));
 		result.appendChild(ElementBuilder.build(XMLConstants.ACCOUNTHOLDER, accountId.accountHolder(), document));
 		result.appendChild(ElementBuilder.build(XMLConstants.ACCOUNTNUMBER, accountId.accountNumber(), document));
+		String activeXML = Boolean.toString(active);
+		result.appendChild(ElementBuilder.build(XMLConstants.ACTIVE, activeXML, document));
 		return result;
 	}
 
 	public void clear() {
 		transactions.clear();
 		standingOrders.clear();
+		active = true;
 	}
 
 	public Branch owner() {
@@ -101,6 +113,18 @@ public class Account implements Comparable<Account> {
 
 	public void setOwner(Branch owner) {
 		this.owner = owner;
+	}
+
+	public boolean active() {
+		return active;
+	}
+
+	public void deactivate() {
+		this.active = false;
+	}
+
+	public void reactivate() {
+		this.active = true;
 	}
 
 	public void addTransaction(Transaction transaction) {

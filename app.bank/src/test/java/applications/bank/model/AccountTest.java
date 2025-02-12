@@ -264,6 +264,26 @@ class AccountTest {
 	}
 
 	@Test
+	void testActive() {
+		assertTrue(account1.active());
+	}
+
+	@Test
+	void testDeactivate() {
+		assertTrue(account1.active());
+		account1.deactivate();
+		assertFalse(account1.active());
+	}
+
+	@Test
+	void testReactivate() {
+		account1.deactivate();
+		assertFalse(account1.active());
+		account1.reactivate();
+		assertTrue(account1.active());
+	}
+
+	@Test
 	void testMissingAccountTypeBuilder() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			new Account.Builder().accountHolder("name").accountNumber("001").branch(branch1).build();

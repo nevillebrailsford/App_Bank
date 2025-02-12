@@ -34,5 +34,5 @@ public class XMLConstants implements AppXMLConstants {
 	public static final String NEXT_ACTION_DUE = "nextactiondue";
 	public static final String INVESTMENT_ID = "investmentid";
 	public static final String VALUE_ON = "valueon";
-
+	public static final String ACTIVE = "active";
 }

@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -225,7 +226,8 @@ public class TransferDialog extends JDialog {
 	}
 
 	private void loadAccountDetails() {
-		accounts = BankMonitor.instance().accounts();
+		accounts = BankMonitor.instance().accounts().stream().filter((account) -> account.active())
+				.collect(Collectors.toList());
 		Collections.sort(accounts, (a1, a2) -> {
 			return a1.accountId().accountNumber().compareTo(a2.accountId().accountNumber());
 		});
@@ -239,7 +241,8 @@ public class TransferDialog extends JDialog {
 		if (fromAccount.getSelectedIndex() == -1) {
 			clearToAccounts();
 		} else {
-			accounts = BankMonitor.instance().accounts();
+			accounts = BankMonitor.instance().accounts().stream().filter((account) -> account.active())
+					.collect(Collectors.toList());
 			Collections.sort(accounts, (a1, a2) -> {
 				return a1.accountId().accountNumber().compareTo(a2.accountId().accountNumber());
 			});

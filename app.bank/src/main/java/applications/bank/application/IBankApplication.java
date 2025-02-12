@@ -55,4 +55,8 @@ public interface IBankApplication extends IApplication {
 
 	public void viewTotalValueHistoryAction();
 
+	public void deactivateAccount();
+
+	public void reactivateAccount();
+
 }

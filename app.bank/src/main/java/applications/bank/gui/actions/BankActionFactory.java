@@ -20,6 +20,8 @@ public class BankActionFactory extends BaseActionFactory {
 	private RemoveBankAction removeBankAction = null;
 	private AddAccountAction addAccountAction;
 	private RemoveAccountAction removeAccountAction;
+	private ReactivateAccountAction reactivateAccountAction;
+	private DeactivateAccountAction deactivateAccountAction;
 	private AddInvestmentAction addInvestmentAction;
 	private ChangeInvestmentAction changeInvestmentAction;
 	private ChangeStandingOrderAction changeStandingOrderAction;
@@ -101,6 +103,20 @@ public class BankActionFactory extends BaseActionFactory {
 			removeAccountAction = new RemoveAccountAction((IBankApplication) application);
 		}
 		return removeAccountAction;
+	}
+
+	public ReactivateAccountAction reactivateAccountAction() {
+		if (reactivateAccountAction == null) {
+			reactivateAccountAction = new ReactivateAccountAction((IBankApplication) application);
+		}
+		return reactivateAccountAction;
+	}
+
+	public DeactivateAccountAction deactivateAccountAction() {
+		if (deactivateAccountAction == null) {
+			deactivateAccountAction = new DeactivateAccountAction((IBankApplication) application);
+		}
+		return deactivateAccountAction;
 	}
 
 	public AddInvestmentAction addInvestmentAction() {

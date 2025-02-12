@@ -9,12 +9,12 @@
 	<xs:element name="nextactiondue" type="xs:date" />
 	<xs:element name="money" type="xs:string" />
 	<xs:element name="description" type="xs:string" />
-
 	<xs:element name="transactionid" type="xs:string" />
 	<xs:element name="reference" type="xs:string" />
 	<xs:element name="orderid" type="xs:string" />
 	<xs:element name="investmentname" type="xs:string" />
 	<xs:element name="investmentid" type="xs:string"/>
+	<xs:element name="active" type="xs:string"/>
 
 	<xs:simpleType name="accounttypeType">
 		<xs:restriction base="xs:string">
@@ -93,6 +93,7 @@
 			<xs:element name="accounttype" type="accounttypeType" />
 			<xs:element ref="accountholder" />
 			<xs:element ref="accountnumber" />
+            <xs:element ref="active" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="transaction" type="transactionType"
 				minOccurs="0" maxOccurs="unbounded" />
 			<xs:element name="standingorder" type="standingorderType"
@@ -105,6 +106,7 @@
 			<xs:element name="accounttype" type="accounttypeType" />
 			<xs:element ref="accountholder" />
 			<xs:element ref="accountnumber" />
+            <xs:element ref="active" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
 

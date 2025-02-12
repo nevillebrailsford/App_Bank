@@ -45,6 +45,13 @@ public class BankPanel extends ColoredPanel {
 		LOGGER.exiting(CLASS_NAME, "addNotify");
 	};
 
+	private NotificationListener changeAccountListener = (notification) -> {
+		LOGGER.entering(CLASS_NAME, "changeNotify", notification);
+		changeAccountNotification();
+		updateMenuItems();
+		LOGGER.exiting(CLASS_NAME, "changeNotify");
+	};
+
 	private NotificationListener removeAccountListener = (notification) -> {
 		LOGGER.entering(CLASS_NAME, "removeNotify", notification);
 		Account account = (Account) notification.subject().get();
@@ -108,6 +115,12 @@ public class BankPanel extends ColoredPanel {
 		LOGGER.exiting(CLASS_NAME, "addAccountNotification");
 	}
 
+	private void changeAccountNotification() {
+		LOGGER.entering(CLASS_NAME, "changeAccountNotification");
+		accountsPanel.changeAccountNotification();
+		LOGGER.exiting(CLASS_NAME, "changeAccountNotification");
+	}
+
 	private void removeAccountNotification(Account account) {
 		LOGGER.entering(CLASS_NAME, "removeAccountNotification", account);
 		accountsPanel.removeAccountNotification(account);
@@ -117,6 +130,7 @@ public class BankPanel extends ColoredPanel {
 	private void addListeners() {
 		LOGGER.entering(CLASS_NAME, "addListeners");
 		NotificationCentre.addListener(addAccountListener, AccountNotificationType.Add);
+		NotificationCentre.addListener(changeAccountListener, AccountNotificationType.Changed);
 		NotificationCentre.addListener(removeAccountListener, AccountNotificationType.Removed);
 		NotificationCentre.addListener(transactionListener, TransactionNotificationType.Add);
 		NotificationCentre.addListener(transactionListener, TransactionNotificationType.Removed);
@@ -127,6 +141,7 @@ public class BankPanel extends ColoredPanel {
 		LOGGER.entering(CLASS_NAME, "removeListeners");
 		accountsPanel.removeListeners();
 		NotificationCentre.removeListener(addAccountListener);
+		NotificationCentre.removeListener(changeAccountListener);
 		NotificationCentre.removeListener(removeAccountListener);
 		NotificationCentre.removeListener(transactionListener);
 		LOGGER.exiting(CLASS_NAME, "removeListeners");

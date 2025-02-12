@@ -78,8 +78,12 @@ public class AccountsPanel extends JPanel {
 		viewMenu.add(actionFactory.viewStandingOrdersAction());
 		viewMenu.addSeparator();
 		viewMenu.add(actionFactory.viewAccountBalanceHistoryAction());
+		JMenu actionMenu = new JMenu("Actions");
+		actionMenu.add(actionFactory.deactivateAccountAction());
+		actionMenu.add(actionFactory.reactivateAccountAction());
 		popup.add(paymentMenu);
 		popup.add(viewMenu);
+		popup.add(actionMenu);
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
 
@@ -87,6 +91,12 @@ public class AccountsPanel extends JPanel {
 		LOGGER.entering(CLASS_NAME, "addAccountNotification", account);
 		model.addAccountNotification(account);
 		LOGGER.exiting(CLASS_NAME, "addAccountNotification");
+	}
+
+	public void changeAccountNotification() {
+		LOGGER.entering(CLASS_NAME, "changeAccountNotification");
+		model.changeAccountNotification();
+		LOGGER.exiting(CLASS_NAME, "changeAccountNotification");
 	}
 
 	public void removeAccountNotification(Account account) {

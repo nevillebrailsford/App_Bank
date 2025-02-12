@@ -492,6 +492,46 @@ public class BankMonitor {
 		}
 	}
 
+	public void deactivateAccount(Account account) {
+		LOGGER.entering(CLASS_NAME, "deactivateAccount", account);
+		Account existingAccount = findAccount(account);
+		if (existingAccount == null) {
+			Notification notification = new Notification(AccountNotificationType.Failed, this);
+			NotificationCentre.broadcast(notification);
+			IllegalArgumentException exc = new IllegalArgumentException("BankMonitor: account is not known");
+			LOGGER.throwing(CLASS_NAME, "deactivateAccount", exc);
+			LOGGER.exiting(CLASS_NAME, "deactivateAccount");
+			throw exc;
+		}
+		synchronized (banks) {
+			existingAccount.deactivate();
+		}
+		updateStorage();
+		Notification notification = new Notification(AccountNotificationType.Changed, this, existingAccount);
+		NotificationCentre.broadcast(notification);
+		LOGGER.exiting(CLASS_NAME, "deactivateAccount");
+	}
+
+	public void reactivateAccount(Account account) {
+		LOGGER.entering(CLASS_NAME, "reactivateAccount", account);
+		Account existingAccount = findAccount(account);
+		if (existingAccount == null) {
+			Notification notification = new Notification(AccountNotificationType.Failed, this);
+			NotificationCentre.broadcast(notification);
+			IllegalArgumentException exc = new IllegalArgumentException("BankMonitor: account is not known");
+			LOGGER.throwing(CLASS_NAME, "reactivateAccount", exc);
+			LOGGER.exiting(CLASS_NAME, "reactivateAccount");
+			throw exc;
+		}
+		synchronized (banks) {
+			existingAccount.reactivate();
+		}
+		updateStorage();
+		Notification notification = new Notification(AccountNotificationType.Changed, this, existingAccount);
+		NotificationCentre.broadcast(notification);
+		LOGGER.exiting(CLASS_NAME, "reactivateAccount");
+	}
+
 	public void addTransaction(Transaction newTransaction) {
 		LOGGER.entering(CLASS_NAME, "add", newTransaction);
 		try {

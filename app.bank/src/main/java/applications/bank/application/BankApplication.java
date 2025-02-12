@@ -41,6 +41,8 @@ import applications.bank.gui.changes.AddStandingOrderChange;
 import applications.bank.gui.changes.AddTransactionChange;
 import applications.bank.gui.changes.ChangeInvestmentChange;
 import applications.bank.gui.changes.ChangeStandingOrderChange;
+import applications.bank.gui.changes.DeactivateAccountChange;
+import applications.bank.gui.changes.ReactivateAccountChange;
 import applications.bank.gui.changes.RemoveAccountChange;
 import applications.bank.gui.changes.RemoveBankChange;
 import applications.bank.gui.changes.RemoveInvestmentChange;
@@ -291,6 +293,32 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 		}
 		dialog.dispose();
 		LOGGER.exiting(CLASS_NAME, "removeAccountAction");
+	}
+
+	@Override
+	public void deactivateAccount() {
+		LOGGER.entering(CLASS_NAME, "deactivateAccount");
+		Account account = mainPanel.selectedAccount();
+		if (account != null) {
+			DeactivateAccountChange deactivateAccountChange = new DeactivateAccountChange(account);
+			ThreadServices.instance().executor().submit(() -> {
+				ChangeManager.instance().execute(deactivateAccountChange);
+			});
+		}
+		LOGGER.exiting(CLASS_NAME, "deactivateAccount");
+	}
+
+	@Override
+	public void reactivateAccount() {
+		LOGGER.entering(CLASS_NAME, "reactivateAccount");
+		Account account = mainPanel.selectedAccount();
+		if (account != null) {
+			ReactivateAccountChange reactivateAccountChange = new ReactivateAccountChange(account);
+			ThreadServices.instance().executor().submit(() -> {
+				ChangeManager.instance().execute(reactivateAccountChange);
+			});
+		}
+		LOGGER.exiting(CLASS_NAME, "reactivateAccount");
 	}
 
 	@Override

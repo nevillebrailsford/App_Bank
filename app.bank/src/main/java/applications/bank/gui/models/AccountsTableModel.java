@@ -119,6 +119,9 @@ public class AccountsTableModel extends AbstractTableModel {
 				break;
 			case ACCOUNT_NUMBER:
 				value = account.accountId().accountNumber();
+				if (!account.active()) {
+					value = value + " (Closed)";
+				}
 				break;
 			case ACCOUNT_HOLDER:
 				value = account.accountId().accountHolder();
@@ -152,6 +155,12 @@ public class AccountsTableModel extends AbstractTableModel {
 			fireTableRowsDeleted(index, index);
 		}
 		LOGGER.exiting(CLASS_NAME, "removeAccountNotification");
+	}
+
+	public void changeAccountNotification() {
+		LOGGER.entering(CLASS_NAME, "changeAccountNotification");
+		fireTableDataChanged();
+		LOGGER.exiting(CLASS_NAME, "changeAccountNotification");
 	}
 
 	public Account account(int index) {

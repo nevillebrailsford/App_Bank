@@ -74,7 +74,7 @@ class BankStoreMultiAccountTest extends BankTestBase {
 		assertFalse(storeSuccess);
 		writeToStore(storage);
 		List<String> lines = Files.readAllLines(modelFile.toPath());
-		assertEquals(23, lines.size());
+		assertEquals(24, lines.size());
 		assertTrue(storeSuccess);
 	}
 
@@ -97,7 +97,7 @@ class BankStoreMultiAccountTest extends BankTestBase {
 		assertFalse(storeSuccess);
 		writeToStore(storage);
 		List<String> lines = Files.readAllLines(modelFile.toPath());
-		assertEquals(28, lines.size());
+		assertEquals(30, lines.size());
 		assertTrue(storeSuccess);
 	}
 
@@ -123,7 +123,7 @@ class BankStoreMultiAccountTest extends BankTestBase {
 		assertFalse(storeSuccess);
 		writeToStore(storage);
 		List<String> lines = Files.readAllLines(modelFile.toPath());
-		assertEquals(37, lines.size());
+		assertEquals(39, lines.size());
 		assertTrue(storeSuccess);
 	}
 
