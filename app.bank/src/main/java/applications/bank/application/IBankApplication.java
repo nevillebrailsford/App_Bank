@@ -59,4 +59,6 @@ public interface IBankApplication extends IApplication {
 
 	public void reactivateAccount();
 
+	public void printTaxAction();
+
 }

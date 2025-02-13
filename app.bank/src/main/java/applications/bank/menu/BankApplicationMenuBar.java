@@ -18,6 +18,7 @@ public class BankApplicationMenuBar extends AbstractMenuBar {
 
 	private JMenuItem print;
 	private JMenuItem printSummary;
+	private JMenuItem printTaxSummary;
 	private JMenuItem addBank;
 	private JMenuItem addAccount;
 	private JMenuItem addStandingOrder;
@@ -49,9 +50,13 @@ public class BankApplicationMenuBar extends AbstractMenuBar {
 		LOGGER.entering(CLASS_NAME, "addBeforeExit");
 		print = new JMenuItem(BankActionFactory.instance().printAction());
 		printSummary = new JMenuItem(BankActionFactory.instance().printSummaryAction());
+		printTaxSummary = new JMenuItem(BankActionFactory.instance().printTaxDetailsForYear());
 		fileMenu.addSeparator();
-		fileMenu.add(print);
-		fileMenu.add(printSummary);
+		JMenu reportMenu = new JMenu("Reports");
+		reportMenu.add(print);
+		reportMenu.add(printSummary);
+		reportMenu.add(printTaxSummary);
+		fileMenu.add(reportMenu);
 		LOGGER.exiting(CLASS_NAME, "addBeforeExit");
 	}
 

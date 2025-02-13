@@ -92,6 +92,7 @@ import applications.bank.preferences.BankApplicationPreferencesDialog;
 import applications.bank.preferences.ColorChoice;
 import applications.bank.report.BankingReport;
 import applications.bank.report.BankingSummaryReport;
+import applications.bank.report.TaxReturnReport;
 import applications.bank.storage.BankMonitor;
 import applications.bank.storage.BankNotificationType;
 import applications.bank.storage.BankRead;
@@ -220,6 +221,14 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 		ThreadServices.instance().executor().execute(new BankingSummaryReport(
 				ApplicationConfiguration.applicationDefinition().applicationName() + ".summary.report.pdf"));
 		LOGGER.exiting(CLASS_NAME, "printSummaryAction");
+	}
+
+	@Override
+	public void printTaxAction() {
+		LOGGER.entering(CLASS_NAME, "printTaxAction");
+		ThreadServices.instance().executor().execute(new TaxReturnReport(
+				ApplicationConfiguration.applicationDefinition().applicationName() + ".tax.report.pdf"));
+		LOGGER.exiting(CLASS_NAME, "printTaxAction");
 	}
 
 	@Override

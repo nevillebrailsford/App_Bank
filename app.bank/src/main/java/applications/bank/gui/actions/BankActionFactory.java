@@ -16,6 +16,7 @@ public class BankActionFactory extends BaseActionFactory {
 
 	private PrintAction printAction = null;
 	private PrintSummaryAction printSummaryAction = null;
+	private PrintTaxDetailsForYear printTaxDetailsForYear = null;
 	private AddBankAction addBankAction = null;
 	private RemoveBankAction removeBankAction = null;
 	private AddAccountAction addAccountAction;
@@ -68,6 +69,13 @@ public class BankActionFactory extends BaseActionFactory {
 			printAction = new PrintAction((IBankApplication) application);
 		}
 		return printAction;
+	}
+
+	public PrintTaxDetailsForYear printTaxDetailsForYear() {
+		if (printTaxDetailsForYear == null) {
+			printTaxDetailsForYear = new PrintTaxDetailsForYear((IBankApplication) application);
+		}
+		return printTaxDetailsForYear;
 	}
 
 	public PrintSummaryAction printSummaryAction() {

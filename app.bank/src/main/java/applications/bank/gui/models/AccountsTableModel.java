@@ -120,7 +120,7 @@ public class AccountsTableModel extends AbstractTableModel {
 			case ACCOUNT_NUMBER:
 				value = account.accountId().accountNumber();
 				if (!account.active()) {
-					value = value + " (Closed)";
+					value = value + " (Inactive)";
 				}
 				break;
 			case ACCOUNT_HOLDER:
