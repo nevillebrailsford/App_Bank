@@ -16,7 +16,8 @@ public class BankActionFactory extends BaseActionFactory {
 
 	private PrintAction printAction = null;
 	private PrintSummaryAction printSummaryAction = null;
-	private PrintTaxDetailsForYear printTaxDetailsForYear = null;
+	private PrintTaxDetailsForYearAction printTaxDetailsForYearAction = null;
+	private PrintCategorySummaryAction printCategorySummaryAction = null;
 	private AddBankAction addBankAction = null;
 	private RemoveBankAction removeBankAction = null;
 	private AddAccountAction addAccountAction;
@@ -71,11 +72,18 @@ public class BankActionFactory extends BaseActionFactory {
 		return printAction;
 	}
 
-	public PrintTaxDetailsForYear printTaxDetailsForYear() {
-		if (printTaxDetailsForYear == null) {
-			printTaxDetailsForYear = new PrintTaxDetailsForYear((IBankApplication) application);
+	public PrintTaxDetailsForYearAction printTaxDetailsForYearAction() {
+		if (printTaxDetailsForYearAction == null) {
+			printTaxDetailsForYearAction = new PrintTaxDetailsForYearAction((IBankApplication) application);
 		}
-		return printTaxDetailsForYear;
+		return printTaxDetailsForYearAction;
+	}
+
+	public PrintCategorySummaryAction printCategorySummaryAction() {
+		if (printCategorySummaryAction == null) {
+			printCategorySummaryAction = new PrintCategorySummaryAction((IBankApplication) application);
+		}
+		return printCategorySummaryAction;
 	}
 
 	public PrintSummaryAction printSummaryAction() {

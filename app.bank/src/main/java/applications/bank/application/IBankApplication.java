@@ -61,4 +61,6 @@ public interface IBankApplication extends IApplication {
 
 	public void printTaxAction();
 
+	public void printCategorySummaryAction();
+
 }
