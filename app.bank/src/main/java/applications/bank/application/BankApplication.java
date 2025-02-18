@@ -211,32 +211,56 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	@Override
 	public void printAction() {
 		LOGGER.entering(CLASS_NAME, "printAction");
-		ThreadServices.instance().executor().execute(
-				new BankingReport(ApplicationConfiguration.applicationDefinition().applicationName() + ".report.pdf"));
+		ThreadServices
+			.instance()
+			.executor()
+			.execute(
+				new BankingReport(ApplicationConfiguration
+					.applicationDefinition()
+					.applicationName() + ".report.pdf"));
 		LOGGER.exiting(CLASS_NAME, "printAction");
 	}
 
 	@Override
 	public void printSummaryAction() {
 		LOGGER.entering(CLASS_NAME, "printSummaryAction");
-		ThreadServices.instance().executor().execute(new BankingSummaryReport(
-				ApplicationConfiguration.applicationDefinition().applicationName() + ".summary.report.pdf"));
+		ThreadServices
+			.instance()
+			.executor()
+			.execute(
+				new BankingSummaryReport(ApplicationConfiguration
+					.applicationDefinition()
+					.applicationName() + ".summary.report.pdf"));
 		LOGGER.exiting(CLASS_NAME, "printSummaryAction");
 	}
 
 	@Override
 	public void printTaxAction() {
 		LOGGER.entering(CLASS_NAME, "printTaxAction");
-		ThreadServices.instance().executor().execute(new TaxReturnReport(
-				ApplicationConfiguration.applicationDefinition().applicationName() + ".tax.report.pdf"));
+		ThreadServices
+			.instance()
+			.executor()
+			.execute(
+				new TaxReturnReport(ApplicationConfiguration
+					.applicationDefinition()
+					.applicationName() + ".tax.report.pdf"
+					,LocalDate.of(2024, 4, 6)
+					,LocalDate.of(2025, 4, 5)));
 		LOGGER.exiting(CLASS_NAME, "printTaxAction");
 	}
 
 	@Override
 	public void printCategorySummaryAction() {
 		LOGGER.entering(CLASS_NAME, "printCategorySummaryAction");
-		ThreadServices.instance().executor().execute(new CategorySpendingReport(
-				ApplicationConfiguration.applicationDefinition().applicationName() + ".category.report.pdf"));
+		ThreadServices
+			.instance()
+			.executor()
+			.execute(
+				new CategorySpendingReport(ApplicationConfiguration
+						.applicationDefinition()
+						.applicationName() + ".category.report.pdf"
+						,LocalDate.of(2000, 1, 1)
+						,LocalDate.now()));
 		LOGGER.exiting(CLASS_NAME, "printCategorySummaryAction");
 	}
 
