@@ -7,10 +7,9 @@ import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 
 import application.model.Money;
+import application.model.TotalMoney;
 import application.report.ReportCreator;
-import applications.bank.model.Account;
 import applications.bank.model.Bank;
-import applications.bank.model.Branch;
 import applications.bank.model.Investment;
 import applications.bank.model.InvestmentHistoryHandler;
 import applications.bank.model.TransactionDetailsHandler;
@@ -28,25 +27,25 @@ public class BankingSummaryReport extends ReportCreator {
 	public void writePdfReport() {
 		LOGGER.entering(CLASS_NAME, "writePdfReport");
 		document.add(new Paragraph("Summary")).setFont(bold).setHorizontalAlignment(HorizontalAlignment.CENTER);
-		Money overallTotal = new Money("0.00");
-		Money banksTotal = new Money("0.00");
+		TotalMoney overallTotal = new TotalMoney();
+		TotalMoney banksTotal = new TotalMoney();
 		Money investmentsTotal = new Money("0.00");
 		table = buildBanksTable();
 		for (Bank bank : BankMonitor.instance().banks()) {
-			Money bankTotal = new Money("0.00");
-			for (Branch branch : bank.branches()) {
-				for (Account account : branch.accounts()) {
+			TotalMoney bankTotal = new TotalMoney();
+			bank.branches()
+				.flatMap(branch -> branch.accounts())
+				.forEach(account -> {
 					Money accountTotal = Money.sum(TransactionDetailsHandler.balance(account));
-					bankTotal = bankTotal.plus(accountTotal);
+					bankTotal.add(accountTotal);
 					String accountDetails = account.accountId().accountHolder() + "/"
-							+ account.accountId().accountNumber();
+						+ account.accountId().accountNumber();
 					addToBanksTable(account.owner().owner().toString(), accountDetails, accountTotal.cost());
-				}
-			}
-			banksTotal = banksTotal.plus(bankTotal);
+			});
+			banksTotal.add(bankTotal);
 			addToBanksTable(bank.toString(), "", bankTotal.cost());
 		}
-		overallTotal = overallTotal.plus(banksTotal);
+		overallTotal.add(banksTotal);
 
 		document.add(table);
 
@@ -63,7 +62,7 @@ public class BankingSummaryReport extends ReportCreator {
 		}
 		addToInvestmentsTable("", investmentsTotal.cost());
 		document.add(table);
-		overallTotal = overallTotal.plus(investmentsTotal);
+		overallTotal.add(investmentsTotal);
 		document.add(new Paragraph(" ")).setFont(bold).setHorizontalAlignment(HorizontalAlignment.CENTER);
 
 		document.add(new Paragraph("Total Investment Value = " + investmentsTotal.cost())).setFont(bold)

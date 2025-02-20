@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -92,75 +93,75 @@ class AccountTest {
 	@Test
 	void testClearTransactions() {
 		account1.addTransaction(transaction1);
-		assertEquals(1, account1.transactions().size());
+		assertEquals(1, account1.transactions().count());
 		account1.clear();
-		assertEquals(0, account1.transactions().size());
+		assertEquals(0, account1.transactions().count());
 	}
 
 	@Test
 	void testClearStandingOrders() {
 		account1.addStandingOrder(order1);
-		assertEquals(1, account1.standingOrders().size());
+		assertEquals(1, account1.standingOrdersStream().count());
 		account1.clear();
-		assertEquals(0, account1.standingOrders().size());
+		assertEquals(0, account1.standingOrdersStream().count());
 	}
 
 	@Test
 	void testClearBoth() {
 		account1.addTransaction(transaction1);
-		assertEquals(1, account1.transactions().size());
+		assertEquals(1, account1.transactions().count());
 		account1.addStandingOrder(order1);
-		assertEquals(1, account1.standingOrders().size());
+		assertEquals(1, account1.standingOrdersStream().count());
 		account1.clear();
-		assertEquals(0, account1.transactions().size());
-		assertEquals(0, account1.standingOrders().size());
+		assertEquals(0, account1.transactions().count());
+		assertEquals(0, account1.standingOrdersStream().count());
 	}
 
 	@Test
 	void testAddTransaction() {
-		assertEquals(0, account1.transactions().size());
+		assertEquals(0, account1.transactions().count());
 		account1.addTransaction(transaction1);
-		assertEquals(1, account1.transactions().size());
-		assertEquals(0, account1.standingOrders().size());
+		assertEquals(1, account1.transactions().count());
+		assertEquals(0, account1.standingOrdersStream().count());
 	}
 
 	@Test
 	void testAddStandingOrder() {
-		assertEquals(0, account1.standingOrders().size());
+		assertEquals(0, account1.standingOrdersStream().count());
 		account1.addStandingOrder(order1);
-		assertEquals(1, account1.standingOrders().size());
-		assertEquals(0, account1.transactions().size());
+		assertEquals(1, account1.standingOrdersStream().count());
+		assertEquals(0, account1.transactions().count());
 	}
 
 	@Test
 	void testUpdateStandingOrder() {
-		assertEquals(0, account1.standingOrders().size());
+		assertEquals(0, account1.standingOrdersStream().count());
 		account1.addStandingOrder(order1);
-		assertEquals(1, account1.standingOrders().size());
-		assertEquals(0, account1.transactions().size());
+		assertEquals(1, account1.standingOrdersStream().count());
+		assertEquals(0, account1.transactions().count());
 		StandingOrder change = new StandingOrder(order1);
 		change.setReference("updated reference");
 		account1.updateStandingOrder(change);
-		assertEquals(1, account1.standingOrders().size());
-		assertEquals(0, account1.transactions().size());
-		assertEquals("updated reference", account1.standingOrders().get(0).reference());
+		assertEquals(1, account1.standingOrdersStream().count());
+		assertEquals(0, account1.transactions().count());
+		assertEquals("updated reference", account1.standingOrdersStream().collect(Collectors.toList()).get(0).reference());
 	}
 
 	@Test
 	void testBalance() {
-		assertEquals(0, account1.transactions().size());
+		assertEquals(0, account1.transactions().count());
 		account1.addTransaction(transaction1);
 		account1.addTransaction(transaction2);
-		assertEquals(2, account1.transactions().size());
+		assertEquals(2, account1.transactions().count());
 		assertEquals(checkBalance, Money.sum(TransactionDetailsHandler.balance(account1)));
 	}
 
 	@Test
 	void testBalanceOnDate() {
-		assertEquals(0, account1.transactions().size());
+		assertEquals(0, account1.transactions().count());
 		account1.addTransaction(transaction1);
 		account1.addTransaction(transaction3);
-		assertEquals(2, account1.transactions().size());
+		assertEquals(2, account1.transactions().count());
 		assertEquals(chekcBalanceOnDayMinus0, Money.sum(TransactionDetailsHandler.balance(account1, LocalDate.now())));
 		assertEquals(chekcBalanceOnDayMinus1,
 				Money.sum(TransactionDetailsHandler.balance(account1, LocalDate.now().minusDays(1))));

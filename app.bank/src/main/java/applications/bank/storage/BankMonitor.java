@@ -77,13 +77,12 @@ public class BankMonitor {
 		LOGGER.entering(CLASS_NAME, "branches");
 		List<Branch> copyList = new ArrayList<>();
 		synchronized (banks) {
-			for (Bank bank : banks) {
-				for (Branch branch : bank.branches()) {
-					copyList.add(branch);
-				}
-			}
+			copyList = banks
+					.stream()
+					.flatMap(bank -> bank.branches())
+					.sorted()
+					.collect(Collectors.toList());
 		}
-		Collections.sort(copyList);
 		LOGGER.exiting(CLASS_NAME, "branches", copyList);
 		return copyList;
 	}
@@ -92,15 +91,12 @@ public class BankMonitor {
 		LOGGER.entering(CLASS_NAME, "accounts");
 		List<Account> copyList = new ArrayList<>();
 		synchronized (banks) {
-			for (Bank bank : banks) {
-				for (Branch branch : bank.branches()) {
-					for (Account account : branch.accounts()) {
-						copyList.add(account);
-					}
-				}
-			}
+			copyList = banks.stream()
+					.flatMap(bank -> bank.branches())
+					.flatMap(branch -> branch.accounts())
+					.sorted()
+					.collect(Collectors.toList());							
 		}
-		Collections.sort(copyList);
 		LOGGER.exiting(CLASS_NAME, "accounts", copyList);
 		return copyList;
 	}
@@ -109,17 +105,13 @@ public class BankMonitor {
 		LOGGER.entering(CLASS_NAME, "standingOrders");
 		List<StandingOrder> copyList = new ArrayList<>();
 		synchronized (banks) {
-			for (Bank bank : banks) {
-				for (Branch branch : bank.branches()) {
-					for (Account account : branch.accounts()) {
-						for (StandingOrder standingOrder : account.standingOrders()) {
-							copyList.add(standingOrder);
-						}
-					}
-				}
-			}
+			copyList = banks.stream()
+					.flatMap(bank -> bank.branches())
+					.flatMap(branch -> branch.accounts())
+					.flatMap(account -> account.standingOrdersStream())
+					.sorted()
+					.collect(Collectors.toList());			
 		}
-		Collections.sort(copyList);
 		LOGGER.exiting(CLASS_NAME, "standingOrders", copyList);
 		return copyList;
 	}

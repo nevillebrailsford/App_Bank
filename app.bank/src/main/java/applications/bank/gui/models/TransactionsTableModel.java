@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
@@ -54,7 +55,7 @@ public class TransactionsTableModel extends AbstractTableModel {
 
 	public TransactionsTableModel(Account account) {
 		this.account = account;
-		this.transactions = account.transactions();
+		this.transactions = account.transactions().collect(Collectors.toList());
 		Collections.reverse(transactions);
 		addListeners();
 	}

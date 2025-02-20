@@ -73,16 +73,16 @@ class BankTest {
 	@Test
 	void testClear() {
 		bank1.addBranch(branch1);
-		assertEquals(1, bank1.branches().size());
+		assertEquals(1, bank1.branches().count());
 		bank1.clear();
-		assertEquals(0, bank1.branches().size());
+		assertEquals(0, bank1.branches().count());
 	}
 
 	@Test
 	void testAddBranch() {
-		assertEquals(0, bank1.branches().size());
+		assertEquals(0, bank1.branches().count());
 		bank1.addBranch(branch1);
-		assertEquals(1, bank1.branches().size());
+		assertEquals(1, bank1.branches().count());
 	}
 
 	@Test

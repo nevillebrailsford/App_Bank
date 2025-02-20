@@ -1,10 +1,9 @@
 package applications.bank.gui.modified;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -18,7 +17,6 @@ import applications.bank.application.IBankApplication;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.model.Account;
 import applications.bank.model.Bank;
-import applications.bank.model.Branch;
 import applications.bank.storage.AccountNotificationType;
 import applications.bank.storage.TransactionNotificationType;
 
@@ -73,11 +71,11 @@ public class BankPanel extends ColoredPanel {
 		setLayout(new BorderLayout());
 		this.bank = bank;
 		JPanel buttonPanel = new BottomColoredPanel();
-		List<Account> accounts = new ArrayList<>();
-		for (Branch branch : bank.branches()) {
-			accounts.addAll(branch.accounts());
-		}
-		Collections.sort(accounts);
+		List<Account> accounts = bank
+				.branches()
+				.flatMap(branch -> branch.accounts())
+				.sorted()
+				.collect(Collectors.toList());
 		accountsPanel = new AccountsPanel(accounts, application, bank);
 		add(accountsPanel, BorderLayout.CENTER);
 		exit = new JButton(BankActionFactory.instance().exitApplicationAction());

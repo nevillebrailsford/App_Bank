@@ -323,9 +323,9 @@ public class AddAccountDialog extends JDialog {
 
 	private void loadBranchDetails() {
 		Bank selectedBank = (Bank) bankName.getSelectedItem();
-		for (Branch branch : selectedBank.branches()) {
+		selectedBank.branches().forEach(branch -> {
 			branchId.addItem(branch);
-		}
+		});
 		branchId.setSelectedIndex(-1);
 	}
 

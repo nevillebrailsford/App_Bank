@@ -110,7 +110,7 @@ public class BankReadMultiBranchTest extends BankTestBase {
 		assertTrue(BankMonitor.instance().banks().size() == 1);
 		Bank bank = BankMonitor.instance().banks().get(0);
 		assertEquals("testbank1", bank.name());
-		assertTrue(bank.branches().size() == 0);
+		assertTrue(bank.branches().count() == 0);
 	}
 
 	@Test
@@ -119,7 +119,7 @@ public class BankReadMultiBranchTest extends BankTestBase {
 		loadData();
 		assertTrue(BankMonitor.instance().banks().size() == 1);
 		Bank bank1 = BankMonitor.instance().banks().get(0);
-		assertTrue(bank1.branches().size() == 1);
+		assertTrue(bank1.branches().count() == 1);
 	}
 
 	@Test
@@ -128,7 +128,7 @@ public class BankReadMultiBranchTest extends BankTestBase {
 		loadData();
 		assertTrue(BankMonitor.instance().banks().size() == 1);
 		Bank bank1 = BankMonitor.instance().banks().get(0);
-		assertTrue(bank1.branches().size() == 2);
+		assertTrue(bank1.branches().count() == 2);
 	}
 
 	private void loadData() throws IOException, InterruptedException {

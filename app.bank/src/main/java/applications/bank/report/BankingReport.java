@@ -10,13 +10,11 @@ import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 
 import application.model.Money;
+import application.model.TotalMoney;
 import application.report.ReportCreator;
-import applications.bank.model.Account;
 import applications.bank.model.Bank;
-import applications.bank.model.Branch;
 import applications.bank.model.Investment;
 import applications.bank.model.Investment.ValueOn;
-import applications.bank.model.Transaction;
 import applications.bank.model.TransactionDetailsHandler;
 import applications.bank.storage.BankMonitor;
 
@@ -42,27 +40,28 @@ public class BankingReport extends ReportCreator {
 			}
 			document.add(
 					new Paragraph(bank.toString()).setFont(bold).setHorizontalAlignment(HorizontalAlignment.CENTER));
-			for (Branch branch : bank.branches()) {
+			bank.branches().forEach(branch -> {
 				document.add(new Paragraph(branch.toFullString()).setFont(bold)
 						.setHorizontalAlignment(HorizontalAlignment.CENTER));
-				for (Account account : branch.accounts()) {
+				branch.accounts().forEach(account -> {
 					document.add(new Paragraph(account.toString()).setFont(bold));
 					table = buildBanksTable();
-					Money startingBalance = Money.sum(TransactionDetailsHandler.balance(account));
-					for (Transaction t : account.transactions()) {
-						startingBalance = startingBalance.minus(t.amount());
-					}
-					addToBanksTable("", "Opening balance", "", startingBalance.cost());
-					for (Transaction transaction : account.transactions()) {
-						startingBalance = startingBalance.plus(transaction.amount());
-						addToBanksTable(transaction.date().format(dateFormatter), transaction.description(),
-								transaction.amount().cost(), startingBalance.cost());
-					}
+					TotalMoney totalMoney = new TotalMoney();
+					totalMoney.add(Money.sum(TransactionDetailsHandler.balance(account)));
+					account.transactions().forEach(t -> {
+						totalMoney.add(t.amount().negate());
+					});
+					addToBanksTable("", "Opening balance", "", totalMoney.cost());
+					account.transactions().forEach(t -> {
+						totalMoney.add(t.amount());
+						addToBanksTable(t.date().format(dateFormatter), t.description(),
+								t.amount().cost(), totalMoney.cost());						
+					});
 					addToBanksTable("", "Closing balance", "",
 							Money.sum(TransactionDetailsHandler.balance(account)).cost());
 					document.add(table);
-				}
-			}
+				});
+			});
 			notFirst = true;
 		}
 		notFirst = false;

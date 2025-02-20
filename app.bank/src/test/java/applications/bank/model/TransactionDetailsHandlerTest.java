@@ -78,21 +78,21 @@ class TransactionDetailsHandlerTest {
 
 	@Test
 	void testTransactionDatesForAccount() {
-		assertEquals(3, account1.transactions().size());
+		assertEquals(3, account1.transactions().count());
 		LocalDate[] dates = TransactionDetailsHandler.transactionDates(account1);
 		assertEquals(3, dates.length);
 	}
 
 	@Test
 	void testTransactionDatesForBranch() {
-		assertEquals(2, branch1.accounts().size());
+		assertEquals(2, branch1.accounts().count());
 		LocalDate[] dates = TransactionDetailsHandler.transactionDates(branch1);
 		assertEquals(4, dates.length);
 	}
 
 	@Test
 	void testTransactionDatesForBank() {
-		assertEquals(2, bank1.branches().size());
+		assertEquals(2, bank1.branches().count());
 		LocalDate[] dates = TransactionDetailsHandler.transactionDates(bank1);
 		assertEquals(6, dates.length);
 	}
@@ -124,21 +124,21 @@ class TransactionDetailsHandlerTest {
 
 	@Test
 	void testTransactionsForAccount() {
-		assertEquals(3, account1.transactions().size());
+		assertEquals(3, account1.transactions().count());
 		Transaction[] trans = TransactionDetailsHandler.transactions(account1);
 		assertEquals(3, trans.length);
 	}
 
 	@Test
 	void testTransactionsForBranch() {
-		assertEquals(2, branch1.accounts().size());
+		assertEquals(2, branch1.accounts().count());
 		Transaction[] trans = TransactionDetailsHandler.transactions(branch1);
 		assertEquals(4, trans.length);
 	}
 
 	@Test
 	void testTransactionsForBank() {
-		assertEquals(2, bank1.branches().size());
+		assertEquals(2, bank1.branches().count());
 		Transaction[] trans = TransactionDetailsHandler.transactions(bank1);
 		assertEquals(6, trans.length);
 	}

@@ -85,24 +85,24 @@ class BranchTest {
 	@Test
 	void testClear() {
 		branch1.addAccount(account1);
-		assertEquals(1, branch1.accounts().size());
+		assertEquals(1, branch1.accounts().count());
 		branch1.clear();
-		assertEquals(0, branch1.accounts().size());
+		assertEquals(0, branch1.accounts().count());
 	}
 
 	@Test
 	void testAddAccount() {
-		assertEquals(0, branch1.accounts().size());
+		assertEquals(0, branch1.accounts().count());
 		branch1.addAccount(account1);
-		assertEquals(1, branch1.accounts().size());
+		assertEquals(1, branch1.accounts().count());
 	}
 
 	@Test
 	void testBalance() {
-		assertEquals(0, branch1.accounts().size());
+		assertEquals(0, branch1.accounts().count());
 		branch1.addAccount(account1);
 		branch1.addAccount(account2);
-		assertEquals(2, branch1.accounts().size());
+		assertEquals(2, branch1.accounts().count());
 		account1.addTransaction(transaction1);
 		account1.addTransaction(transaction2);
 		account1.addTransaction(transaction3);

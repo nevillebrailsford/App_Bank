@@ -3,7 +3,7 @@ package applications.bank.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -121,9 +121,8 @@ public class Bank implements Comparable<Bank> {
 		}
 	}
 
-	public List<Branch> branches() {
-		List<Branch> copyList = branches.stream().sorted().collect(Collectors.toList());
-		return copyList;
+	public Stream<Branch> branches() {
+		return branches.stream().sorted();
 	}
 
 	public void clear() {

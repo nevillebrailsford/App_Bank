@@ -2,6 +2,7 @@ package applications.bank.gui.models;
 
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
@@ -53,7 +54,7 @@ public class StandingOrdersTableModel extends AbstractTableModel {
 
 	public StandingOrdersTableModel(Account account) {
 		this.account = account;
-		this.standingOrders = account.standingOrders();
+		this.standingOrders = account.standingOrdersStream().collect(Collectors.toList());
 		addListeners();
 	}
 

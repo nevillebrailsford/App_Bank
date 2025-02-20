@@ -99,9 +99,9 @@ public class BankStore extends AbstractStoreData {
 	private Element buildElementFor(Bank bank, Document document) {
 		LOGGER.entering(CLASS_NAME, "buildElementFor", new Object[] { bank, document });
 		Element bankElement = bank.buildElement(document);
-		for (Branch branch : bank.branches()) {
+		bank.branches().forEach(branch -> {
 			bankElement.appendChild(buildElementFor(branch, document));
-		}
+		});
 		LOGGER.exiting(CLASS_NAME, "buildElementFor");
 		return bankElement;
 	}
@@ -109,9 +109,9 @@ public class BankStore extends AbstractStoreData {
 	private Element buildElementFor(Branch branch, Document document) {
 		LOGGER.entering(CLASS_NAME, "buildElementFor", new Object[] { branch, document });
 		Element branchElement = branch.buildElement(document);
-		for (Account account : branch.accounts()) {
+		branch.accounts().forEach(account -> {
 			branchElement.appendChild(buildElementFor(account, document));
-		}
+		});
 		LOGGER.exiting(CLASS_NAME, "buildElementFor");
 		return branchElement;
 	}
@@ -119,12 +119,12 @@ public class BankStore extends AbstractStoreData {
 	private Element buildElementFor(Account account, Document document) {
 		LOGGER.entering(CLASS_NAME, "buildElementFor", new Object[] { account, document });
 		Element accountElement = account.buildElement(document);
-		for (Transaction transaction : account.transactions()) {
+		account.transactions().forEach(transaction -> {
 			accountElement.appendChild(buildElementFor(transaction, document));
-		}
-		for (StandingOrder standingOrder : account.standingOrders()) {
+		});
+		account.standingOrdersStream().forEach(standingOrder -> {
 			accountElement.appendChild(buildElementFor(standingOrder, document));
-		}
+		});
 		LOGGER.exiting(CLASS_NAME, "buildElementFor");
 		return accountElement;
 	}
