@@ -56,6 +56,7 @@ import applications.bank.gui.dialogs.AddAccountDialog;
 import applications.bank.gui.dialogs.AddBankDialog;
 import applications.bank.gui.dialogs.AddInvestmentDialog;
 import applications.bank.gui.dialogs.AddStandingOrderDialog;
+import applications.bank.gui.dialogs.CategorySpendingDateSelectionDialog;
 import applications.bank.gui.dialogs.ChangeInvestmentDialog;
 import applications.bank.gui.dialogs.ChangeStandingOrderDialog;
 import applications.bank.gui.dialogs.PayMoneyInDialog;
@@ -65,6 +66,7 @@ import applications.bank.gui.dialogs.RemoveBankDialog;
 import applications.bank.gui.dialogs.RemoveInvestmentDialog;
 import applications.bank.gui.dialogs.RemoveStandingOrderDialog;
 import applications.bank.gui.dialogs.SearchTransactionsDialog;
+import applications.bank.gui.dialogs.TaxReportYearSelectionDialog;
 import applications.bank.gui.dialogs.TransferDialog;
 import applications.bank.gui.dialogs.ViewStandingOrdersDialog;
 import applications.bank.gui.dialogs.ViewTransactionsDialog;
@@ -87,6 +89,7 @@ import applications.bank.model.Bank;
 import applications.bank.model.Investment;
 import applications.bank.model.StandingOrder;
 import applications.bank.model.Transaction;
+import applications.bank.model.TransactionDetailsHandler;
 import applications.bank.model.Transfer;
 import applications.bank.preferences.BankApplicationPreferencesDialog;
 import applications.bank.preferences.ColorChoice;
@@ -237,30 +240,46 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	@Override
 	public void printTaxAction() {
 		LOGGER.entering(CLASS_NAME, "printTaxAction");
-		ThreadServices
-			.instance()
-			.executor()
-			.execute(
-				new TaxReturnReport(ApplicationConfiguration
-					.applicationDefinition()
-					.applicationName() + ".tax.report.pdf"
-					,LocalDate.of(2024, 4, 6)
-					,LocalDate.of(2025, 4, 5)));
+		Transaction[] trans = TransactionDetailsHandler.transactions(BankMonitor.instance().banks());
+		int firstYear = trans[0].date().getYear();
+		int lastYear = trans[trans.length-1].date().getYear();
+		TaxReportYearSelectionDialog dialog = new TaxReportYearSelectionDialog(null, firstYear, lastYear);
+		int result = dialog.displayAndWait();
+		if (result == CategorySpendingDateSelectionDialog.OK_PRESSED) {
+			String years[] = dialog.years().split("-");
+			int fromYear = Integer.valueOf(years[0]);
+			int toYear = Integer.valueOf(years[1]);
+			ThreadServices
+				.instance()
+				.executor()
+				.execute(
+						new TaxReturnReport(ApplicationConfiguration
+								.applicationDefinition()
+								.applicationName() + ".tax.report.pdf"
+								,LocalDate.of(fromYear, 4, 6)
+								,LocalDate.of(toYear, 4, 5)));
+		}
+		dialog.dispose();
 		LOGGER.exiting(CLASS_NAME, "printTaxAction");
 	}
 
 	@Override
 	public void printCategorySummaryAction() {
 		LOGGER.entering(CLASS_NAME, "printCategorySummaryAction");
-		ThreadServices
+		CategorySpendingDateSelectionDialog dialog = new CategorySpendingDateSelectionDialog(parent);
+		int result = dialog.displayAndWait();
+		if (result == CategorySpendingDateSelectionDialog.OK_PRESSED) {
+			ThreadServices
 			.instance()
 			.executor()
 			.execute(
 				new CategorySpendingReport(ApplicationConfiguration
 						.applicationDefinition()
 						.applicationName() + ".category.report.pdf"
-						,LocalDate.of(2000, 1, 1)
-						,LocalDate.now()));
+						,dialog.fromDate()
+						,dialog.toDate()));
+		}
+		dialog.dispose();
 		LOGGER.exiting(CLASS_NAME, "printCategorySummaryAction");
 	}
 
