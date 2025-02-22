@@ -35,15 +35,16 @@ public class AccountsPanel extends JPanel {
 	private JPopupMenu popup;
 	private BankActionFactory actionFactory;
 	private Point popupLocation;
+	private AccountsTableRenderer accountsTableRenderer;
 
 	public AccountsPanel(List<Account> accounts, IBankApplication application, Bank bank) {
 		LOGGER.entering(CLASS_NAME, "init", accounts);
 		actionFactory = BankActionFactory.instance(application);
+		accountsTableRenderer = new AccountsTableRenderer();
 		setLayout(new BorderLayout());
 		model = new AccountsTableModel(accounts, bank);
 		accountsTable = new JTable(model) {
 			private static final long serialVersionUID = 1L;
-
 			@Override
 			protected void processMouseEvent(MouseEvent e) {
 				if (e.isPopupTrigger() && actionFactory.viewTransactionsAction().isEnabled()) {
@@ -53,8 +54,9 @@ public class AccountsPanel extends JPanel {
 					super.processMouseEvent(e);
 				}
 			}
-
 		};
+		accountsTable.setDefaultRenderer(String.class, accountsTableRenderer);
+		accountsTable.setDefaultRenderer(Number.class, accountsTableRenderer);
 		configureAccountsTable();
 		JScrollPane scrollPane = new JScrollPane(accountsTable);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
