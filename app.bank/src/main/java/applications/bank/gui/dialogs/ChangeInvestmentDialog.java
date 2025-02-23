@@ -79,19 +79,6 @@ public class ChangeInvestmentDialog extends JDialog {
 	};
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ChangeInvestmentDialog dialog = new ChangeInvestmentDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public ChangeInvestmentDialog(JFrame parent) {

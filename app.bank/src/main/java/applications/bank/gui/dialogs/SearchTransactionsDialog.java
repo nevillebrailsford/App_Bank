@@ -53,19 +53,6 @@ public class SearchTransactionsDialog extends JDialog {
 	private JDateChooser toDate;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			SearchTransactionsDialog dialog = new SearchTransactionsDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public SearchTransactionsDialog(JFrame parent) {
@@ -73,7 +60,6 @@ public class SearchTransactionsDialog extends JDialog {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("Search Transactions");
 		contentPanel = new ColoredPanel();
-//		contentPanel = new JPanel();
 		getContentPane().setLayout(new BorderLayout());
 		{
 			instructions = new JLabel("Enter the details below to search within transactions.");
@@ -113,7 +99,6 @@ public class SearchTransactionsDialog extends JDialog {
 		contentPanel.add(toDate, "4, 6, fill, default");
 
 		JPanel buttonPane = new BottomColoredPanel();
-//		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		{

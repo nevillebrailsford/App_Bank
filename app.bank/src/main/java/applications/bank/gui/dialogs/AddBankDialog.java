@@ -48,19 +48,6 @@ public class AddBankDialog extends JDialog {
 	private JTextField bankName;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AddBankDialog dialog = new AddBankDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public AddBankDialog(JFrame parent) {

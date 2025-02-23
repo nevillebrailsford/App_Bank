@@ -21,7 +21,7 @@ public class CategorySpendingDateSelectionDialog extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
 
-	private static final String CLASS_NAME = SearchTransactionsDialog.class.getName();
+	private static final String CLASS_NAME = CategorySpendingDateSelectionDialog.class.getName();
 	private static Logger LOGGER = ApplicationConfiguration.logger();
 
 	private final JPanel contentPanel;
@@ -79,18 +79,6 @@ public class CategorySpendingDateSelectionDialog extends JDialog {
 
 	public LocalDate toDate() {
 		return dateRangePanel.toDate();
-	}
-
-	public static void main(String[] args) {
-		try {
-			CategorySpendingDateSelectionDialog dialog = new CategorySpendingDateSelectionDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			System.out.println(dialog.displayAndWait());
-			System.out.println(dialog.fromDate());
-			System.out.println(dialog.toDate());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

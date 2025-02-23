@@ -85,19 +85,6 @@ public class PayMoneyInDialog extends JDialog {
 	};
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			PayMoneyInDialog dialog = new PayMoneyInDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public PayMoneyInDialog(JFrame parent) {

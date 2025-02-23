@@ -87,19 +87,6 @@ public class TransferDialog extends JDialog {
 	};
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			TransferDialog dialog = new TransferDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public TransferDialog(JFrame parent) {
@@ -108,7 +95,6 @@ public class TransferDialog extends JDialog {
 		setTitle("Transfer");
 
 		contentPanel = new ColoredPanel();
-//		contentPanel = new JPanel();
 		getContentPane().setLayout(new BorderLayout());
 		{
 			instructions = new JLabel("Complete the form to transfer money between accounts.");
@@ -177,7 +163,6 @@ public class TransferDialog extends JDialog {
 		contentPanel.add(description, "4, 10, fill, default");
 
 		JPanel buttonPane = new BottomColoredPanel();
-//		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		{

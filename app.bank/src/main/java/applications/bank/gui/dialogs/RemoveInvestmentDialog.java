@@ -75,19 +75,6 @@ public class RemoveInvestmentDialog extends JDialog {
 	private JTextField date;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			RemoveInvestmentDialog dialog = new RemoveInvestmentDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public RemoveInvestmentDialog(JFrame parent) {

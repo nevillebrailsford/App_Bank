@@ -25,19 +25,6 @@ public class ViewTransactionsDialog extends JDialog {
 	private TransactionsTableModel model;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ViewTransactionsDialog dialog = new ViewTransactionsDialog(null, null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public ViewTransactionsDialog(JFrame parent, Account account) {

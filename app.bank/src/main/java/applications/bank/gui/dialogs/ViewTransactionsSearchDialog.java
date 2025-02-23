@@ -22,19 +22,6 @@ public class ViewTransactionsSearchDialog extends JDialog {
 	private JTable transactionsTable;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ViewTransactionsSearchDialog dialog = new ViewTransactionsSearchDialog(null, null, null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public ViewTransactionsSearchDialog(JFrame parent, SearchTransactionsTableModel model, String search) {

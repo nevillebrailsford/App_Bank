@@ -25,19 +25,6 @@ public class ViewStandingOrdersDialog extends JDialog {
 	private StandingOrdersTableModel model;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ViewStandingOrdersDialog dialog = new ViewStandingOrdersDialog(null, null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public ViewStandingOrdersDialog(JFrame parent, Account account) {

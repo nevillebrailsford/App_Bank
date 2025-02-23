@@ -45,19 +45,6 @@ public class RemoveBankDialog extends JDialog {
 	private JComboBox<Bank> banks;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			RemoveBankDialog dialog = new RemoveBankDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public RemoveBankDialog(JFrame parent) {

@@ -77,19 +77,6 @@ public class AddInvestmentDialog extends JDialog {
 	};
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AddInvestmentDialog dialog = new AddInvestmentDialog(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public AddInvestmentDialog(JFrame parent) {

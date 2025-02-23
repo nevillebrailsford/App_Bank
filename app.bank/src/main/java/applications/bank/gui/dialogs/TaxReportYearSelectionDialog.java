@@ -20,7 +20,7 @@ public class TaxReportYearSelectionDialog extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
 
-	private static final String CLASS_NAME = SearchTransactionsDialog.class.getName();
+	private static final String CLASS_NAME = TaxReportYearSelectionDialog.class.getName();
 	private static Logger LOGGER = ApplicationConfiguration.logger();
 
 	private final JPanel contentPanel;
@@ -74,17 +74,6 @@ public class TaxReportYearSelectionDialog extends JDialog {
 	
 	public String years() {
 		return yearRangePanel.years();
-	}
-
-	public static void main(String[] args) {
-		try {
-			TaxReportYearSelectionDialog dialog = new TaxReportYearSelectionDialog(null, 2024, 2025);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			System.out.println(dialog.displayAndWait());
-			System.out.println(dialog.years());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }
