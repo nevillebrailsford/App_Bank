@@ -2,6 +2,7 @@ package applications.bank.gui.modified;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.util.logging.Logger;
 
@@ -52,6 +53,7 @@ public class HistoryPanel extends JPanel {
 		historyTable.setFillsViewportHeight(true);
 		historyTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		historyTable.setRowSelectionAllowed(true);
+		historyTable.setFont(getFont().deriveFont(Font.PLAIN, 14));
 		JScrollPane scrollPane = new JScrollPane(historyTable);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);

@@ -55,7 +55,6 @@ public class ViewTransactionsDialog extends JDialog {
 		transactionsTable.setFillsViewportHeight(true);
 		transactionsTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		transactionsTable.setRowSelectionAllowed(true);
-		// transactionsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		transactionsTable.getColumnModel().getColumn(0).setPreferredWidth(100);
 		transactionsTable.getColumnModel().getColumn(0).setMinWidth(100);
 		transactionsTable.getColumnModel().getColumn(1).setPreferredWidth(200);

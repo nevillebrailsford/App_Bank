@@ -17,7 +17,7 @@ public class AccountsTableRenderer extends JLabel implements TableCellRenderer {
 	private static final Color originalSelectionBackground = UIManager.getColor("Table.selectionBackground");
 	
 	public AccountsTableRenderer() {
-		setFont(getFont().deriveFont(Font.PLAIN));
+		setFont(getFont().deriveFont(Font.PLAIN, 14));
 		setOpaque(true); 
 	}
 
@@ -35,6 +35,13 @@ public class AccountsTableRenderer extends JLabel implements TableCellRenderer {
 			} else {
 				setForeground(originalForeground);
 				setBackground(originalBackground);
+			}
+			if (column == table.getColumnCount() - 1) {
+				if (val.startsWith("£-")) {
+					setForeground(Color.red.darker());
+				} else {
+					setForeground(Color.green.darker());
+				}
 			}
 		}
 		setText(val);
