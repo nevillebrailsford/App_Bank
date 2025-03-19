@@ -773,11 +773,6 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 		LOGGER.exiting(CLASS_NAME, "terminate");
 	}
 
-	public static void main(String[] args) {
-		System.setProperty("apple.eawt.quitStrategy", "CLOSE_ALL_WINDOWS");
-		launch(args);
-	}
-
 	private static void processPreferences() {
 		String background = IniFile.value(BankGUIConstants.BACKGROUND_COLOR);
 		String chartLine = IniFile.value(BankGUIConstants.CHART_LINE_COLOR);
