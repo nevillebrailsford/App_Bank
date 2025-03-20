@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import application.definition.ApplicationConfiguration;
+import application.model.Money;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
 import applications.bank.model.Account;
@@ -77,8 +78,11 @@ public class TransactionsTableModel extends AbstractTableModel {
 
 	@Override
 	public Class<?> getColumnClass(int col) {
+		if (col == DATE) {
+			return LocalDate.class;
+		}
 		if (col == AMOUNT) {
-			return Number.class;
+			return Money.class;
 		}
 		return String.class;
 	}
@@ -98,7 +102,7 @@ public class TransactionsTableModel extends AbstractTableModel {
 		Object value = "Unknown";
 		switch (col) {
 			case DATE:
-				value = LocalDate.now().toString();
+				value = LocalDate.now();
 				break;
 			case DESCRIPTION:
 				value = "Closing Balance";
@@ -107,7 +111,7 @@ public class TransactionsTableModel extends AbstractTableModel {
 				value = "";
 				break;
 			case AMOUNT:
-				value = BankMonitor.instance().balanceAccount(account).cost();
+				value = BankMonitor.instance().balanceAccount(account);
 				break;
 		}
 		return value;
@@ -118,7 +122,7 @@ public class TransactionsTableModel extends AbstractTableModel {
 		Transaction transaction = transactions.get(row);
 		switch (col) {
 			case DATE:
-				value = transaction.date().toString();
+				value = transaction.date();
 				break;
 			case DESCRIPTION:
 				value = transaction.description();
@@ -127,7 +131,7 @@ public class TransactionsTableModel extends AbstractTableModel {
 				value = transaction.transactionId().toString();
 				break;
 			case AMOUNT:
-				value = transaction.amount().cost();
+				value = transaction.amount();
 				break;
 		}
 		return value;

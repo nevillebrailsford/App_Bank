@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -15,6 +16,10 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import application.base.app.gui.ColoredPanel;
+import application.base.app.gui.DateCellRenderer;
+import application.base.app.gui.MoneyCellRenderer;
+import application.base.app.gui.StringCellRenderer;
+import application.model.Money;
 import applications.bank.gui.models.TransactionsTableModel;
 import applications.bank.model.Account;
 
@@ -23,6 +28,9 @@ public class ViewTransactionsDialog extends JDialog {
 	private final JPanel contentPanel = new ColoredPanel();
 	private JTable transactionsTable;
 	private TransactionsTableModel model;
+	private StringCellRenderer stringCellRenderer;
+	private DateCellRenderer dateCellRenderer;
+	private MoneyCellRenderer moneyCellRenderer;
 
 	/**
 	 * Create the dialog.
@@ -33,8 +41,14 @@ public class ViewTransactionsDialog extends JDialog {
 		setTitle("Transactions for " + account.toFullString());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel.setLayout(new BorderLayout());
+		stringCellRenderer = new StringCellRenderer();
+		dateCellRenderer = new DateCellRenderer();
+		moneyCellRenderer = new MoneyCellRenderer();
 		model = new TransactionsTableModel(account);
 		transactionsTable = new JTable(model);
+		transactionsTable.setDefaultRenderer(String.class, stringCellRenderer);
+		transactionsTable.setDefaultRenderer(LocalDate.class, dateCellRenderer);
+		transactionsTable.setDefaultRenderer(Money.class, moneyCellRenderer);
 		configureTransactionTable();
 		JScrollPane scrollPane = new JScrollPane(transactionsTable);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);

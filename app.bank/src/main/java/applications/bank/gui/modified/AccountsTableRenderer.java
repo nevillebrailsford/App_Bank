@@ -36,13 +36,6 @@ public class AccountsTableRenderer extends JLabel implements TableCellRenderer {
 				setForeground(originalForeground);
 				setBackground(originalBackground);
 			}
-			if (column == table.getColumnCount() - 1) {
-				if (val.startsWith("£-")) {
-					setForeground(Color.red.darker());
-				} else {
-					setForeground(Color.green.darker());
-				}
-			}
 		}
 		setText(val);
 		return this;

@@ -17,7 +17,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 
 import application.base.app.gui.BottomColoredPanel;
+import application.base.app.gui.MoneyCellRenderer;
 import application.definition.ApplicationConfiguration;
+import application.model.Money;
 import applications.bank.application.IBankApplication;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.gui.models.AccountsTableModel;
@@ -36,11 +38,13 @@ public class AccountsPanel extends JPanel {
 	private BankActionFactory actionFactory;
 	private Point popupLocation;
 	private AccountsTableRenderer accountsTableRenderer;
+	private MoneyCellRenderer moneyCellRenderer;
 
 	public AccountsPanel(List<Account> accounts, IBankApplication application, Bank bank) {
 		LOGGER.entering(CLASS_NAME, "init", accounts);
 		actionFactory = BankActionFactory.instance(application);
 		accountsTableRenderer = new AccountsTableRenderer();
+		moneyCellRenderer = new MoneyCellRenderer();
 		setLayout(new BorderLayout());
 		model = new AccountsTableModel(accounts, bank);
 		accountsTable = new JTable(model) {
@@ -56,7 +60,7 @@ public class AccountsPanel extends JPanel {
 			}
 		};
 		accountsTable.setDefaultRenderer(String.class, accountsTableRenderer);
-		accountsTable.setDefaultRenderer(Number.class, accountsTableRenderer);
+		accountsTable.setDefaultRenderer(Money.class, moneyCellRenderer);
 		configureAccountsTable();
 		JScrollPane scrollPane = new JScrollPane(accountsTable);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);

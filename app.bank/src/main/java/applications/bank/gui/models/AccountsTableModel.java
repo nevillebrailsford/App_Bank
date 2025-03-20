@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import application.definition.ApplicationConfiguration;
+import application.model.Money;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
 import applications.bank.model.Account;
@@ -70,7 +71,7 @@ public class AccountsTableModel extends AbstractTableModel {
 	@Override
 	public Class<?> getColumnClass(int col) {
 		if (col == BALANCE) {
-			return Number.class;
+			return Money.class;
 		}
 		return String.class;
 	}
@@ -102,7 +103,7 @@ public class AccountsTableModel extends AbstractTableModel {
 				value = "Total Balance";
 				break;
 			case BALANCE:
-				value = BankMonitor.instance().balanceBank(bank).cost();
+				value = BankMonitor.instance().balanceBank(bank); 
 				break;
 		}
 		LOGGER.exiting(CLASS_NAME, "totalBalance", value);
@@ -127,7 +128,7 @@ public class AccountsTableModel extends AbstractTableModel {
 				value = account.accountId().accountHolder();
 				break;
 			case BALANCE:
-				value = BankMonitor.instance().balanceAccount(account).cost();
+				value = BankMonitor.instance().balanceAccount(account); 
 				break;
 		}
 		LOGGER.exiting(CLASS_NAME, "accountRow", value);

@@ -643,7 +643,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	public void viewInvestmentHistoryAction() {
 		LOGGER.entering(CLASS_NAME, "viewInvestmentHistory");
 		Investment investment = BankMonitor.instance().findInvestment(mainPanel.selectedInvestment());
-		HistoryTableModel model = new HistoryTableModel(investment, HistoryTableModel.ASC);
+		HistoryTableModel model = new HistoryTableModel(investment, HistoryTableModel.ASC, HistoryTableModel.CHART);
 		LineChartComponent tc = new LineChartComponent(model);
 		ToolTipManager.sharedInstance().registerComponent(tc);
 		LineChartPopup lcp = new LineChartPopup(model, "Investment history");

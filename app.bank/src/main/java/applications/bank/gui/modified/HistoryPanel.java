@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -16,7 +17,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 
 import application.base.app.gui.BottomColoredPanel;
+import application.base.app.gui.DateCellRenderer;
+import application.base.app.gui.MoneyCellRenderer;
 import application.definition.ApplicationConfiguration;
+import application.model.Money;
 import applications.bank.application.IBankApplication;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.gui.models.HistoryTableModel;
@@ -32,12 +36,16 @@ public class HistoryPanel extends JPanel {
 	private JButton clearSelection = new JButton("Clear selection");
 	private JPopupMenu popup;
 	private BankActionFactory actionFactory;
+	private DateCellRenderer dateCellRenderer;
+	private MoneyCellRenderer moneyCellRenderer;
 
 	public HistoryPanel(Investment investment, IBankApplication application) {
 		LOGGER.entering(CLASS_NAME, "init", investment);
 		actionFactory = BankActionFactory.instance(application);
 		setLayout(new BorderLayout());
-		model = new HistoryTableModel(investment, HistoryTableModel.DESC);
+		dateCellRenderer = new DateCellRenderer();
+		moneyCellRenderer = new MoneyCellRenderer();
+		model = new HistoryTableModel(investment, HistoryTableModel.DESC, false);		
 		historyTable = new JTable(model) {
 			private static final long serialVersionUID = 1L;
 
@@ -50,6 +58,8 @@ public class HistoryPanel extends JPanel {
 				}
 			}
 		};
+		historyTable.setDefaultRenderer(LocalDate.class, dateCellRenderer);
+		historyTable.setDefaultRenderer(Money.class, moneyCellRenderer);
 		historyTable.setFillsViewportHeight(true);
 		historyTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		historyTable.setRowSelectionAllowed(true);

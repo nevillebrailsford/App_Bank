@@ -1,5 +1,6 @@
 package applications.bank.gui.models;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -8,6 +9,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import application.definition.ApplicationConfiguration;
+import application.model.Money;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
 import applications.bank.model.Investment;
@@ -25,10 +27,13 @@ public class HistoryTableModel extends AbstractTableModel {
 
 	public static final int ASC = 1;
 	public static final int DESC = 2;
+	
+	public static final boolean CHART = true;
 
 	private Investment investment;
 	private List<ValueOn> values;
 	private int order;
+	private boolean isChart = false;
 
 	private NotificationListener changeNotificationListener = (notification) -> {
 		LOGGER.entering(CLASS_NAME, "changeNotify");
@@ -41,9 +46,10 @@ public class HistoryTableModel extends AbstractTableModel {
 		LOGGER.exiting(CLASS_NAME, "changeNotify");
 	};
 
-	public HistoryTableModel(Investment investment, int order) {
-		LOGGER.entering(CLASS_NAME, "init", new Object[] { order });
+	public HistoryTableModel(Investment investment, int order, boolean isChart) {
+		LOGGER.entering(CLASS_NAME, "init", new Object[] { order, isChart });
 		this.order = order;
+		this.isChart = isChart;
 		this.investment = investment;
 		this.values = investment.history();
 		if (order == DESC) {
@@ -69,15 +75,41 @@ public class HistoryTableModel extends AbstractTableModel {
 	}
 
 	@Override
+	public Class<?> getColumnClass(int col) {
+		if (col == DATE) {
+			if (isChart) {
+				return String.class;
+			} else {
+				return LocalDate.class;
+			}
+		}
+		if (col == VALUE) {
+			if (isChart) {
+				return String.class;
+			} else {
+				return Money.class;
+			}
+		}
+		return String.class;
+	}
+	@Override
 	public Object getValueAt(int row, int col) {
 		ValueOn valueOn = values.get(row);
 		Object value = "Unknown";
 		switch (col) {
 			case DATE:
-				value = valueOn.date().toString();
+				if (isChart) {
+					value = valueOn.date().toString();
+				} else {
+					value = valueOn.date();
+				}
 				break;
 			case VALUE:
-				value = valueOn.value().cost();
+				if (isChart) {
+					value = valueOn.value().cost();
+				} else {
+					value = valueOn.value();
+				}
 				break;
 		}
 		return value;
