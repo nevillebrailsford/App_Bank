@@ -44,22 +44,23 @@ public class CategorySpendingReport extends ReportCreator {
 		for (String d : descriptions) {
 			Money spending = getSpendingForCategory(d, fromDate, toDate, isSpending).money().negate();
 			if (!spending.equals(zero)) {
-				document.add(new Paragraph("Spending on '" + d + "' = " + spending.cost()));
+				document.add(new Paragraph("Spending on '" + d + "' = " + spending.abs().cost()));
 				totalSpend.add(spending);
 			}
 		}
 		document.add(new Paragraph(" "));
 		document.add(new Paragraph("Income "));
 		for (String d : descriptions) {
-				Money income = getSpendingForCategory(d, fromDate, toDate, isIncome).money().negate();
+				Money income = getSpendingForCategory(d, fromDate, toDate, isIncome).money();
 				if (!income.equals(zero)) {
-					document.add(new Paragraph("Income from '" + d + "' = " + income.cost()));
+					document.add(new Paragraph("Income from '" + d + "' = " + income.abs().cost()));
 					totalIncome.add(income);
 				}
 		}
 		document.add(new Paragraph(" "));
 		document.add(new Paragraph("Total spending = " + totalSpend.cost()));
 		document.add(new Paragraph("Total Income = " + totalIncome.cost()));
+		
 		LOGGER.exiting(CLASS_NAME, "writePdfReport");
 	}
 

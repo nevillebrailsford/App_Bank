@@ -275,7 +275,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 			.execute(
 				new CategorySpendingReport(ApplicationConfiguration
 						.applicationDefinition()
-						.applicationName() + ".category.report.pdf"
+						.applicationName() + ".category.report." + dialog.fromDate() + "-" + dialog.toDate() + ".pdf"
 						,dialog.fromDate()
 						,dialog.toDate()));
 		}
