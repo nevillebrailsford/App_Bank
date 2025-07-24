@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -15,6 +16,10 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import application.base.app.gui.ColoredPanel;
+import application.base.app.gui.DateCellRenderer;
+import application.base.app.gui.MoneyCellRenderer;
+import application.base.app.gui.StringCellRenderer;
+import application.model.Money;
 import applications.bank.gui.models.StandingOrdersTableModel;
 import applications.bank.model.Account;
 
@@ -23,6 +28,9 @@ public class ViewStandingOrdersDialog extends JDialog {
 	private final JPanel contentPanel = new ColoredPanel();
 	private JTable standingOrderTable;
 	private StandingOrdersTableModel model;
+	private StringCellRenderer stringCellRenderer;
+	private DateCellRenderer dateCellRenderer;
+	private MoneyCellRenderer moneyCellRenderer;
 
 	/**
 	 * Create the dialog.
@@ -33,8 +41,14 @@ public class ViewStandingOrdersDialog extends JDialog {
 		setTitle("Standing Orders for " + account.toFullString());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel.setLayout(new BorderLayout());
+		stringCellRenderer = new StringCellRenderer();
+		dateCellRenderer = new DateCellRenderer();
+		moneyCellRenderer = new MoneyCellRenderer();
 		model = new StandingOrdersTableModel(account);
 		standingOrderTable = new JTable(model);
+		standingOrderTable.setDefaultRenderer(String.class, stringCellRenderer);
+		standingOrderTable.setDefaultRenderer(LocalDate.class, dateCellRenderer);
+		standingOrderTable.setDefaultRenderer(Money.class, moneyCellRenderer);
 		configureStandingOrderTable();
 		standingOrderTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		standingOrderTable.setRowSelectionAllowed(true);

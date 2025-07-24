@@ -1,5 +1,6 @@
 package applications.bank.gui.models;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -8,6 +9,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import application.definition.ApplicationConfiguration;
+import application.model.Money;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
 import applications.bank.model.Account;
@@ -74,6 +76,17 @@ public class StandingOrdersTableModel extends AbstractTableModel {
 	}
 
 	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		if (columnIndex == NEXT_DATE) {
+			return LocalDate.class;
+		}
+		if (columnIndex == AMOUNT) {
+			return Money.class;
+		}
+		return String.class;
+	}
+
+	@Override
 	public Object getValueAt(int row, int col) {
 		StandingOrder standingOrder = standingOrders.get(row);
 		Object value = "Unknown";
@@ -82,13 +95,13 @@ public class StandingOrdersTableModel extends AbstractTableModel {
 				value = standingOrder.owner().accountId().accountNumber();
 				break;
 			case AMOUNT:
-				value = standingOrder.amount().cost();
+				value = standingOrder.amount();
 				break;
 			case FREQUENCY:
 				value = standingOrder.frequency().toString();
 				break;
 			case NEXT_DATE:
-				value = standingOrder.nextActionDue().toString();
+				value = standingOrder.nextActionDue();
 				break;
 			case RECIPIENT:
 				value = standingOrder.recipient().accountId().accountNumber();
