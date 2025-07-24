@@ -255,7 +255,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 				.execute(
 						new TaxReturnReport(ApplicationConfiguration
 								.applicationDefinition()
-								.applicationName() + ".tax.report.pdf"
+								.applicationName() + ".tax.report." + fromYear +  "-" + toYear + ".pdf"
 								,LocalDate.of(fromYear, 4, 6)
 								,LocalDate.of(toYear, 4, 5)));
 		}
