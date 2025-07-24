@@ -1017,7 +1017,7 @@ public class BankMonitor {
 			LOGGER.throwing(CLASS_NAME, "performAddTransaction", e);
 			throw e;
 		} finally {
-			LOGGER.exiting(CLASS_NAME, "preformAddTransaction");
+			LOGGER.exiting(CLASS_NAME, "performAddTransaction");
 		}
 	}
 

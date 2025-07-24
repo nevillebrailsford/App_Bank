@@ -130,7 +130,7 @@ public class TotalValueTableModel extends AbstractTableModel {
 			case VALUE:
 				LocalDate k = (LocalDate) values.keySet().toArray()[rowIndex];
 				Money m = values.get(k);
-				result = m.cost();
+				result = m.cost().replace(",", "");
 				break;
 		}
 		return result;

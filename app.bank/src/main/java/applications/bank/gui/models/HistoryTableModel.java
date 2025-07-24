@@ -106,7 +106,7 @@ public class HistoryTableModel extends AbstractTableModel {
 				break;
 			case VALUE:
 				if (isChart) {
-					value = valueOn.value().cost();
+					value = valueOn.value().cost().replace(",", "");
 				} else {
 					value = valueOn.value();
 				}

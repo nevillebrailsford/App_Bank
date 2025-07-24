@@ -119,7 +119,7 @@ public class TotalHistoryTableModel extends AbstractTableModel {
 					value = valueOn.date().toString();
 					break;
 				case VALUE:
-					value = valueOn.value().cost();
+					value = valueOn.value().cost().replace(",", "");
 					break;
 			}
 		}

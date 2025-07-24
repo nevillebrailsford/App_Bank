@@ -50,7 +50,7 @@ public class BankBalanceHistoryTableModel extends AbstractTableModel {
 				value = t.date().toString();
 				break;
 			case BALANCE:
-				value = Money.sum(TransactionDetailsHandler.balance(bank, t.date())).cost();
+				value = Money.sum(TransactionDetailsHandler.balance(bank, t.date())).cost().replace(",", "");
 				break;
 		}
 		return value;
