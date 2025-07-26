@@ -33,7 +33,7 @@ public class InvestmentHistoryHandler {
 				.collect(Collectors.toList());
 		Money[] allMonies = monies.toArray(new Money[] {});
 		if (allMonies.length == 0) {
-			result = new Money("0.00");
+			result = Money.zero();
 		} else {
 			result = allMonies[allMonies.length - 1];
 		}

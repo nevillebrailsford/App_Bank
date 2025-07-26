@@ -2,6 +2,7 @@ package applications.bank.preferences;
 
 import java.awt.Color;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +28,8 @@ public class BankApplicationPreferencesDialog extends PreferencesDialog {
 	private JComboBox<String> trendLineColorChoice;
 	private JLabel trendLineColorPreview;
 	private Color trendLineColor;
+	
+	private JCheckBox hideInactive;
 
 	/**
 	 * Create the dialog.
@@ -75,6 +78,13 @@ public class BankApplicationPreferencesDialog extends PreferencesDialog {
 		contentPanel.add(label3);
 		contentPanel.add(trendLineColorChoice);
 		contentPanel.add(trendLineColorPreview);
+		
+		JLabel label4 = new JLabel("Hide Inactive Accounts:");
+		hideInactive = new JCheckBox();
+		hideInactive.setOpaque(false);
+		contentPanel.add(label4);
+		contentPanel.add(hideInactive);
+		contentPanel.add(new JLabel(" "));
 
 		initializeOptionalFields();
 	}
@@ -87,6 +97,7 @@ public class BankApplicationPreferencesDialog extends PreferencesDialog {
 		IniFile.store(BankGUIConstants.BACKGROUND_COLOR, background);
 		IniFile.store(BankGUIConstants.CHART_LINE_COLOR, chartLine);
 		IniFile.store(BankGUIConstants.TREND_LINE_COLOR, trendLine);
+		IniFile.store(BankGUIConstants.HIDE_INACTIVE, Boolean.toString(hideInactive.isSelected()));
 		if (background == null || background.isBlank() || background.equals("default")) {
 			background = BankGUIConstants.DEFAULT_BACKGROUND_COLOR;
 		}
@@ -115,6 +126,11 @@ public class BankApplicationPreferencesDialog extends PreferencesDialog {
 		previewBackground();
 		previewChartLine();
 		previewTrendLine();
+		if (!IniFile.value(BankGUIConstants.HIDE_INACTIVE).isEmpty()) {
+			hideInactive.setSelected(Boolean.valueOf(IniFile.value(BankGUIConstants.HIDE_INACTIVE)));
+		} else {
+			hideInactive.setSelected(true);
+		}
 	}
 
 	private void initializeColorChoice(JComboBox<String> choice) {

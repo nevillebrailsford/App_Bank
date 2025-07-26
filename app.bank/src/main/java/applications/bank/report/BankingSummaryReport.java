@@ -29,7 +29,7 @@ public class BankingSummaryReport extends ReportCreator {
 		document.add(new Paragraph("Summary")).setFont(bold).setHorizontalAlignment(HorizontalAlignment.CENTER);
 		TotalMoney overallTotal = new TotalMoney();
 		TotalMoney banksTotal = new TotalMoney();
-		Money investmentsTotal = new Money("0.00");
+		Money investmentsTotal = Money.zero();
 		table = buildBanksTable();
 		for (Bank bank : BankMonitor.instance().banks()) {
 			TotalMoney bankTotal = new TotalMoney();

@@ -66,7 +66,7 @@ public class SearchTransactionsTableModel extends AbstractTableModel {
 			case DATE -> value = LocalDate.now().toString();
 			case BANK -> value = "Total";
 			case AMOUNT -> {
-				Money total = new Money("0.00");
+				Money total = Money.zero();
 				for (Transaction t : transactions) {
 					total = total.plus(t.amount());
 				}

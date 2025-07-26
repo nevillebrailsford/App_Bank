@@ -24,6 +24,7 @@ import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.definition.ApplicationDefinition;
 import application.inifile.IniFile;
+import application.model.Money;
 import application.notification.Notification;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
@@ -360,7 +361,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	public void deactivateAccount() {
 		LOGGER.entering(CLASS_NAME, "deactivateAccount");
 		Account account = mainPanel.selectedAccount();
-		if (account != null) {
+		if (account != null  && BankMonitor.instance().balanceAccount(account).equals(Money.zero())) {
 			DeactivateAccountChange deactivateAccountChange = new DeactivateAccountChange(account);
 			ThreadServices.instance().executor().submit(() -> {
 				ChangeManager.instance().execute(deactivateAccountChange);
@@ -373,7 +374,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	public void reactivateAccount() {
 		LOGGER.entering(CLASS_NAME, "reactivateAccount");
 		Account account = mainPanel.selectedAccount();
-		if (account != null) {
+		if (account != null && !account.active()) {
 			ReactivateAccountChange reactivateAccountChange = new ReactivateAccountChange(account);
 			ThreadServices.instance().executor().submit(() -> {
 				ChangeManager.instance().execute(reactivateAccountChange);

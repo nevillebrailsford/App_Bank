@@ -19,7 +19,7 @@ import applications.bank.storage.BankMonitor;
 
 public class CategorySpendingReport extends ReportCreator {
 
-	private final Money zero = new Money("0.00");
+	private final Money zero = Money.zero();
 	private final Predicate<Money> isSpending = m -> m.compareTo(zero) <= 0;
 	private final Predicate<Money> isIncome = m -> m.compareTo(zero) >= 0;
 	private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM uuuu", Locale.ENGLISH);

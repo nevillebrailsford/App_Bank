@@ -165,7 +165,7 @@ public class SummaryPanel extends JPanel {
 	private void refresh() {
 		LOGGER.entering(CLASS_NAME, "refresh");
 
-		Money grandBalance = new Money("0.00");
+		Money grandBalance = Money.zero();
 
 		List<Bank> banks = BankMonitor.instance().banks();
 		List<Investment> investments = BankMonitor.instance().investments();

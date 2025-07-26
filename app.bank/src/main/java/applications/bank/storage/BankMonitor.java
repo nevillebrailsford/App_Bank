@@ -130,7 +130,7 @@ public class BankMonitor {
 
 	public Money balance() {
 		LOGGER.entering(CLASS_NAME, "balance");
-		Money balance = new Money("0.00");
+		Money balance = Money.zero();
 		balance = balance.plus(balanceBanks());
 		balance = balance.plus(balanceInvestments());
 		LOGGER.exiting(CLASS_NAME, "balance", balance);

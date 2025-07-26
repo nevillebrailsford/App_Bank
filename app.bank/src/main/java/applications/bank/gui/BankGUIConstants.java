@@ -26,4 +26,6 @@ public class BankGUIConstants implements BaseConstants, StorageConstants, ModelC
 	public static final String DEFAULT_BACKGROUND_COLOR = "floralwhite";
 	public static final String DEFAULT_CHART_LINE_COLOR = "cornflowerblue";
 	public static final String DEFAULT_TREND_LINE_COLOR = "palevioletred";
+	
+	public static final String HIDE_INACTIVE = "hideInactive";
 }

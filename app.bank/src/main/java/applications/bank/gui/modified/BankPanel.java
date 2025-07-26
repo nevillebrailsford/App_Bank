@@ -2,6 +2,7 @@ package applications.bank.gui.modified;
 
 import java.awt.BorderLayout;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -11,9 +12,11 @@ import javax.swing.JPanel;
 import application.base.app.gui.BottomColoredPanel;
 import application.base.app.gui.ColoredPanel;
 import application.definition.ApplicationConfiguration;
+import application.inifile.IniFile;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
 import applications.bank.application.IBankApplication;
+import applications.bank.gui.BankGUIConstants;
 import applications.bank.gui.actions.BankActionFactory;
 import applications.bank.model.Account;
 import applications.bank.model.Bank;
@@ -71,9 +74,14 @@ public class BankPanel extends ColoredPanel {
 		setLayout(new BorderLayout());
 		this.bank = bank;
 		JPanel buttonPanel = new BottomColoredPanel();
+		Predicate<Account> showAll = a -> true;
+		Predicate<Account> hideInactive = a -> a.active();
+		boolean prefsHideInactive = Boolean.valueOf(IniFile.value(BankGUIConstants.HIDE_INACTIVE));
+		Predicate<Account> showing = prefsHideInactive ? hideInactive : showAll;
 		List<Account> accounts = bank
 				.branches()
 				.flatMap(branch -> branch.accounts())
+				.filter(showing)
 				.sorted()
 				.collect(Collectors.toList());
 		accountsPanel = new AccountsPanel(accounts, application, bank);

@@ -55,7 +55,7 @@ class AccountTest {
 	Money checkBalance = new Money("30.00");
 	Money chekcBalanceOnDayMinus0 = new Money("20.00");
 	Money chekcBalanceOnDayMinus1 = new Money("10.00");
-	Money chekcBalanceOnDayMinus2 = new Money("0.00");
+	Money chekcBalanceOnDayMinus2 = Money.zero();
 	StandingOrder order1 = new StandingOrder(account1, Period.MONTHLY, money1, LocalDate.now(), "order1", account2);
 	StandingOrder order2 = new StandingOrder(account1, Period.MONTHLY, money1, LocalDate.now(), "order2", account3);
 
