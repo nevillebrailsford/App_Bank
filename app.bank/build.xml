@@ -33,7 +33,7 @@
 		<jar destfile="${dir.jarfile}/BankingApp.jar">
 			<manifest>
 				<attribute name="Main-Class" value="applications.bank.application.BankApplication" />
-				<attribute name="Class-Path" value=". Bank.app_lib/jcalendar-1.4.jar Bank.app_lib/jgoodies-forms-1.9.0.jar Bank.app_lib/jgoodies-common-1.8.1.jar Bank.app_lib/app.base-${app.base.version}.jar Bank.app_lib/javax.mail-1.6.2.jar Bank.app_lib/activation-1.1.jar Bank.app_lib/kernel-7.2.1.jar Bank.app_lib/bcpkix-jdk15on-1.69.jar Bank.app_lib/bcutil-jdk15on-1.69.jar Bank.app_lib/bcprov-jdk15on-1.69.jar Bank.app_lib/slf4j-api-1.7.31.jar Bank.app_lib/io-7.2.1.jar Bank.app_lib/commons-7.2.1.jar Bank.app_lib/layout-7.2.1.jar" />
+				<attribute name="Class-Path" value=". Bank.app_lib/jcalendar-1.4.jar Bank.app_lib/jgoodies-forms-1.9.0.jar Bank.app_lib/jgoodies-common-1.8.1.jar Bank.app_lib/app.base-${app.base.version}.jar Bank.app_lib/javax.mail-1.6.2.jar Bank.app_lib/activation-1.1.jar Bank.app_lib/kernel-7.2.1.jar Bank.app_lib/bcpkix-jdk15on-1.69.jar Bank.app_lib/bcutil-jdk15on-1.69.jar Bank.app_lib/bcprov-jdk15on-1.69.jar Bank.app_lib/slf4j-api-1.7.31.jar Bank.app_lib/io-7.2.1.jar Bank.app_lib/commons-7.2.1.jar Bank.app_lib/layout-7.2.1.jar Bank.app_lib/commons-codec-1.11.jar" />
 				<attribute name="Build-Date" value="${bank.build.date}" />
 				<attribute name="Build-Number" value="${build.number}" />
                 <attribute name="Application-Version" value="${app.version}" />
@@ -61,5 +61,6 @@
 		<copy file="${user.root}/.m2/repository/com/itextpdf/io/7.2.1/io-7.2.1.jar" todir="${dir.jarfile}/Bank.app_lib" />
 		<copy file="${user.root}/.m2/repository/com/itextpdf/commons/7.2.1/commons-7.2.1.jar" todir="${dir.jarfile}/Bank.app_lib" />
 		<copy file="${user.root}/.m2/repository/com/itextpdf/layout/7.2.1/layout-7.2.1.jar" todir="${dir.jarfile}/Bank.app_lib" />
+        <copy file="${user.root}/.m2/repository/commons-codec/commons-codec/1.11/commons-codec-1.11.jar" todir="${dir.jarfile}/Bank.app_lib" />
 	</target>
 </project>
