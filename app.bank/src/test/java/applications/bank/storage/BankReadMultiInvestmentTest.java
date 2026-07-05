@@ -100,6 +100,11 @@ class BankReadMultiInvestmentTest extends BankTestBase {
 		NotificationCentre.removeListener(listener);
 		ApplicationConfiguration.clear();
 		LogConfigurer.shutdown();
+		File[] files = rootDirectory.listFiles();
+		for (File f : files) {
+//			System.out.println(f.getAbsolutePath() + " " + f.delete());
+			f.delete();
+		}
 	}
 
 	@Test

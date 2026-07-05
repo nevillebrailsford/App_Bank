@@ -13,6 +13,7 @@ import javax.swing.table.AbstractTableModel;
 
 import application.definition.ApplicationConfiguration;
 import application.model.Money;
+import application.utils.Util;
 import applications.bank.model.Investment;
 import applications.bank.model.Investment.ValueOn;
 
@@ -116,7 +117,7 @@ public class TotalHistoryTableModel extends AbstractTableModel {
 			ValueOn valueOn = values.get(row);
 			switch (col) {
 				case DATE:
-					value = valueOn.date().toString();
+					value = Util.displayDate(valueOn.date());
 					break;
 				case VALUE:
 					value = valueOn.value().cost().replace(",", "");

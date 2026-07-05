@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import application.model.Money;
+import application.utils.Util;
 import applications.bank.model.Bank;
 import applications.bank.model.Transaction;
 import applications.bank.model.TransactionDetailsHandler;
@@ -49,7 +50,7 @@ public class BanksBalanceHistoryTableModel extends AbstractTableModel {
 		Object value = "Unknown";
 		switch (col) {
 			case DATE:
-				value = t.date().toString();
+				value = Util.displayDate(t.date());
 				break;
 			case BALANCE:
 				value = Money.sum(TransactionDetailsHandler.balance(banks, t.date())).cost().replace(",", "");

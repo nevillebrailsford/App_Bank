@@ -17,6 +17,7 @@ import application.definition.ApplicationConfiguration;
 import application.definition.ApplicationDefinition;
 import application.logging.LogConfigurer;
 import application.model.Money;
+import application.utils.Util;
 import applications.bank.gui.models.TotalHistoryTableModel;
 import applications.bank.model.Investment;
 
@@ -81,7 +82,7 @@ class TotalHistoryTableModelTest {
 		investments.add(investment1);
 		TotalHistoryTableModel tm = new TotalHistoryTableModel(investments);
 		assertEquals(1, tm.getRowCount());
-		assertEquals(LocalDate.now().toString(), tm.getValueAt(0, 0));
+		assertEquals(Util.displayDate(LocalDate.now()), tm.getValueAt(0, 0));
 		assertEquals("£100.00", tm.getValueAt(0, 1));
 	}
 
@@ -99,9 +100,9 @@ class TotalHistoryTableModelTest {
 		investments.add(investment2);
 		TotalHistoryTableModel tm = new TotalHistoryTableModel(investments);
 		assertEquals(2, tm.getRowCount());
-		assertEquals(LocalDate.now().toString(), tm.getValueAt(0, 0));
+		assertEquals(Util.displayDate(LocalDate.now()), tm.getValueAt(0, 0));
 		assertEquals("£100.00", tm.getValueAt(0, 1));
-		assertEquals(LocalDate.now().plusDays(1).toString(), tm.getValueAt(1, 0));
+		assertEquals(Util.displayDate(LocalDate.now().plusDays(1)), tm.getValueAt(1, 0));
 		assertEquals("£300.00", tm.getValueAt(1, 1));
 	}
 

@@ -115,6 +115,7 @@ public class LineChartPainter extends ChartPainter {
 
 		// draw plot
 		for (int i = 1; i < lSize; i++) {
+
 			Line2D.Double weightLine = new Line2D.Double(dToX(date[i - 1], date[lSize - 1]),
 					wToY(value[i - 1], minValue, maxValue), dToX(date[i], date[lSize - 1]),
 					wToY(value[i], minValue, maxValue));
@@ -184,9 +185,13 @@ public class LineChartPainter extends ChartPainter {
 	}
 
 	public static Date stringToDate(String s) {
-		int y = Integer.valueOf(s.substring(0, 4)).intValue();
-		int m = Integer.valueOf(s.substring(5, 7)).intValue();
-		int d = Integer.valueOf(s.substring(8, 10)).intValue();
+		System.out.println(s);
+		int y = Integer.valueOf(s.substring(6, 10)).intValue();
+		int m = Integer.valueOf(s.substring(3, 5)).intValue();
+		int d = Integer.valueOf(s.substring(0, 2)).intValue();
+		System.out.println(y);
+		System.out.println(m);
+		System.out.println(d);
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, y);
 		cal.set(Calendar.MONTH, m - 1);

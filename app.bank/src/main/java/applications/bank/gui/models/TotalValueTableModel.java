@@ -1,7 +1,6 @@
 package applications.bank.gui.models;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +11,7 @@ import javax.swing.table.AbstractTableModel;
 
 import application.definition.ApplicationConfiguration;
 import application.model.Money;
+import application.utils.Util;
 import applications.bank.model.Investment;
 import applications.bank.model.Investment.ValueOn;
 import applications.bank.model.InvestmentHistoryHandler;
@@ -26,8 +26,6 @@ public class TotalValueTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private static final String CLASS_NAME = TotalValueTableModel.class.getName();
 	private static Logger LOGGER = ApplicationConfiguration.logger();
-
-	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("uuuu/MM/dd");
 
 	private static String[] COLUMNS = { "Date", "Value" };
 	private static final int DATE = 0;
@@ -125,7 +123,7 @@ public class TotalValueTableModel extends AbstractTableModel {
 		switch (columnIndex) {
 			case DATE:
 				LocalDate d = (LocalDate) values.keySet().toArray()[rowIndex];
-				result = d.format(dateFormatter);
+				result = Util.displayDate(d);
 				break;
 			case VALUE:
 				LocalDate k = (LocalDate) values.keySet().toArray()[rowIndex];

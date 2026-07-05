@@ -12,6 +12,7 @@ import application.definition.ApplicationConfiguration;
 import application.model.Money;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
+import application.utils.Util;
 import applications.bank.model.Investment;
 import applications.bank.model.Investment.ValueOn;
 import applications.bank.storage.InvestmentNotificationType;
@@ -27,7 +28,7 @@ public class HistoryTableModel extends AbstractTableModel {
 
 	public static final int ASC = 1;
 	public static final int DESC = 2;
-	
+
 	public static final boolean CHART = true;
 
 	private Investment investment;
@@ -92,6 +93,7 @@ public class HistoryTableModel extends AbstractTableModel {
 		}
 		return String.class;
 	}
+
 	@Override
 	public Object getValueAt(int row, int col) {
 		ValueOn valueOn = values.get(row);
@@ -99,7 +101,7 @@ public class HistoryTableModel extends AbstractTableModel {
 		switch (col) {
 			case DATE:
 				if (isChart) {
-					value = valueOn.date().toString();
+					value = Util.displayDate(valueOn.date());
 				} else {
 					value = valueOn.date();
 				}
