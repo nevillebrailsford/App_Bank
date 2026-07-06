@@ -15,6 +15,7 @@ import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
 import applications.bank.model.Account;
 import applications.bank.model.Transaction;
+import applications.bank.model.TransactionDetailsHandler;
 import applications.bank.storage.BankMonitor;
 import applications.bank.storage.TransactionNotificationType;
 
@@ -23,11 +24,12 @@ public class TransactionsTableModel extends AbstractTableModel {
 	private static final String CLASS_NAME = TransactionsTableModel.class.getName();
 	private static Logger LOGGER = ApplicationConfiguration.logger();
 
-	private static String[] COLUMNS = { "Date", "Description", "Transaction Id", "Amount" };
+	private static String[] COLUMNS = { "Date", "Description", "Transaction Id", "Amount", "Balance" };
 	private static final int DATE = 0;
 	private static final int DESCRIPTION = 1;
 	private static final int TRANSACTION_ID = 2;
 	private static final int AMOUNT = 3;
+	private static final int BALANCE = 4;
 
 	private Account account;
 	private List<Transaction> transactions;
@@ -84,6 +86,9 @@ public class TransactionsTableModel extends AbstractTableModel {
 		if (col == AMOUNT) {
 			return Money.class;
 		}
+		if (col == BALANCE) {
+			return Money.class;
+		}
 		return String.class;
 	}
 
@@ -113,6 +118,9 @@ public class TransactionsTableModel extends AbstractTableModel {
 			case AMOUNT:
 				value = BankMonitor.instance().balanceAccount(account);
 				break;
+			case BALANCE:
+				value = BankMonitor.instance().balanceAccount(account);
+				break;
 		}
 		return value;
 	}
@@ -132,6 +140,15 @@ public class TransactionsTableModel extends AbstractTableModel {
 				break;
 			case AMOUNT:
 				value = transaction.amount();
+				break;
+			case BALANCE:
+				if (row > 0 && ((LocalDate) transactionRow(row - 1, DATE)).isEqual(transaction.date())) {
+					value = null;
+				} else {
+					Money[] monies = TransactionDetailsHandler.balance(account, transaction.date());
+					Money v = Money.sum(monies);
+					value = v;
+				}
 				break;
 		}
 		return value;
