@@ -1,62 +1,36 @@
 package applications.bank.gui.models;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.TreeMap;
+import java.util.logging.Logger;
 
-import javax.swing.table.AbstractTableModel;
+import application.definition.ApplicationConfiguration;
 
-import application.model.Money;
-import application.utils.Util;
-import applications.bank.model.Bank;
-import applications.bank.model.Transaction;
-import applications.bank.model.TransactionDetailsHandler;
-
-public class BanksBalanceHistoryTableModel extends AbstractTableModel {
+public class BanksBalanceHistoryTableModel extends BaseTableModel {
 	private static final long serialVersionUID = 1L;
+	private static final String CLASS_NAME = BanksBalanceHistoryTableModel.class.getName();
+	private static Logger LOGGER = ApplicationConfiguration.logger();
 
-	private List<Bank> banks = null;
-	private Transaction[] transactions = null;
-	private static String[] COLUMNS = { "Date", "Balance" };
-	private static final int DATE = 0;
-	private static final int BALANCE = 1;
-
-	public BanksBalanceHistoryTableModel(List<Bank> banks) {
-		this.banks = banks;
-		if (banks != null) {
-			this.transactions = TransactionDetailsHandler.transactions(banks);
-		}
+	public BanksBalanceHistoryTableModel() {
+		super();
+		LOGGER.entering(CLASS_NAME, "init");
+		LOGGER.exiting(CLASS_NAME, "init");
 	}
 
 	@Override
-	public int getRowCount() {
-		if (transactions == null) {
-			return 0;
-		}
-		return transactions.length;
+	protected void collectDates() {
+		LOGGER.entering(CLASS_NAME, "collectDates");
+		dates = new HashSet<>();
+		collectTransactionDates();
+		LOGGER.exiting(CLASS_NAME, "collectDates");
 	}
 
 	@Override
-	public int getColumnCount() {
-		return COLUMNS.length;
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return COLUMNS[column];
-	}
-
-	@Override
-	public Object getValueAt(int row, int col) {
-		Transaction t = transactions[row];
-		Object value = "Unknown";
-		switch (col) {
-			case DATE:
-				value = Util.displayDate(t.date());
-				break;
-			case BALANCE:
-				value = Money.sum(TransactionDetailsHandler.balance(banks, t.date())).cost().replace(",", "");
-				break;
-		}
-		return value;
+	protected void calculateValues() {
+		LOGGER.entering(CLASS_NAME, "calculateValues");
+		values = new TreeMap<>();
+		calculateTransactionValues();
+		LOGGER.exiting(CLASS_NAME, "calculateValues");
 	}
 
 }

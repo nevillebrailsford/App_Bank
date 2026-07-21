@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -215,26 +214,16 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	@Override
 	public void printAction() {
 		LOGGER.entering(CLASS_NAME, "printAction");
-		ThreadServices
-			.instance()
-			.executor()
-			.execute(
-				new BankingReport(ApplicationConfiguration
-					.applicationDefinition()
-					.applicationName() + ".report.pdf"));
+		ThreadServices.instance().executor().execute(
+				new BankingReport(ApplicationConfiguration.applicationDefinition().applicationName() + ".report.pdf"));
 		LOGGER.exiting(CLASS_NAME, "printAction");
 	}
 
 	@Override
 	public void printSummaryAction() {
 		LOGGER.entering(CLASS_NAME, "printSummaryAction");
-		ThreadServices
-			.instance()
-			.executor()
-			.execute(
-				new BankingSummaryReport(ApplicationConfiguration
-					.applicationDefinition()
-					.applicationName() + ".summary.report.pdf"));
+		ThreadServices.instance().executor().execute(new BankingSummaryReport(
+				ApplicationConfiguration.applicationDefinition().applicationName() + ".summary.report.pdf"));
 		LOGGER.exiting(CLASS_NAME, "printSummaryAction");
 	}
 
@@ -243,22 +232,18 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 		LOGGER.entering(CLASS_NAME, "printTaxAction");
 		Transaction[] trans = TransactionDetailsHandler.transactions(BankMonitor.instance().banks());
 		int firstYear = trans[0].date().getYear();
-		int lastYear = trans[trans.length-1].date().getYear();
+		int lastYear = trans[trans.length - 1].date().getYear();
 		TaxReportYearSelectionDialog dialog = new TaxReportYearSelectionDialog(null, firstYear, lastYear);
 		int result = dialog.displayAndWait();
 		if (result == CategorySpendingDateSelectionDialog.OK_PRESSED) {
 			String years[] = dialog.years().split("-");
 			int fromYear = Integer.valueOf(years[0]);
 			int toYear = Integer.valueOf(years[1]);
-			ThreadServices
-				.instance()
-				.executor()
-				.execute(
-						new TaxReturnReport(ApplicationConfiguration
-								.applicationDefinition()
-								.applicationName() + ".tax.report." + fromYear +  "-" + toYear + ".pdf"
-								,LocalDate.of(fromYear, 4, 6)
-								,LocalDate.of(toYear, 4, 5)));
+			ThreadServices.instance().executor()
+					.execute(new TaxReturnReport(
+							ApplicationConfiguration.applicationDefinition().applicationName() + ".tax.report."
+									+ fromYear + "-" + toYear + ".pdf",
+							LocalDate.of(fromYear, 4, 6), LocalDate.of(toYear, 4, 5)));
 		}
 		dialog.dispose();
 		LOGGER.exiting(CLASS_NAME, "printTaxAction");
@@ -270,15 +255,11 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 		CategorySpendingDateSelectionDialog dialog = new CategorySpendingDateSelectionDialog(parent);
 		int result = dialog.displayAndWait();
 		if (result == CategorySpendingDateSelectionDialog.OK_PRESSED) {
-			ThreadServices
-			.instance()
-			.executor()
-			.execute(
-				new CategorySpendingReport(ApplicationConfiguration
-						.applicationDefinition()
-						.applicationName() + ".category.report." + dialog.fromDate() + "-" + dialog.toDate() + ".pdf"
-						,dialog.fromDate()
-						,dialog.toDate()));
+			ThreadServices.instance().executor()
+					.execute(new CategorySpendingReport(
+							ApplicationConfiguration.applicationDefinition().applicationName() + ".category.report."
+									+ dialog.fromDate() + "-" + dialog.toDate() + ".pdf",
+							dialog.fromDate(), dialog.toDate()));
 		}
 		dialog.dispose();
 		LOGGER.exiting(CLASS_NAME, "printCategorySummaryAction");
@@ -361,7 +342,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	public void deactivateAccount() {
 		LOGGER.entering(CLASS_NAME, "deactivateAccount");
 		Account account = mainPanel.selectedAccount();
-		if (account != null  && BankMonitor.instance().balanceAccount(account).equals(Money.zero())) {
+		if (account != null && BankMonitor.instance().balanceAccount(account).equals(Money.zero())) {
 			DeactivateAccountChange deactivateAccountChange = new DeactivateAccountChange(account);
 			ThreadServices.instance().executor().submit(() -> {
 				ChangeManager.instance().execute(deactivateAccountChange);
@@ -617,8 +598,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	@Override
 	public void viewBanksBalanceHistoryAction() {
 		LOGGER.entering(CLASS_NAME, "viewBanksBalanceHistoryAction");
-		List<Bank> banks = BankMonitor.instance().banks();
-		BanksBalanceHistoryTableModel model = new BanksBalanceHistoryTableModel(banks);
+		BanksBalanceHistoryTableModel model = new BanksBalanceHistoryTableModel();
 		if (model.getRowCount() < 2) {
 			return;
 		}
@@ -655,7 +635,7 @@ public class BankApplication extends ApplicationBaseForGUI implements IBankAppli
 	@Override
 	public void viewTotalInvestmentHistoryAction() {
 		LOGGER.entering(CLASS_NAME, "viewTotalInvestmentHistoryAction");
-		TotalHistoryTableModel model = new TotalHistoryTableModel(BankMonitor.instance().investments());
+		TotalHistoryTableModel model = new TotalHistoryTableModel();
 		LineChartComponent tc = new LineChartComponent(model);
 		ToolTipManager.sharedInstance().registerComponent(tc);
 		LineChartPopup lcp = new LineChartPopup(model, "Investment history");
